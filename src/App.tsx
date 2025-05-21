@@ -6,10 +6,10 @@ function App() {
     <Layout>
       <Container className="h-full">
         <Flex justify="between" direction="col" gap="4" className="h-full">
-          <Flex justify="center">
+          <Flex.Item flex="auto" className="flex items-center justify-center">
             <img src="/logo-full-lg.png" alt="Logo" className="max-w-[500px]" />
-          </Flex>
-          <Flex.Item flex="1" className="flex items-center justify-center">
+          </Flex.Item>
+          <Flex.Item flex="auto" className="flex items-center justify-center">
             <Text className="text-center">Coming soon.</Text>
           </Flex.Item>
         </Flex>
