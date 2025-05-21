@@ -1,14 +1,18 @@
-import { Container, Text } from "@still-forest/canopy";
+import { Container, Flex, Text } from "@still-forest/canopy";
 import Layout from "./components/Layout";
 
 function App() {
   return (
     <Layout>
-      <Container>
-        <img src="/logo-full-lg.png" alt="Logo" />
-      </Container>
-      <Container className="text-center">
-        <Text>We're still working on this site.</Text>
+      <Container className="h-full">
+        <Flex justify="between" direction="col" gap="4" className="h-full">
+          <Flex justify="center">
+            <img src="/logo-full-lg.png" alt="Logo" className="max-w-[500px]" />
+          </Flex>
+          <Flex.Item flex="1" className="flex items-center justify-center">
+            <Text className="text-center">Coming soon.</Text>
+          </Flex.Item>
+        </Flex>
       </Container>
     </Layout>
   );
