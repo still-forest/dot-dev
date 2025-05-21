@@ -1,7 +1,9 @@
 import { Container, Flex, Text } from "@still-forest/canopy";
-import { Layout } from "./components/Layout";
+import { Layout } from "@/components/Layout";
+import ThemeProvider from "@/context/ThemeProvider";
+import { THEMES } from "./context/ThemeProviderContext";
 
-function App() {
+function InnerApp() {
   return (
     <Layout>
       <Container className="h-full">
@@ -18,4 +20,10 @@ function App() {
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <ThemeProvider defaultTheme={THEMES.SYSTEM} storageKey="still-forest-theme">
+      <InnerApp />
+    </ThemeProvider>
+  );
+}
