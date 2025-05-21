@@ -1,0 +1,8 @@
+services:
+  still-forest-dot-dev:
+    image: ghcr.io/still-forest/still-forest-dot-dev:latest
+    ports:
+      - 8080:8080
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
