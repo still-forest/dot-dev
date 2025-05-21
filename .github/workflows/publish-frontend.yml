@@ -1,7 +1,6 @@
 name: Publish to GHCR
 
 on:
-  pull_request: # Temporary
   push:
     branches:
       - main
