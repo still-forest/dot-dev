@@ -10,7 +10,8 @@
     "lint:ci": "biome ci .",
     "lint:fix": "biome check --write --unsafe .",
     "preview": "vite preview",
-    "start:dev": "vite"
+    "start:dev": "vite",
+    "test": "echo 'No tests yet.'"
   },
   "dependencies": {
     "@still-forest/canopy": "^0.21.0",
