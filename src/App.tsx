@@ -5,7 +5,10 @@ function App() {
   return (
     <Layout>
       <Container>
-        <Text>Hi there.</Text>
+        <img src="/logo-full-lg.png" alt="Logo" />
+      </Container>
+      <Container className="text-center">
+        <Text>We're still working on this site.</Text>
       </Container>
     </Layout>
   );
