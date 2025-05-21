@@ -15,18 +15,10 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         </Text>
         <Flex gap="4">
           <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
-            <GithubIcon
-              width={32}
-              height={32}
-              className="text-primary/60 hover:text-primary"
-            />
+            <GithubIcon width={32} height={32} className="text-primary/60 hover:text-primary" />
           </a>
           <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
-            <LinkedInIcon
-              width={32}
-              height={32}
-              className="text-primary/60 hover:text-primary"
-            />
+            <LinkedInIcon width={32} height={32} className="text-primary/60 hover:text-primary" />
           </a>
         </Flex>
       </Footer>
