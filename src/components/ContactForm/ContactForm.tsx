@@ -60,6 +60,7 @@ const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
 
 export const ContactForm = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -70,6 +71,7 @@ export const ContactForm = () => {
     try {
       await formSubmit(data);
       setIsOpen(false);
+      setHasSubmitted(true);
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : "Failed to submit form");
     } finally {
@@ -80,12 +82,19 @@ export const ContactForm = () => {
   return (
     <Flex direction="col" gap="2" className="w-full" data-testid="contact-form">
       {submitError && <Alert message={submitError} title="Submission failure" type="error" />}
-      {!isOpen && (
+      {!isOpen && !hasSubmitted && (
         <Flex justify="center">
           <Button onClick={() => setIsOpen(true)}>Get in touch</Button>
         </Flex>
       )}
-      {isOpen && <Form onSubmit={handleSubmit} onCancel={() => setIsOpen(false)} submitting={isSubmitting} />}
+      {isOpen && !hasSubmitted && (
+        <Form onSubmit={handleSubmit} onCancel={() => setIsOpen(false)} submitting={isSubmitting} />
+      )}
+      {hasSubmitted && (
+        <Flex justify="center">
+          <Alert message="Message sent successfully." type="success" className="w-fit" />
+        </Flex>
+      )}
     </Flex>
   );
 };

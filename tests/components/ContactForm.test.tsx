@@ -58,12 +58,13 @@ describe("ContactForm", () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(formSubmit).toHaveBeenCalledWith({
-        email: "test@example.com",
-        message: "Test message",
-      });
-      expect(screen.getByRole("button", { name: "Get in touch" })).toBeVisible();
+      expect(screen.getByText("Message sent successfully.")).toBeInTheDocument();
     });
+    expect(formSubmit).toHaveBeenCalledWith({
+      email: "test@example.com",
+      message: "Test message",
+    });
+    expect(screen.queryByRole("button", { name: "Get in touch" })).not.toBeInTheDocument();
   });
 
   test("cannot submit form with invalid data", async () => {
