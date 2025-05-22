@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Alert, Button, Flex, TextInput } from "@still-forest/canopy";
+import { Alert, Button, Flex, Text, TextInput } from "@still-forest/canopy";
 import { CircleX } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -54,11 +54,14 @@ export const ContactForm = () => {
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const { canExecute, execute } = useRateLimit(60_000);
+  const { canExecute, execute } = useRateLimit("contact-form", 60_000);
 
   const handleSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     setSubmitError(null);
+
+    console.log("data", data);
+    console.log("canExecute", canExecute());
 
     if (!canExecute()) {
       setSubmitError("You are sending messages too quickly. Please try again later.");
@@ -79,14 +82,12 @@ export const ContactForm = () => {
     });
   };
 
-  console.log("process.env.NODE_ENV", process.env.NODE_ENV);
-
   return (
     <Flex direction="col" gap="2" className="w-full" data-testid="contact-form">
       {submitError && <Alert message={submitError} title="Submission failure" type="error" />}
       {!isOpen && !hasSubmitted && (
         <Flex justify="center">
-          <Button onClick={() => setIsOpen(true)}>Get in touch</Button>
+          {canExecute() ? <Button onClick={() => setIsOpen(true)}>Get in touch</Button> : <Text>Welcome back.</Text>}
         </Flex>
       )}
       {isOpen && !hasSubmitted && (
