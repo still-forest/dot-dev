@@ -1,9 +1,13 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, test, vi } from "vitest";
 import "@testing-library/jest-dom";
 
 import { ContactForm } from "@/components/ContactForm/ContactForm";
-import { CONTACT_SUBMISSION_URL } from "@/config";
+import { formSubmit } from "@/components/ContactForm/formSubmit";
+
+vi.mock("@/components/ContactForm/formSubmit", () => ({
+  formSubmit: vi.fn().mockResolvedValue({ success: true }),
+}));
 
 describe("ContactForm", () => {
   test("should render with all inputs", () => {
@@ -23,40 +27,56 @@ describe("ContactForm", () => {
     expect(screen.getByRole("button", { name: "Cancel" })).toBeInTheDocument();
   });
 
-  test("should submit form", () => {
-    const fetchSpy = vi.spyOn(global, "fetch");
+  test("should submit form with valid data", async () => {
+    const mockedFormSubmit = vi.mocked(formSubmit);
+    mockedFormSubmit.mockResolvedValue({ success: true });
 
     render(<ContactForm />);
 
-    const openButton = screen.getByRole("button", { name: "Get in touch" });
-    fireEvent.click(openButton);
+    fireEvent.click(screen.getByRole("button", { name: "Get in touch" }));
 
-    const emailInput = screen.getByLabelText("Email");
-    expect(emailInput).toHaveValue("");
-    fireEvent.change(emailInput, { target: { value: "test@test.com" } });
-
-    const messageInput = screen.getByLabelText("Message");
-    expect(messageInput).toHaveValue("");
-    fireEvent.change(messageInput, { target: { value: "Hello, world!" } });
-
-    const sendButton = screen.getByRole("button", { name: "Send" });
-    fireEvent.click(sendButton);
-
-    expect(emailInput).toHaveValue("test@test.com");
-    expect(messageInput).toHaveValue("Hello, world!");
-
-    expect(fetchSpy).toHaveBeenCalledWith(CONTACT_SUBMISSION_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        subject: "Still Forest: contact form submission",
-        body: `Email: test@test.com\nMessage: Hello, world!`,
-      }),
+    fireEvent.change(screen.getByLabelText("Email"), {
+      target: { value: "test@example.com" },
     });
-    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    fireEvent.change(screen.getByLabelText("Message"), {
+      target: { value: "Test message" },
+    });
 
-    fetchSpy.mockRestore();
+    fireEvent.click(screen.getByRole("button", { name: "Send" }));
+
+    await waitFor(() => {
+      expect(formSubmit).toHaveBeenCalledWith({
+        email: "test@example.com",
+        message: "Test message",
+      });
+      expect(screen.getByRole("button", { name: "Get in touch" })).toBeVisible();
+    });
+  });
+
+  test("should show error message if form submission fails", async () => {
+    const mockedFormSubmit = vi.mocked(formSubmit);
+    mockedFormSubmit.mockRejectedValue(new Error("You shall not pass!"));
+
+    render(<ContactForm />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Get in touch" }));
+
+    fireEvent.change(screen.getByLabelText("Email"), {
+      target: { value: "test@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText("Message"), {
+      target: { value: "Test message" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Send" }));
+
+    await waitFor(() => {
+      expect(formSubmit).toHaveBeenCalledWith({
+        email: "test@example.com",
+        message: "Test message",
+      });
+    });
+
+    expect(screen.getByText("You shall not pass!")).toBeInTheDocument();
   });
 });
