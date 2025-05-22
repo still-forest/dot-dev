@@ -54,6 +54,7 @@ describe("ContactForm", () => {
     render(<ContactForm />);
 
     fireEvent.click(screen.getByRole("button", { name: "Get in touch" }));
+    expect(screen.queryByTestId("contacted-recently-message")).not.toBeInTheDocument();
 
     const submitButton = screen.getByRole("button", { name: "Send" });
     expect(submitButton).toBeDisabled();
@@ -174,7 +175,7 @@ describe("ContactForm", () => {
     const mockedUseRateLimit = vi.mocked(useRateLimit);
     mockedUseRateLimit.mockReturnValue({
       execute: (callback: () => void) => callback(),
-      canExecute: vi.fn().mockReturnValue(false),
+      canExecute: vi.fn().mockReturnValueOnce(true).mockReturnValueOnce(false),
     });
 
     render(<ContactForm />);
@@ -198,5 +199,19 @@ describe("ContactForm", () => {
     await waitFor(() => {
       expect(screen.getByText("You are sending messages too quickly. Please try again later.")).toBeInTheDocument();
     });
+    expect(screen.queryByTestId("contacted-recently-message")).not.toBeInTheDocument();
+  });
+
+  test("should show a generic message when recently submitted", async () => {
+    const mockedUseRateLimit = vi.mocked(useRateLimit);
+    mockedUseRateLimit.mockReturnValue({
+      execute: (callback: () => void) => callback(),
+      canExecute: vi.fn().mockReturnValue(false),
+    });
+
+    render(<ContactForm />);
+
+    expect(screen.getByText("Welcome back.")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Get in touch" })).not.toBeInTheDocument();
   });
 });

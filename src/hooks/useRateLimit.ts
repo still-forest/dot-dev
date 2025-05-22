@@ -1,16 +1,18 @@
-import { useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
+import { useLocalStorage } from "./useLocalStorage";
 
-export const useRateLimit = (limitMs: number = 5_000) => {
-  const [lastAction, setLastAction] = useState<number | null>(null);
+export const useRateLimit = (key: string, limitMs: number = 5_000) => {
+  const [lastAction, setLastAction] = useLocalStorage<number | null>(key, null);
 
   const canExecute = () => {
     const now = Date.now();
-    return !lastAction || now - lastAction >= limitMs;
+    return !lastAction || now - (lastAction as number) >= limitMs;
+    // return false;
   };
 
   const execute = (callback: () => void) => {
     if (canExecute()) {
-      setLastAction(Date.now());
+      (setLastAction as Dispatch<SetStateAction<number | null>>)(Date.now());
       callback();
     }
   };
