@@ -32,4 +32,18 @@ describe("formSubmit", () => {
     const formData = { email: "test@example.test", message: "Test message" };
     await expect(formSubmit(formData)).rejects.toThrow("Failed to submit form");
   });
+
+  test("throws an error if the server returns an error response", async () => {
+    const fetchSpy = vi.spyOn(global, "fetch");
+    fetchSpy.mockResolvedValue({
+      ok: false,
+      status: 400,
+      statusText: "Bad Request",
+      json: vi.fn(),
+    } as unknown as Response);
+
+    const formData = { email: "test@example.test", message: "Test message" };
+    await expect(formSubmit(formData)).rejects.toThrow("Failed to submit form: 400 Bad Request");
+    fetchSpy.mockRestore();
+  });
 });

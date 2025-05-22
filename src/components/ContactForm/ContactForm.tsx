@@ -3,17 +3,11 @@ import { Alert, Button, Flex, TextInput } from "@still-forest/canopy";
 import { CircleX } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { useRateLimit } from "@/hooks/useRateLimit";
 import { formSubmit } from "./formSubmit";
 import { InputError } from "./InputError";
 import { SubmitButton } from "./SubmitButton";
-
-const formSchema = z.object({
-  email: z.string().email(),
-  message: z.string().min(10),
-});
-type FormData = z.infer<typeof formSchema>;
+import { type FormData, formSchema } from "./schema";
 
 interface FormProps {
   onSubmit: (data: FormData) => void;
@@ -84,6 +78,8 @@ export const ContactForm = () => {
       }
     });
   };
+
+  console.log("process.env.NODE_ENV", process.env.NODE_ENV);
 
   return (
     <Flex direction="col" gap="2" className="w-full" data-testid="contact-form">

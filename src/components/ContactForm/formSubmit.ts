@@ -1,5 +1,5 @@
 import { CONTACT_SUBMISSION_URL } from "@/config";
-import type { FormData } from "./types";
+import type { FormData } from "./schema";
 
 const EMAIL_SUBJECT = "Still Forest: contact form submission";
 
