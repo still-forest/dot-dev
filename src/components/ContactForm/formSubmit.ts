@@ -4,10 +4,7 @@ import type { FormData } from "./types";
 const EMAIL_SUBJECT = "Still Forest: contact form submission";
 
 const buildEmailBody = (data: FormData) => {
-  return {
-    email: data.email,
-    message: data.message,
-  };
+  return `Email: ${data.email}\nMessage: ${data.message}`;
 };
 
 export const formSubmit = async (data: FormData) => {
@@ -15,10 +12,14 @@ export const formSubmit = async (data: FormData) => {
 
   const response = await fetch(CONTACT_SUBMISSION_URL, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({ subject: EMAIL_SUBJECT, body: emailBody }),
   });
 
   if (!response.ok) {
+    console.log("Failed to submit form", response);
     throw new Error("Failed to submit form");
   }
 

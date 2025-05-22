@@ -26,8 +26,8 @@ const Form = ({ onSubmit, onCancel }: FormProps) => {
   return (
     <Flex direction="col" gap="2">
       <form onSubmit={handleSubmit}>
-        <TextInput label="Email" name="email" onChange={handleChange} />
-        <TextInput label="Message" name="message" onChange={handleChange} />
+        <TextInput label="Email" name="email" value={formData.email} onChange={handleChange} />
+        <TextInput label="Message" name="message" value={formData.message} onChange={handleChange} />
         <Flex justify="end" gap="2">
           <Button type="submit">Send</Button>
           <Button variant="secondary" onClick={onCancel}>

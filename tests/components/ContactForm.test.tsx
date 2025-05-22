@@ -3,7 +3,6 @@ import { describe, expect, test, vi } from "vitest";
 import "@testing-library/jest-dom";
 
 import { ContactForm } from "@/components/ContactForm/ContactForm";
-import type { FormData } from "@/components/ContactForm/types";
 import { CONTACT_SUBMISSION_URL } from "@/config";
 
 describe("ContactForm", () => {
@@ -46,16 +45,14 @@ describe("ContactForm", () => {
     expect(emailInput).toHaveValue("test@test.com");
     expect(messageInput).toHaveValue("Hello, world!");
 
-    const expectedFormData: FormData = {
-      email: "test@test.com",
-      message: "Hello, world!",
-    };
-
     expect(fetchSpy).toHaveBeenCalledWith(CONTACT_SUBMISSION_URL, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         subject: "Still Forest: contact form submission",
-        body: expectedFormData,
+        body: `Email: test@test.com\nMessage: Hello, world!`,
       }),
     });
     expect(fetchSpy).toHaveBeenCalledTimes(1);
