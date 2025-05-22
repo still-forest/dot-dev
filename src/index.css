@@ -41,7 +41,7 @@
     --sidebar-ring: hsl(217.2 91.2% 59.8%);
 
     --border: oklch(0.929 0.013 255.508);
-    --input: oklch(0.929 0.013 255.508);
+    --input: oklch(0.985 0 0);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.129 0.042 264.695);
     --ring: oklch(0.869 0.022 252.894);

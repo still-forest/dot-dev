@@ -1,13 +1,19 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { describe, expect, test, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import "@testing-library/jest-dom";
 
 import { ContactForm } from "@/components/ContactForm/ContactForm";
 import { formSubmit } from "@/components/ContactForm/formSubmit";
 
-vi.mock("@/components/ContactForm/formSubmit", () => ({
-  formSubmit: vi.fn().mockResolvedValue({ success: true }),
-}));
+beforeEach(() => {
+  vi.mock("@/components/ContactForm/formSubmit", () => ({
+    formSubmit: vi.fn().mockResolvedValue({ success: true }),
+  }));
+});
+
+afterEach(() => {
+  vi.clearAllMocks();
+});
 
 describe("ContactForm", () => {
   test("should render with all inputs", () => {
@@ -51,6 +57,24 @@ describe("ContactForm", () => {
       });
       expect(screen.getByRole("button", { name: "Get in touch" })).toBeVisible();
     });
+  });
+
+  test("cannot submit form with invalid data", async () => {
+    const mockedFormSubmit = vi.mocked(formSubmit);
+    mockedFormSubmit.mockResolvedValue({ success: true });
+
+    render(<ContactForm />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Get in touch" }));
+
+    fireEvent.click(screen.getByRole("button", { name: "Send" }));
+
+    await waitFor(() => {
+      expect(screen.getByText("Invalid email")).toBeInTheDocument();
+      expect(screen.getByText("String must contain at least 10 character(s)")).toBeInTheDocument();
+    });
+
+    expect(formSubmit).not.toHaveBeenCalled();
   });
 
   test("should show error message if form submission fails", async () => {

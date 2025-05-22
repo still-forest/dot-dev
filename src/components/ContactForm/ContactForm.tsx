@@ -1,14 +1,21 @@
-import { Alert, Button, type ButtonProps, Flex, TextInput } from "@still-forest/canopy";
-import { CircleX, Loader, Send } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Alert, Button, Flex, TextInput } from "@still-forest/canopy";
+import { CircleX } from "lucide-react";
 import { useState } from "react";
-import { z } from "zod/v4-mini";
-import { formSubmit } from "./formSubmit";
-import type { FormData } from "./types";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-const schema = z.object({
-  email: z.string().check(z.email()),
-  message: z.string().check(z.minLength(10)),
+import { formSubmit } from "./formSubmit";
+import { InputError } from "./InputError";
+import { SubmitButton } from "./SubmitButton";
+
+// import type { FormData } from "./types";
+
+const formSchema = z.object({
+  email: z.string().email(),
+  message: z.string().min(10),
 });
+type FormData = z.infer<typeof formSchema>;
 
 interface FormProps {
   onSubmit: (data: FormData) => void;
@@ -16,70 +23,31 @@ interface FormProps {
   submitting: boolean;
 }
 
-interface Props extends ButtonProps {
-  submitting?: boolean;
-  disabled?: boolean;
-}
-
-const SubmitButton = ({ submitting = false, disabled = false, ...rest }: Props) => {
-  const icon = submitting ? <Loader className="animate-spin" /> : <Send />;
-
-  return (
-    <Button
-      type="submit"
-      variant="primary"
-      disabled={disabled || submitting}
-      icon={icon}
-      aria-label={submitting ? "Sending..." : "Send"}
-      {...rest}
-    />
-  );
-};
-
 const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
-  const [formData, setFormData] = useState<FormData>({
-    email: "",
-    message: "",
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    try {
-      schema.parse({ [name]: value });
-    } catch (err) {
-      if (err instanceof z.core.$ZodError) {
-        console.error(err.message);
-      }
-    }
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    onSubmit(formData);
-  };
-
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Flex direction="row" gap="2">
-        <Flex.Item className="min-w-[220px]">
-          <TextInput
-            placeholder="your@email.com"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            aria-label="Email"
-          />
+        <Flex.Item className="flex min-w-[220px] flex-col gap-y-2">
+          <TextInput placeholder="your@email.com" aria-label="Email" {...register("email")} className="bg-input" />
+          {errors.email && <InputError message={errors.email.message!} />}
         </Flex.Item>
-        <Flex.Item flex="1">
+        <Flex.Item flex="1" className="flex flex-col gap-y-2">
           <TextInput
             placeholder="Your brief message here..."
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
             aria-label="Message"
-            className="grow"
+            {...register("message")}
+            className="grow bg-input"
           />
+          {errors.message && <InputError message={errors.message.message!} />}
         </Flex.Item>
         <Flex justify="end" gap="2">
           <SubmitButton submitting={submitting} />
