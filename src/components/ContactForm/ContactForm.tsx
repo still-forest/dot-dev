@@ -19,9 +19,14 @@ const SubmitButton = ({ submitting = false, disabled = false, ...rest }: Props) 
   const icon = submitting ? <Loader className="animate-spin" /> : <Send />;
 
   return (
-    <Button type="submit" variant="primary" disabled={disabled || submitting} icon={icon} {...rest}>
-      {submitting ? "Sending..." : "Send"}
-    </Button>
+    <Button
+      type="submit"
+      variant="primary"
+      disabled={disabled || submitting}
+      icon={icon}
+      aria-label={submitting ? "Sending..." : "Send"}
+      {...rest}
+    />
   );
 };
 
@@ -41,18 +46,33 @@ const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
   };
 
   return (
-    <Flex direction="col" gap="2">
-      <form onSubmit={handleSubmit}>
-        <TextInput label="Email" name="email" value={formData.email} onChange={handleChange} />
-        <TextInput label="Message" name="message" value={formData.message} onChange={handleChange} />
+    <form onSubmit={handleSubmit}>
+      <Flex direction="row" gap="2">
+        <Flex.Item className="min-w-[220px]">
+          <TextInput
+            placeholder="your@email.com"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            aria-label="Email"
+          />
+        </Flex.Item>
+        <Flex.Item flex="1">
+          <TextInput
+            placeholder="Your brief message here..."
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+            aria-label="Message"
+            className="grow"
+          />
+        </Flex.Item>
         <Flex justify="end" gap="2">
           <SubmitButton submitting={submitting} />
-          <Button variant="secondary" onClick={onCancel} icon={<CircleX />}>
-            Cancel
-          </Button>
+          <Button variant="secondary" onClick={onCancel} icon={<CircleX />} aria-label="Cancel" />
         </Flex>
-      </form>
-    </Flex>
+      </Flex>
+    </form>
   );
 };
 
@@ -76,9 +96,13 @@ export const ContactForm = () => {
   };
 
   return (
-    <Flex direction="col" gap="2" data-testid="contact-form">
+    <Flex direction="col" gap="2" className="w-full" data-testid="contact-form">
       {submitError && <Alert message={submitError} title="Submission failure" type="error" />}
-      {!isOpen && <Button onClick={() => setIsOpen(true)}>Get in touch</Button>}
+      {!isOpen && (
+        <Flex justify="center">
+          <Button onClick={() => setIsOpen(true)}>Get in touch</Button>
+        </Flex>
+      )}
       {isOpen && <Form onSubmit={handleSubmit} onCancel={() => setIsOpen(false)} submitting={isSubmitting} />}
     </Flex>
   );

@@ -79,4 +79,27 @@ describe("ContactForm", () => {
 
     expect(screen.getByText("You shall not pass!")).toBeInTheDocument();
   });
+
+  test("cancels to close the form", async () => {
+    render(<ContactForm />);
+
+    const openButton = screen.getByRole("button", { name: "Get in touch" });
+    expect(openButton).toBeVisible();
+
+    fireEvent.click(openButton);
+
+    expect(openButton).not.toBeVisible();
+    expect(screen.getByLabelText("Email")).toBeInTheDocument();
+    expect(screen.getByLabelText("Message")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Send" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Cancel" })).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+
+    expect(screen.getByRole("button", { name: "Get in touch" })).toBeVisible();
+    expect(screen.queryByLabelText("Email")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Message")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Send" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Cancel" })).not.toBeInTheDocument();
+  });
 });
