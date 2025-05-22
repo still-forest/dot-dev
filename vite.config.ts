@@ -2,7 +2,7 @@ import { resolve } from "node:path";
 import svgr from "@svgr/rollup";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react-swc";
-import { defineConfig } from "vite";
+import { defineConfig, type ViteUserConfig } from "vitest/config";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -15,4 +15,9 @@ export default defineConfig({
       "@stories": resolve(__dirname, "./stories"),
     },
   },
-});
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "./vitest.setup.ts",
+  },
+} as ViteUserConfig);
