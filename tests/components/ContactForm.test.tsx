@@ -33,13 +33,16 @@ describe("ContactForm", () => {
     expect(screen.getByRole("button", { name: "Cancel" })).toBeInTheDocument();
   });
 
-  test("should submit form with valid data", async () => {
+  test("can submit form with valid data", async () => {
     const mockedFormSubmit = vi.mocked(formSubmit);
     mockedFormSubmit.mockResolvedValue({ success: true });
 
     render(<ContactForm />);
 
     fireEvent.click(screen.getByRole("button", { name: "Get in touch" }));
+
+    const submitButton = screen.getByRole("button", { name: "Send" });
+    expect(submitButton).toBeDisabled();
 
     fireEvent.change(screen.getByLabelText("Email"), {
       target: { value: "test@example.com" },
@@ -48,7 +51,11 @@ describe("ContactForm", () => {
       target: { value: "Test message" },
     });
 
-    fireEvent.click(screen.getByRole("button", { name: "Send" }));
+    await waitFor(() => {
+      expect(submitButton).not.toBeDisabled();
+    });
+
+    fireEvent.click(submitButton);
 
     await waitFor(() => {
       expect(formSubmit).toHaveBeenCalledWith({
@@ -67,11 +74,26 @@ describe("ContactForm", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Get in touch" }));
 
-    fireEvent.click(screen.getByRole("button", { name: "Send" }));
+    const submitButton = screen.getByRole("button", { name: "Send" });
+    expect(submitButton).toBeDisabled();
+
+    fireEvent.change(screen.getByLabelText("Email"), {
+      target: { value: "test@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText("Message"), {
+      target: { value: "Test message" },
+    });
 
     await waitFor(() => {
-      expect(screen.getByText("Invalid email")).toBeInTheDocument();
-      expect(screen.getByText("String must contain at least 10 character(s)")).toBeInTheDocument();
+      expect(submitButton).not.toBeDisabled();
+    });
+
+    fireEvent.change(screen.getByLabelText("Message"), {
+      target: { value: "Test " },
+    });
+
+    await waitFor(() => {
+      expect(submitButton).toBeDisabled();
     });
 
     expect(formSubmit).not.toHaveBeenCalled();
@@ -85,6 +107,8 @@ describe("ContactForm", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Get in touch" }));
 
+    const submitButton = screen.getByRole("button", { name: "Send" });
+
     fireEvent.change(screen.getByLabelText("Email"), {
       target: { value: "test@example.com" },
     });
@@ -92,7 +116,11 @@ describe("ContactForm", () => {
       target: { value: "Test message" },
     });
 
-    fireEvent.click(screen.getByRole("button", { name: "Send" }));
+    await waitFor(() => {
+      expect(submitButton).not.toBeDisabled();
+    });
+
+    fireEvent.click(submitButton);
 
     await waitFor(() => {
       expect(formSubmit).toHaveBeenCalledWith({

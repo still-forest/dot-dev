@@ -28,7 +28,7 @@ const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { isValid, errors },
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
@@ -50,7 +50,7 @@ const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
           {errors.message && <InputError message={errors.message.message!} />}
         </Flex.Item>
         <Flex justify="end" gap="2">
-          <SubmitButton submitting={submitting} />
+          <SubmitButton disabled={!isValid} submitting={submitting} />
           <Button variant="secondary" onClick={onCancel} icon={<CircleX />} aria-label="Cancel" />
         </Flex>
       </Flex>
