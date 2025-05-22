@@ -1,8 +1,14 @@
 import { Alert, Button, type ButtonProps, Flex, TextInput } from "@still-forest/canopy";
 import { CircleX, Loader, Send } from "lucide-react";
 import { useState } from "react";
+import { z } from "zod/v4-mini";
 import { formSubmit } from "./formSubmit";
 import type { FormData } from "./types";
+
+const schema = z.object({
+  email: z.string().check(z.email()),
+  message: z.string().check(z.minLength(10)),
+});
 
 interface FormProps {
   onSubmit: (data: FormData) => void;
@@ -37,6 +43,14 @@ const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    try {
+      schema.parse({ [name]: value });
+    } catch (err) {
+      if (err instanceof z.core.$ZodError) {
+        console.error(err.message);
+      }
+    }
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
