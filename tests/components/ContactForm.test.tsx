@@ -4,10 +4,18 @@ import "@testing-library/jest-dom";
 
 import { ContactForm } from "@/components/ContactForm/ContactForm";
 import { formSubmit } from "@/components/ContactForm/formSubmit";
+import { useRateLimit } from "@/hooks/useRateLimit";
 
 beforeEach(() => {
   vi.mock("@/components/ContactForm/formSubmit", () => ({
     formSubmit: vi.fn().mockResolvedValue({ success: true }),
+  }));
+
+  vi.mock("@/hooks/useRateLimit", () => ({
+    useRateLimit: vi.fn().mockReturnValue({
+      execute: (callback: () => void) => callback(),
+      canExecute: vi.fn().mockReturnValue(true),
+    }),
   }));
 });
 
@@ -36,6 +44,12 @@ describe("ContactForm", () => {
   test("can submit form with valid data", async () => {
     const mockedFormSubmit = vi.mocked(formSubmit);
     mockedFormSubmit.mockResolvedValue({ success: true });
+
+    const mockedUseRateLimit = vi.mocked(useRateLimit);
+    mockedUseRateLimit.mockReturnValue({
+      execute: (callback: () => void) => callback(),
+      canExecute: vi.fn().mockReturnValue(true),
+    });
 
     render(<ContactForm />);
 
@@ -154,5 +168,35 @@ describe("ContactForm", () => {
     expect(screen.queryByLabelText("Message")).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Send" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Cancel" })).not.toBeInTheDocument();
+  });
+
+  test("should show rate limit error message if form is submitted too quickly", async () => {
+    const mockedUseRateLimit = vi.mocked(useRateLimit);
+    mockedUseRateLimit.mockReturnValue({
+      execute: (callback: () => void) => callback(),
+      canExecute: vi.fn().mockReturnValue(false),
+    });
+
+    render(<ContactForm />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Get in touch" }));
+
+    const submitButton = screen.getByRole("button", { name: "Send" });
+
+    fireEvent.change(screen.getByLabelText("Email"), {
+      target: { value: "test@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText("Message"), {
+      target: { value: "Test message" },
+    });
+
+    await waitFor(() => {
+      expect(submitButton).not.toBeDisabled();
+    });
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(screen.getByText("You are sending messages too quickly. Please try again later.")).toBeInTheDocument();
+    });
   });
 });

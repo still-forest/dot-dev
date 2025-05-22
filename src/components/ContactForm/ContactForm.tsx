@@ -4,12 +4,10 @@ import { CircleX } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import { useRateLimit } from "@/hooks/useRateLimit";
 import { formSubmit } from "./formSubmit";
 import { InputError } from "./InputError";
 import { SubmitButton } from "./SubmitButton";
-
-// import type { FormData } from "./types";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -27,7 +25,6 @@ const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { isValid, errors },
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -63,20 +60,29 @@ export const ContactForm = () => {
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const { canExecute, execute } = useRateLimit(60_000);
 
   const handleSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     setSubmitError(null);
 
-    try {
-      await formSubmit(data);
-      setIsOpen(false);
-      setHasSubmitted(true);
-    } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : "Failed to submit form");
-    } finally {
+    if (!canExecute()) {
+      setSubmitError("You are sending messages too quickly. Please try again later.");
       setIsSubmitting(false);
+      return;
     }
+
+    execute(async () => {
+      try {
+        await formSubmit(data);
+        setIsOpen(false);
+        setHasSubmitted(true);
+      } catch (error) {
+        setSubmitError(error instanceof Error ? error.message : "Failed to submit form");
+      } finally {
+        setIsSubmitting(false);
+      }
+    });
   };
 
   return (
