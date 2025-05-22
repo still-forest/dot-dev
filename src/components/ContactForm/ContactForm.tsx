@@ -1,30 +1,32 @@
 import { Button, Flex, TextInput } from "@still-forest/canopy";
 import { useState } from "react";
+import type { FormData } from "./types";
 
 interface FormProps {
   onSubmit: (data: FormData) => void;
   onCancel: () => void;
 }
 
-interface FormData {
-  email: string;
-  message: string;
-}
-
 const Form = ({ onSubmit, onCancel }: FormProps) => {
+  const [formData, setFormData] = useState<FormData>({
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSubmit(formData);
+  };
+
   return (
     <Flex direction="col" gap="2">
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const formData = new FormData(e.target as HTMLFormElement);
-          console.log("formData", formData);
-          const data = Object.fromEntries(formData.entries()) as FormData;
-          onSubmit(data);
-        }}
-      >
-        <TextInput label="Email" name="email" />
-        <TextInput label="Message" name="message" />
+      <form onSubmit={handleSubmit}>
+        <TextInput label="Email" name="email" onChange={handleChange} />
+        <TextInput label="Message" name="message" onChange={handleChange} />
         <Flex justify="end" gap="2">
           <Button type="submit">Send</Button>
           <Button variant="secondary" onClick={onCancel}>
@@ -39,10 +41,15 @@ const Form = ({ onSubmit, onCancel }: FormProps) => {
 export const ContactForm = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleSubmit = (data: FormData) => {
+    console.log("data", data);
+    setIsOpen(false);
+  };
+
   return (
     <Flex direction="col" gap="2">
       {!isOpen && <Button onClick={() => setIsOpen(true)}>Get in touch</Button>}
-      {isOpen && <Form onSubmit={() => setIsOpen(false)} onCancel={() => setIsOpen(false)} />}
+      {isOpen && <Form onSubmit={handleSubmit} onCancel={() => setIsOpen(false)} />}
     </Flex>
   );
 };
