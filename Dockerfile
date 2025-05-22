@@ -1,5 +1,5 @@
 # Builder image -------------------------------------
-FROM node:22-slim@sha256:22d9bc25da7c4e137bb1a2af22dfee16544c7015eaede0c8ef93a522bcbb0e07 AS builder
+FROM node:22-slim@sha256:2f3571619daafc6b53232ebf2fcc0817c1e64795e92de317c1684a915d13f1a5 AS builder
 WORKDIR /app
 
 RUN corepack enable && \
