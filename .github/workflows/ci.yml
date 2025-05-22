@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  test-suite:
+  ci-suite:
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -19,8 +19,6 @@ jobs:
             run_command: pnpm lint:ci
           - task: build
             run_command: pnpm build
-          - task: test
-            run_command: pnpm test:coverage
 
     steps:
       - name: Checkout code

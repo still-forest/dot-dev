@@ -1,5 +1,6 @@
 import { Button, Flex, TextInput } from "@still-forest/canopy";
 import { useState } from "react";
+import { formSubmit } from "./formSubmit";
 import type { FormData } from "./types";
 
 interface FormProps {
@@ -42,8 +43,8 @@ export const ContactForm = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSubmit = (data: FormData) => {
-    console.log("data", data);
     setIsOpen(false);
+    formSubmit(data);
   };
 
   return (
