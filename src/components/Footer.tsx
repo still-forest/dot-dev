@@ -18,25 +18,19 @@ const ThemeSelection = () => {
         <Tooltip.Trigger>
           <MonitorCog size={32} className={getClassName("system")} onClick={() => setTheme("system")} />
         </Tooltip.Trigger>
-        <Tooltip.Content>
-          <Text className="text-primary-foreground">Use system theme</Text>
-        </Tooltip.Content>
+        <Tooltip.Content>Use system theme</Tooltip.Content>
       </Tooltip>
       <Tooltip>
         <Tooltip.Trigger>
           <Sun size={32} className={getClassName("light")} onClick={() => setTheme("light")} />
         </Tooltip.Trigger>
-        <Tooltip.Content>
-          <Text className="text-primary-foreground">Use light theme</Text>
-        </Tooltip.Content>
+        <Tooltip.Content>Use light theme</Tooltip.Content>
       </Tooltip>
       <Tooltip>
         <Tooltip.Trigger>
           <Moon size={32} className={getClassName("dark")} onClick={() => setTheme("dark")} />
         </Tooltip.Trigger>
-        <Tooltip.Content>
-          <Text className="text-primary-foreground">Use dark theme</Text>
-        </Tooltip.Content>
+        <Tooltip.Content>Use dark theme</Tooltip.Content>
       </Tooltip>
     </Flex>
   );
@@ -60,9 +54,9 @@ export const Footer = () => {
             </a>
           </Tooltip.Trigger>
           <Tooltip.Content>
-            <Text className="flex items-center gap-1 text-primary-foreground">
+            <Flex align="center" gap="1">
               GitHub <SquareArrowOutUpRight size={12} strokeWidth={1.5} />
-            </Text>
+            </Flex>
           </Tooltip.Content>
         </Tooltip>
         <Tooltip>
@@ -72,9 +66,9 @@ export const Footer = () => {
             </a>
           </Tooltip.Trigger>
           <Tooltip.Content>
-            <Text className="flex items-center gap-1 text-primary-foreground">
+            <Flex align="center" gap="1">
               LinkedIn <SquareArrowOutUpRight size={12} strokeWidth={1.5} />
-            </Text>
+            </Flex>
           </Tooltip.Content>
         </Tooltip>
       </Flex>
