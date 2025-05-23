@@ -51,6 +51,7 @@ display_docker_container_info() {
   echo "  - view logs: docker logs $container_name"
   echo "  - open shell console: docker exec -it $container_name sh"
   echo "  - open shell console, instead of running container: docker run --rm -it $image_name sh"
+  echo "  - run container with env vars: docker run -e NODE_ENV=production -p $host_port:$container_port $image_name"
   echo "  - stop container: docker stop $container_name"
   echo "  - remove container: docker rm $container_name"
   echo "  - remove image: docker rmi $image_name"

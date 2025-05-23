@@ -18,7 +18,7 @@ if (isProduction) {
   app.use(express.static("public"));
 
   app.get("/*splat", (_req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
+    res.sendFile(path.join(process.cwd(), "public", "index.html"));
   });
 } else {
   // Development: just a simple fallback for non-API routes
