@@ -15,6 +15,11 @@ export default defineConfig({
       "@stories": resolve(__dirname, "./stories"),
     },
   },
+  server: {
+    proxy: {
+      "/api": "http://localhost:3001",
+    },
+  },
   test: {
     globals: true,
     environment: "jsdom",
