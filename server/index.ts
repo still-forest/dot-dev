@@ -15,7 +15,7 @@ app.get("/api/status", (_req: Request, res: Response) => {
 
 // React app
 if (isProduction) {
-  app.use(express.static("public"));
+  app.use(express.static(path.join(process.cwd(), "public")));
 
   app.get("/*splat", (_req: Request, res: Response) => {
     res.sendFile(path.join(process.cwd(), "public", "index.html"));
