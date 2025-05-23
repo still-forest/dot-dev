@@ -1,5 +1,6 @@
 # Builder image -------------------------------------
 FROM node:22-slim@sha256:2f3571619daafc6b53232ebf2fcc0817c1e64795e92de317c1684a915d13f1a5 AS builder
+
 WORKDIR /app
 
 RUN corepack enable && \
@@ -10,14 +11,21 @@ RUN pnpm install --frozen-lockfile
 
 COPY tsconfig.json vite.config.ts index.html ./
 COPY ./src ./src
+COPY ./public ./public
 
 RUN pnpm build
 
 # Final image --------------------------------
-FROM nginx:alpine@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10
+FROM node:22-slim@sha256:2f3571619daafc6b53232ebf2fcc0817c1e64795e92de317c1684a915d13f1a5
 
-COPY --from=builder /app/dist /usr/share/nginx/html
-COPY ./public /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+WORKDIR /app
+
+# Copy built assets and server
+COPY --from=builder /app/dist ./public
+COPY --from=builder /app/dist-server ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./
 
 EXPOSE 8080
+
+CMD ["node", "dist/server.js"]

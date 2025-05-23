@@ -6,6 +6,9 @@ import { defineConfig, type ViteUserConfig } from "vitest/config";
 
 // https://vite.dev/config/
 export default defineConfig({
+  build: {
+    outDir: "./dist-client",
+  },
   plugins: [react(), tailwindcss(), svgr()],
   resolve: {
     alias: {

@@ -18,11 +18,14 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "baseUrl": ".",
+    "outDir": "./dist-server",
     "paths": {
       "@/*": ["./src/*"],
       "@root/*": ["./*"],
+      "@server/*": ["./server/*"],
       "@tests/*": ["./tests/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["server", "node_modules", "dist*"]
 }
