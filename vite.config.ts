@@ -6,6 +6,9 @@ import { defineConfig, type ViteUserConfig } from "vitest/config";
 
 // https://vite.dev/config/
 export default defineConfig({
+  build: {
+    outDir: "./dist-client",
+  },
   plugins: [react(), tailwindcss(), svgr()],
   resolve: {
     alias: {
@@ -13,6 +16,11 @@ export default defineConfig({
       "@root": resolve(__dirname, "./"),
       "@tests": resolve(__dirname, "./tests"),
       "@stories": resolve(__dirname, "./stories"),
+    },
+  },
+  server: {
+    proxy: {
+      "/api": "http://localhost:3001",
     },
   },
   test: {
