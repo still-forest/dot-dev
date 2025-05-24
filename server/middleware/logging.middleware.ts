@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import type { Application, NextFunction, Request, Response } from "express";
 import type winston from "winston";
-import { logger } from "../services/logger.service";
+import { getLogger } from "../services/logger.service";
 
 // Extend Express Request type to include logging context
 declare global {
@@ -13,8 +13,6 @@ declare global {
     }
   }
 }
-
-const defaultDomain = "default";
 
 // Middleware to extract domain from various sources
 function extractDomain(req: Request, defaultDomain: string): string {
@@ -28,6 +26,9 @@ function extractDomain(req: Request, defaultDomain: string): string {
 }
 
 const loggingMiddleware = () => {
+  const defaultDomain = "api";
+  const logger = getLogger(defaultDomain);
+
   return (req: Request, res: Response, next: NextFunction) => {
     const startTime = Date.now();
     const correlationId = randomUUID();
@@ -97,6 +98,9 @@ const loggingMiddleware = () => {
 };
 
 const errorLoggingMiddleware = () => {
+  const defaultDomain = "api";
+  const logger = getLogger(defaultDomain);
+
   return (error: Error, req: Request, res: Response, next: NextFunction) => {
     logger.error("Unhandled error", undefined, undefined, {
       error: error.message,

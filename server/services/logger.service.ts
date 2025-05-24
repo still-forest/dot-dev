@@ -1,8 +1,10 @@
 import * as winston from "winston";
 
+export type LogDomain = "default" | "api" | "auth" | "user" | "admin" | "system";
+
 export interface LoggingConfig {
-  level?: string;
-  defaultDomain?: string;
+  level?: string; // TODO: make this optional
+  domain?: LogDomain;
   enableConsole?: boolean;
   logFilePath?: string;
   serviceName: string;
@@ -11,7 +13,7 @@ export interface LoggingConfig {
 
 const defaultConfig: LoggingConfig = {
   level: "info",
-  defaultDomain: "default",
+  domain: "default",
   enableConsole: true,
   logFilePath: `logs/${process.env.NODE_ENV || "development"}.log`,
   serviceName: "still-forest-dot-dev",
@@ -68,7 +70,7 @@ const createLogger = (config: LoggingConfig) => {
 class LoggerService {
   private logger: winston.Logger;
 
-  constructor(config: LoggingConfig = defaultConfig) {
+  constructor(config: LoggingConfig) {
     this.logger = createLogger(config);
   }
 
@@ -107,4 +109,8 @@ class LoggerService {
   }
 }
 
-export const logger = new LoggerService();
+export const getLogger = (domain: LogDomain, config: LoggingConfig = defaultConfig) => {
+  return new LoggerService({ ...config, domain });
+};
+
+export const defaultLogger = getLogger("default");
