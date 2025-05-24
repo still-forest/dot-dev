@@ -3,7 +3,6 @@ import * as winston from "winston";
 export type LogDomain = "default" | "api" | "auth" | "user" | "admin" | "system";
 
 export interface LoggingConfig {
-  level?: string; // TODO: make this optional
   domain?: LogDomain;
   enableConsole?: boolean;
   logFilePath?: string;
@@ -12,7 +11,6 @@ export interface LoggingConfig {
 }
 
 const defaultConfig: LoggingConfig = {
-  level: "info",
   domain: "default",
   enableConsole: true,
   logFilePath: `logs/${process.env.NODE_ENV || "development"}.log`,
@@ -21,7 +19,7 @@ const defaultConfig: LoggingConfig = {
 };
 
 const createLogger = (config: LoggingConfig) => {
-  const { level, enableConsole, logFilePath, serviceName, environment } = config;
+  const { enableConsole, logFilePath, serviceName, environment } = config;
 
   const transports: winston.transport[] = [];
 
@@ -56,7 +54,6 @@ const createLogger = (config: LoggingConfig) => {
   }
 
   return winston.createLogger({
-    level,
     defaultMeta: {
       service: serviceName,
       environment: environment,
@@ -78,34 +75,20 @@ class LoggerService {
     return this.logger.child(meta);
   }
 
-  // biome-ignore lint/suspicious/noExplicitAny: I don't think meta is being used
-  info(message: string, context?: string, meta?: any) {
-    this.logger.info(message, { context, ...meta });
+  info(message: string, meta: winston.Logform.Meta = {}) {
+    this.logger.info(message, meta);
   }
 
-  // biome-ignore lint/suspicious/noExplicitAny: I don't think meta is being used
-  log(message: string, context?: string, meta?: any) {
-    this.info(message, context, meta);
+  error(message: string, meta: winston.Logform.Meta = {}) {
+    this.logger.error(message, meta);
   }
 
-  // biome-ignore lint/suspicious/noExplicitAny: I don't think meta is being used
-  error(message: string, trace?: string, context?: string, meta?: any) {
-    this.logger.error(message, { trace, context, ...meta });
+  warn(message: string, meta: winston.Logform.Meta = {}) {
+    this.logger.warn(message, meta);
   }
 
-  // biome-ignore lint/suspicious/noExplicitAny: I don't think meta is being used
-  warn(message: string, context?: string, meta?: any) {
-    this.logger.warn(message, { context, ...meta });
-  }
-
-  // biome-ignore lint/suspicious/noExplicitAny: I don't think meta is being used
-  debug(message: string, context?: string, meta?: any) {
-    this.logger.debug(message, { context, ...meta });
-  }
-
-  // biome-ignore lint/suspicious/noExplicitAny: I don't think meta is being used
-  verbose(message: string, context?: string, meta?: any) {
-    this.logger.verbose(message, { context, ...meta });
+  debug(message: string, meta: winston.Logform.Meta = {}) {
+    this.logger.debug(message, meta);
   }
 }
 
