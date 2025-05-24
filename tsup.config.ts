@@ -1,3 +1,4 @@
+import path from "node:path";
 import { defineConfig } from "tsup";
 
 export default defineConfig({
@@ -8,4 +9,9 @@ export default defineConfig({
   clean: true,
   sourcemap: true,
   minify: true,
+  esbuildOptions(options) {
+    options.alias = {
+      "@server": path.resolve(__dirname, "server"),
+    };
+  },
 });

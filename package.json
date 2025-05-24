@@ -10,8 +10,6 @@
     "dev": "concurrently \"pnpm dev:client\" \"pnpm dev:server\"",
     "dev:client": "vite",
     "dev:server": "tsup --watch --onSuccess 'nodemon dist-server/index.js'",
-    "dev:server:debug": "tsx watch --inspect server/index.ts",
-    "dev:server:debug:vite": "concurrently \"vite\" \"tsx watch --inspect server/index.ts\"",
     "format": "biome format --write .",
     "lint": "biome check .",
     "lint:ci": "biome ci .",

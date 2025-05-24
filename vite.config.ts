@@ -15,10 +15,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": resolve(__dirname, "./src"),
-      "@root": resolve(__dirname, "./"),
-      "@server": resolve(__dirname, "./server"),
       "@tests": resolve(__dirname, "./tests"),
-      "@stories": resolve(__dirname, "./stories"),
     },
   },
   server: {
