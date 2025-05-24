@@ -104,8 +104,8 @@ const errorLoggingMiddleware = () => {
       httpMethod: req.method,
       httpUrl: req.url,
       httpStatusCode: res.statusCode || 500,
-      // correlationId: req.correlationId,
-      // domain: req.domain,
+      correlationId: req.correlationId,
+      domain: req.domain,
     });
 
     next(error);

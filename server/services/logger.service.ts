@@ -1,37 +1,75 @@
 import * as winston from "winston";
 
+export interface LoggingConfig {
+  level?: string;
+  defaultDomain?: string;
+  enableConsole?: boolean;
+  logFilePath?: string;
+  serviceName: string;
+  environment: string;
+}
+
+const defaultConfig: LoggingConfig = {
+  level: "info",
+  defaultDomain: "default",
+  enableConsole: true,
+  logFilePath: `logs/${process.env.NODE_ENV || "development"}.log`,
+  serviceName: "still-forest-dot-dev",
+  environment: process.env.NODE_ENV || "development",
+};
+
+const createLogger = (config: LoggingConfig) => {
+  const { level, enableConsole, logFilePath, serviceName, environment } = config;
+
+  const transports: winston.transport[] = [];
+
+  if (enableConsole) {
+    transports.push(
+      new winston.transports.Console({
+        format: winston.format.combine(
+          winston.format.timestamp(),
+          winston.format.errors({ stack: true }),
+          winston.format.colorize(),
+          winston.format.printf(({ timestamp, level, message, domain, correlationId, ...meta }) => {
+            const metaStr = Object.keys(meta).length ? JSON.stringify(meta) : "";
+            return `${timestamp} [${level}] [${domain}] [${correlationId || "N/A"}] ${message} ${metaStr}`;
+          }),
+        ),
+      }),
+    );
+  }
+
+  // File transport (JSON format for Grafana/Loki)
+  if (logFilePath) {
+    transports.push(
+      new winston.transports.File({
+        filename: logFilePath,
+        format: winston.format.combine(
+          winston.format.timestamp(),
+          winston.format.errors({ stack: true }),
+          winston.format.json(),
+        ),
+      }),
+    );
+  }
+
+  return winston.createLogger({
+    level,
+    defaultMeta: {
+      service: serviceName,
+      environment: environment,
+    },
+    transports,
+    // Don't exit on handled exceptions
+    exitOnError: false,
+  });
+};
+
 class LoggerService {
   private logger: winston.Logger;
 
-  constructor() {
-    this.logger = winston.createLogger({
-      level: "debug",
-      format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
-      defaultMeta: { service: "api-service" },
-      transports: [
-        // Console transport
-        new winston.transports.Console({
-          level: "debug",
-          format: winston.format.combine(
-            winston.format.timestamp(),
-            winston.format.ms(),
-            winston.format.colorize(),
-            winston.format.printf((info) => `${info.timestamp as string} ${info.level}: ${info.message as string}`),
-          ),
-        }),
-        // File transport for errors
-        new winston.transports.File({
-          filename: "logs/error.log",
-          level: "error",
-          format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
-        }),
-        // File transport for all logs
-        new winston.transports.File({
-          filename: "logs/combined.log",
-          format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
-        }),
-      ],
-    });
+  constructor(config: LoggingConfig = defaultConfig) {
+    this.logger = createLogger(config);
   }
 
   child(meta: winston.Logform.Meta) {
