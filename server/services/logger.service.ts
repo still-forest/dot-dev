@@ -2,6 +2,8 @@ import * as winston from "winston";
 
 export type LogDomain = "default" | "api" | "auth" | "user" | "admin" | "system";
 
+type LogMeta = Record<string, string | number | boolean | undefined>;
+
 export interface LoggingConfig {
   domain?: LogDomain;
   enableConsole?: boolean;
@@ -30,7 +32,8 @@ const createLogger = (config: LoggingConfig) => {
           winston.format.timestamp(),
           winston.format.errors({ stack: true }),
           winston.format.colorize(),
-          winston.format.printf(({ timestamp, level, message, domain, correlationId, ...meta }) => {
+          winston.format.printf((info: winston.Logform.TransformableInfo) => {
+            const { timestamp, level, message, domain, correlationId, ...meta } = info;
             const metaStr = Object.keys(meta).length ? JSON.stringify(meta) : "";
             return `${timestamp} [${level}] [${domain}] [${correlationId || "N/A"}] ${message} ${metaStr}`;
           }),
@@ -71,23 +74,23 @@ class LoggerService {
     this.logger = createLogger(config);
   }
 
-  child(meta: winston.Logform.Meta) {
+  child(meta: LogMeta) {
     return this.logger.child(meta);
   }
 
-  info(message: string, meta: winston.Logform.Meta = {}) {
+  info(message: string, meta: LogMeta = {}) {
     this.logger.info(message, meta);
   }
 
-  error(message: string, meta: winston.Logform.Meta = {}) {
+  error(message: string, meta: LogMeta = {}) {
     this.logger.error(message, meta);
   }
 
-  warn(message: string, meta: winston.Logform.Meta = {}) {
+  warn(message: string, meta: LogMeta = {}) {
     this.logger.warn(message, meta);
   }
 
-  debug(message: string, meta: winston.Logform.Meta = {}) {
+  debug(message: string, meta: LogMeta = {}) {
     this.logger.debug(message, meta);
   }
 }

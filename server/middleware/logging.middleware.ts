@@ -15,12 +15,12 @@ declare global {
 }
 
 // Middleware to extract domain from various sources
-function extractDomain(req: Request, defaultDomain: string): string {
+function extractDomain(req: Request, defaultDomain: LogDomain): LogDomain {
   // Priority order: header > query param > route param > default
   return (
-    (req.headers["x-log-domain"] as string) ||
-    (req.query.domain as string) ||
-    (req.params.domain as string) ||
+    (req.headers["x-log-domain"] as LogDomain) ||
+    (req.query.domain as LogDomain) ||
+    (req.params.domain as LogDomain) ||
     defaultDomain
   );
 }
@@ -66,12 +66,7 @@ const loggingMiddleware = () => {
 
     // Override res.end to log response
     const originalEnd = res.end;
-    res.end = function (
-      this: Response,
-      chunk?: unknown,
-      encoding?: BufferEncoding | (() => void),
-      callback?: () => void,
-    ) {
+    res.end = function (chunk?: unknown, encoding?: BufferEncoding | (() => void), cb?: () => void) {
       const duration = Date.now() - startTime;
 
       req.logger.info("Request completed", {
@@ -81,7 +76,11 @@ const loggingMiddleware = () => {
         responseHeaders: res.getHeaders(),
       });
 
-      return originalEnd.call(this, chunk, encoding, callback);
+      if (typeof encoding === "function") {
+        return (originalEnd as typeof res.end).call(this, chunk, "utf8", encoding);
+      } else {
+        return (originalEnd as typeof res.end).call(this, chunk, encoding || "utf8", cb);
+      }
     };
 
     // Handle errors
@@ -102,7 +101,7 @@ const errorLoggingMiddleware = () => {
   const logger = getLogger(defaultDomain);
 
   return (error: Error, req: Request, res: Response, next: NextFunction) => {
-    logger.error("Unhandled error", undefined, undefined, {
+    logger.error("Unhandled error", {
       error: error.message,
       stack: error.stack,
       httpMethod: req.method,
