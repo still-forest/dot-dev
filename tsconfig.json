@@ -20,10 +20,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@root/*": ["./*"],
-      "@server/*": ["./server/*"],
       "@tests/*": ["./tests/*"]
     }
   },
-  "include": ["{src,tests}/**/*.{ts,tsx}"]
+  "include": ["{src,server,tests}/**/*.{ts,tsx}"]
 }
