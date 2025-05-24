@@ -1,33 +1,16 @@
 import path from "node:path";
-import { LoggerService } from "@server/services/LoggerService";
-import type { NextFunction, Request, Response } from "express";
+import type { Request, Response } from "express";
 import express from "express";
+import { setupLogging } from "./middleware/logging.middleware";
 
 const app = express();
 const port = process.env.PORT || 8080;
 const environment = process.env.NODE_ENV || "development";
 const isProduction = environment === "production";
 
-// Express does not provide a type definition for error handlers
-interface ErrorWithStatus extends Error {
-  status?: number;
-}
-
 app.use(express.json());
 
-const logger = new LoggerService();
-
-// Error logging middleware
-app.use((err: ErrorWithStatus, req: Request, _res: Response, next: NextFunction) => {
-  logger.error(`${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-  next(err);
-});
-
-// Middleware to log requests
-app.use((req, _res, next) => {
-  logger.info(`${req.method} ${req.url}`);
-  next();
-});
+setupLogging(app);
 
 app.get("/api/status", (_req: Request, res: Response) => {
   res.json({ status: "ok", environment: environment });

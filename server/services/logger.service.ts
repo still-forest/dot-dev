@@ -1,6 +1,6 @@
 import * as winston from "winston";
 
-export class LoggerService {
+class LoggerService {
   private logger: winston.Logger;
 
   constructor() {
@@ -64,3 +64,5 @@ export class LoggerService {
     this.logger.verbose(message, { context, ...meta });
   }
 }
+
+export const logger = new LoggerService();
