@@ -9,5 +9,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
+  "paths": {
+    "@server/*": ["./server/*"]
+  },
   "include": ["server/**/*"]
 }
