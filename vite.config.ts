@@ -27,5 +27,19 @@ export default defineConfig({
     globals: true,
     environment: "jsdom",
     setupFiles: "./vitest.setup.ts",
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "json", "html"],
+      exclude: [
+        "server/index.ts",
+        "server/services/logger.service.ts",
+        "server/middleware/*",
+        "tests/**/*",
+        "**/*.d.ts",
+        "dist*/**",
+        "*.config.ts",
+        "*.setup.ts",
+      ],
+    },
   },
 } as ViteUserConfig);

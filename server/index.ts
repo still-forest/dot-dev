@@ -1,6 +1,7 @@
 import path from "node:path";
 import type { Request, Response } from "express";
 import express from "express";
+import { setupLogging } from "./middleware/logging.middleware";
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -8,6 +9,8 @@ const environment = process.env.NODE_ENV || "development";
 const isProduction = environment === "production";
 
 app.use(express.json());
+
+setupLogging(app);
 
 app.get("/api/status", (_req: Request, res: Response) => {
   res.json({ status: "ok", environment: environment });
