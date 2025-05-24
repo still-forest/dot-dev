@@ -34,6 +34,10 @@ class LoggerService {
     });
   }
 
+  child(meta: winston.Logform.Meta) {
+    return this.logger.child(meta);
+  }
+
   // biome-ignore lint/suspicious/noExplicitAny: I don't think meta is being used
   info(message: string, context?: string, meta?: any) {
     this.logger.info(message, { context, ...meta });
