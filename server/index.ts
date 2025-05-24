@@ -20,7 +20,7 @@ app.get("/api/status", (_req: Request, res: Response) => {
 if (isProduction) {
   app.use(express.static(path.join(process.cwd(), "public")));
 
-  app.get("/*splat", (_req: Request, res: Response) => {
+  app.get("/", (_req: Request, res: Response) => {
     res.sendFile(path.join(process.cwd(), "public", "index.html"));
   });
 } else {
@@ -29,6 +29,10 @@ if (isProduction) {
     res.json({ message: "Dev server running - React app is on port 5173" });
   });
 }
+
+app.get("/*splat", (_req: Request, res: Response) => {
+  res.status(404).json({ message: "Not found" });
+});
 
 app.listen(port, () => {
   console.log(`Starting ${environment} server on port ${port}`);
