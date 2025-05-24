@@ -1,3 +1,5 @@
+import { mkdirSync } from "node:fs";
+import { dirname } from "node:path";
 import * as winston from "winston";
 
 export type LogDomain = "default" | "api" | "auth" | "user" | "admin" | "system";
@@ -44,6 +46,7 @@ const createLogger = (config: LoggingConfig) => {
 
   // File transport (JSON format for Grafana/Loki)
   if (logFilePath) {
+    mkdirSync(dirname(logFilePath), { recursive: true });
     transports.push(
       new winston.transports.File({
         filename: logFilePath,
@@ -68,14 +71,19 @@ const createLogger = (config: LoggingConfig) => {
 };
 
 class LoggerService {
+  private config: LoggingConfig;
   private logger: winston.Logger;
 
   constructor(config: LoggingConfig) {
+    this.config = config;
     this.logger = createLogger(config);
   }
 
   child(meta: LogMeta) {
-    return this.logger.child(meta);
+    const childLogger = this.logger.child(meta);
+    const childService = new LoggerService(this.config);
+    childService.logger = childLogger;
+    return childService;
   }
 
   info(message: string, meta: LogMeta = {}) {

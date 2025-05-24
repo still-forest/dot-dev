@@ -38,10 +38,6 @@ const loggingMiddleware = () => {
     req.correlationId = correlationId;
     req.domain = domain;
 
-    // Attach correlation ID and domain to request
-    req.correlationId = correlationId;
-    req.domain = domain;
-
     // Create child logger with request context
     req.logger = logger.child({
       correlationId,
@@ -97,18 +93,14 @@ const loggingMiddleware = () => {
 };
 
 const errorLoggingMiddleware = () => {
-  const defaultDomain = "api";
-  const logger = getLogger(defaultDomain);
-
   return (error: Error, req: Request, res: Response, next: NextFunction) => {
+    const logger = req.logger || getLogger("api");
     logger.error("Unhandled error", {
       error: error.message,
       stack: error.stack,
       httpMethod: req.method,
       httpUrl: req.url,
       httpStatusCode: res.statusCode || 500,
-      correlationId: req.correlationId,
-      domain: req.domain,
     });
 
     next(error);
