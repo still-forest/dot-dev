@@ -1,7 +1,7 @@
 import path from "node:path";
 import type { Request, Response } from "express";
 import express from "express";
-import { setupLogging } from "./middleware/logging.middleware";
+import { setupLogging } from "./middleware/loggingMiddleware";
 
 const app = express();
 const port = process.env.PORT || 8080;
