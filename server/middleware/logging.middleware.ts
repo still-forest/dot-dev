@@ -49,7 +49,7 @@ const loggingMiddleware = () => {
       method: req.method,
       url: req.url,
       userAgent: req.headers["user-agent"],
-      ip: req.ip || req.socket.remoteAddress,
+      ip: (req.headers["x-forwarded-for"] as string) || req.ip || req.socket.remoteAddress,
     });
 
     // Add correlation ID to response headers
