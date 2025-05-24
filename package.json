@@ -18,8 +18,7 @@
     "lint:fix": "biome check --write --unsafe .",
     "preview": "vite preview",
     "test": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "type-check": "tsc --noEmit && tsc -p tsconfig.server.json --noEmit"
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",

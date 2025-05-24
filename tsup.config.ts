@@ -1,11 +1,11 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-  entry: ["server/index.ts"], // adjust to your entry point
+  entry: ["server/index.ts"],
   format: ["esm"],
-  target: "node18",
+  target: "node22",
   outDir: "dist-server",
   clean: true,
   sourcemap: true,
-  minify: false, // keep false for easier debugging
+  minify: true,
 });
