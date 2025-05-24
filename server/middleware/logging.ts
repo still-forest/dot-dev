@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import type { NextFunction, Request, Response } from "express";
+import type { Application, NextFunction, Request, Response } from "express";
 import type winston from "winston";
 
 import { createLogger, type LoggingConfig } from "../core/logger";
@@ -62,12 +62,14 @@ export function loggingMiddleware(config: LoggingConfig = {}) {
       query: req.query,
     });
 
-    // Capture original end function
-    const originalEnd = res.end;
-
     // Override res.end to log response
-    res.end = function (chunk?: any, encoding?: any) {
-      // biome-ignore lint/suspicious/noExplicitAny: WIP
+    const originalEnd = res.end;
+    res.end = function (
+      this: Response,
+      chunk?: unknown,
+      encoding?: BufferEncoding | (() => void),
+      callback?: () => void,
+    ) {
       const duration = Date.now() - startTime;
 
       req.logger.info("Request completed", {
@@ -77,8 +79,7 @@ export function loggingMiddleware(config: LoggingConfig = {}) {
         responseHeaders: res.getHeaders(),
       });
 
-      // Call original end function
-      originalEnd.call(this, chunk, encoding);
+      return originalEnd.call(this, chunk, encoding, callback);
     };
 
     // Handle errors
@@ -114,7 +115,7 @@ export function errorLoggingMiddleware() {
 }
 
 // Example usage and setup
-export function setupLogging(app: any, config: LoggingConfig = {}) {
+export function setupLogging(app: Application, config: LoggingConfig = {}) {
   // Apply logging middleware early in the stack
   app.use(loggingMiddleware(config));
 
