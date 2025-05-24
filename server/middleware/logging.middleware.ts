@@ -1,13 +1,12 @@
 import { randomUUID } from "node:crypto";
 import type { Application, NextFunction, Request, Response } from "express";
-import type winston from "winston";
 import { getLogger, type LogDomain } from "../services/logger.service";
 
 // Extend Express Request type to include logging context
 declare global {
   namespace Express {
     interface Request {
-      logger: winston.Logger;
+      logger: ReturnType<typeof getLogger>;
       correlationId: string;
       domain: LogDomain;
     }

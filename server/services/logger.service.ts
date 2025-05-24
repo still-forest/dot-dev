@@ -4,7 +4,7 @@ import * as winston from "winston";
 
 export type LogDomain = "default" | "api" | "auth" | "user" | "admin" | "system";
 
-type LogMeta = Record<string, string | number | boolean | undefined>;
+type LogMeta = Record<string, unknown>;
 
 export interface LoggingConfig {
   domain?: LogDomain;
