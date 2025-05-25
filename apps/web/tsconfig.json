@@ -23,5 +23,5 @@
       "@tests/*": ["./tests/*"]
     }
   },
-  "include": ["{src,server,tests}/**/*.{ts,tsx}"]
+  "include": ["**/*.{ts,tsx}"]
 }
