@@ -38,12 +38,16 @@ FROM node:22-slim@sha256:2f3571619daafc6b53232ebf2fcc0817c1e64795e92de317c1684a9
 
 WORKDIR /app
 
+RUN corepack enable && \
+  corepack prepare pnpm@10.11.0 --activate
+
 # Copy built assets and server
 COPY --from=web-builder /app/web/dist ./public
 
 COPY --from=api-builder /app/api/dist ./dist
-COPY --from=api-builder /app/api/node_modules ./node_modules
-COPY --from=api-builder /app/api/package.json ./
+COPY --from=api-builder /app/api/package.json /app/api/pnpm-lock.yaml ./
+
+RUN pnpm install --prod --frozen-lockfile
 
 EXPOSE 8080
 
