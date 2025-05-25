@@ -2,15 +2,19 @@
   "name": "still-forest-dot-dev",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"pnpm --filter ./apps/api dev\" \"pnpm --filter ./apps/web dev\"",
-    "build": "pnpm --filter ./apps/api build && pnpm --filter ./apps/web build",
-    "docker:build": "docker-compose build",
+    "dev": "concurrently \"pnpm dev:web\" \"pnpm dev:api\"",
+    "dev:web": "cd ./web && pnpm dev",
+    "dev:api": "cd ./api && pnpm dev",
+    "build": "pnpm build:web && pnpm build:api",
+    "build:web": "cd ./web && pnpm build",
+    "build:api": "cd ./api && pnpm build",
     "format": "biome format --write .",
     "lint": "biome check .",
     "lint:ci": "biome ci .",
     "lint:fix": "biome check --write --unsafe .",
-    "test": "concurrently \"pnpm --filter ./apps/api test\" \"pnpm --filter ./apps/web test\"",
-    "type-check": "pnpm --filter '*' run type-check"
+    "test": "concurrently \"pnpm test:web\" \"pnpm test:api\"",
+    "test:web": "cd ./web && pnpm test",
+    "test:api": "cd ./api && pnpm test"
   },
   "devDependencies": {
     "@biomejs/biome": "2.0.0-beta.4",

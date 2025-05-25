@@ -6,12 +6,12 @@ WORKDIR /app
 RUN corepack enable && \
   corepack prepare pnpm@10.11.0 --activate
 
-COPY apps/web/package.json apps/web/pnpm-lock.yaml ./
+COPY web/package.json web/pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
-COPY apps/web/tsconfig.json apps/web/vite.config.ts apps/web/index.html ./
-COPY apps/web/src ./src
-COPY apps/web/public ./public
+COPY web/tsconfig.json web/vite.config.ts web/index.html ./
+COPY web/src ./src
+COPY web/public ./public
 
 RUN pnpm build
 
@@ -23,11 +23,11 @@ WORKDIR /app
 RUN corepack enable && \
   corepack prepare pnpm@10.11.0 --activate
 
-COPY apps/api/package.json apps/api/pnpm-lock.yaml
+COPY api/package.json api/pnpm-lock.yaml
 RUN pnpm install --frozen-lockfile
 
-COPY apps/api/tsconfig.json apps/api/tsup.config.ts ./
-COPY apps/api/src ./src
+COPY api/tsconfig.json api/tsup.config.ts ./
+COPY api/src ./src
 
 RUN pnpm build
 

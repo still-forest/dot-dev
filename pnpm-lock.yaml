@@ -18,7 +18,7 @@ importers:
         specifier: 8.2.2
         version: 8.2.2
 
-  apps/api:
+  api:
     dependencies:
       express:
         specifier: ^5.1.0
@@ -43,7 +43,7 @@ importers:
         specifier: 5.8.3
         version: 5.8.3
 
-  apps/web:
+  web:
     dependencies:
       '@hookform/resolvers':
         specifier: ^5.0.1
