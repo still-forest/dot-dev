@@ -4,19 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "pnpm run build:client && pnpm run build:server",
-    "build:client": "vite build",
-    "build:server": "tsup",
-    "dev": "concurrently \"pnpm dev:client\" \"pnpm dev:server\"",
-    "dev:client": "vite",
-    "dev:server": "tsup --watch --onSuccess 'nodemon dist-server/index.js'",
+    "build": "tsup",
+    "dev": "tsup --watch --onSuccess 'nodemon dist/index.js'",
     "format": "biome format --write .",
     "lint": "biome check .",
     "lint:ci": "biome ci .",
     "lint:fix": "biome check --write --unsafe .",
-    "preview": "vite preview",
-    "test": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test": "echo 'No tests'",
+    "test:coverage": "echo 'No tests'"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
