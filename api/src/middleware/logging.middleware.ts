@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
-import { getLogger, type LogDomain } from "@server/services/logger.service";
 import type { Application, NextFunction, Request, Response } from "express";
+import { getLogger, type LogDomain } from "@/services/logger.service";
 
 // Extend Express Request type to include logging context
 declare global {
@@ -32,6 +32,11 @@ const loggingMiddleware = () => {
     const startTime = Date.now();
     const correlationId = randomUUID();
     const domain = extractDomain(req, defaultDomain);
+
+    if (req.url === "/api/status") {
+      next();
+      return;
+    }
 
     // Attach correlation ID and domain to request
     req.correlationId = correlationId;

@@ -60,9 +60,6 @@ export const ContactForm = () => {
     setIsSubmitting(true);
     setSubmitError(null);
 
-    console.log("data", data);
-    console.log("canExecute", canExecute());
-
     if (!canExecute()) {
       setSubmitError("You are sending messages too quickly. Please try again later.");
       setIsSubmitting(false);

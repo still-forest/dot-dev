@@ -5,12 +5,6 @@ import react from "@vitejs/plugin-react-swc";
 import { defineConfig, type ViteUserConfig } from "vitest/config";
 
 export default defineConfig({
-  build: {
-    outDir: "./dist-client",
-    rollupOptions: {
-      external: ["server/**/*"],
-    },
-  },
   plugins: [react(), tailwindcss(), svgr()],
   resolve: {
     alias: {
@@ -20,7 +14,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/api": "http://localhost:3001",
+      "/api": "http://localhost:8080",
     },
   },
   test: {
@@ -30,16 +24,7 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "html"],
-      exclude: [
-        "server/index.ts",
-        "server/services/logger.service.ts",
-        "server/middleware/*",
-        "tests/**/*",
-        "**/*.d.ts",
-        "dist*/**",
-        "*.config.ts",
-        "*.setup.ts",
-      ],
+      exclude: ["tests/**/*", "**/*.d.ts", "dist*/**", "*.config.ts", "*.setup.ts"],
     },
   },
 } as ViteUserConfig);

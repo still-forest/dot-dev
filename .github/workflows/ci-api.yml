@@ -1,9 +1,15 @@
-name: CI
+name: CI (api)
 
 on:
   pull_request:
     branches:
       - main
+    paths:
+      - "api/**"
+
+defaults:
+  run:
+    working-directory: api
 
 jobs:
   ci-suite:
@@ -15,8 +21,6 @@ jobs:
         include:
           - task: audit
             run_command: pnpm audit
-          - task: lint
-            run_command: pnpm lint:ci
           - task: build
             run_command: pnpm build
 

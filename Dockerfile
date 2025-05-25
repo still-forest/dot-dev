@@ -1,31 +1,50 @@
-# Builder image -------------------------------------
-FROM node:22-slim@sha256:2f3571619daafc6b53232ebf2fcc0817c1e64795e92de317c1684a915d13f1a5 AS builder
-
-WORKDIR /app
+# Build web
+FROM node:22-slim@sha256:2f3571619daafc6b53232ebf2fcc0817c1e64795e92de317c1684a915d13f1a5 AS base
 
 RUN corepack enable && \
   corepack prepare pnpm@10.11.0 --activate
 
-COPY package.json pnpm-lock.yaml ./
+# Build web
+FROM base AS web-builder
+
+WORKDIR /app/web
+
+COPY web/package.json web/pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
-COPY tsconfig.json tsup.config.ts vite.config.ts index.html ./
-COPY ./src ./src
-COPY ./server ./server
-COPY ./public ./public
+COPY web/tsconfig.json web/vite.config.ts web/index.html ./
+COPY web/src ./src
+COPY web/public ./public
+COPY ./tsconfig.json ../
 
 RUN pnpm build
 
-# Final image --------------------------------
-FROM node:22-slim@sha256:2f3571619daafc6b53232ebf2fcc0817c1e64795e92de317c1684a915d13f1a5
+# Build api
+FROM base AS api-builder
+
+WORKDIR /app/api
+
+COPY api/package.json api/pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+
+COPY api/tsconfig.json api/tsup.config.ts ./
+COPY api/src ./src
+COPY ./tsconfig.json ../
+
+RUN pnpm build
+
+# Build final, combined image --------------------------------
+FROM base as final
 
 WORKDIR /app
 
 # Copy built assets and server
-COPY --from=builder /app/dist-client ./public
-COPY --from=builder /app/dist-server ./dist
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./
+COPY --from=web-builder /app/web/dist ./public
+
+COPY --from=api-builder /app/api/dist ./dist
+COPY --from=api-builder /app/api/package.json /app/api/pnpm-lock.yaml ./
+
+RUN pnpm install --prod --frozen-lockfile
 
 EXPOSE 8080
 
