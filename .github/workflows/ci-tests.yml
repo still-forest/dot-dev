@@ -51,14 +51,9 @@ jobs:
       - name: Run coverage report
         run: pnpm test:coverage
 
-      - name: Debug
-        run: |
-          pwd
-          ls -la
-
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@18283e04ce6e62d37312384ff67231eb8fd56d24 # v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./coverage/
+          directory: ./web/coverage/
           fail_ci_if_error: true
