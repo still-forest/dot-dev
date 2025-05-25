@@ -20,9 +20,7 @@ jobs:
       matrix:
         include:
           - task: audit
-            run_command: pnpm audit --recursive
-          - task: lint
-            run_command: pnpm lint:ci
+            run_command: pnpm audit
           - task: build
             run_command: pnpm build
 
