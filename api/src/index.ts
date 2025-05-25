@@ -1,12 +1,12 @@
 import path from "node:path";
 import type { Request, Response } from "express";
 import express from "express";
+import corsMiddleware from "@/middleware/cors.middleware";
 import { setupLogging } from "@/middleware/logging.middleware";
+import { environment, isProduction, port } from "./config";
+import { contactService } from "./services/contact.service";
 
 const app = express();
-const port = process.env.PORT || 8080;
-const environment = process.env.NODE_ENV || "development";
-const isProduction = environment === "production";
 
 app.use(express.json());
 
@@ -15,6 +15,8 @@ setupLogging(app);
 app.get("/api/status", (_req: Request, res: Response) => {
   res.json({ status: "ok", environment: environment });
 });
+
+app.use(corsMiddleware);
 
 // React app
 if (isProduction) {
@@ -29,6 +31,18 @@ if (isProduction) {
     res.json({ message: "Dev server running - React app is on port 5173" });
   });
 }
+
+app.post("/api/contact", async (req: Request, res: Response) => {
+  const { subject, body } = req.body;
+
+  const [success, error] = await contactService.submitContactForm({ subject, body });
+
+  if (success) {
+    res.status(204);
+  } else {
+    res.status(500).json({ message: error });
+  }
+});
 
 app.get("/*splat", (_req: Request, res: Response) => {
   res.status(404).json({ message: "Not found" });

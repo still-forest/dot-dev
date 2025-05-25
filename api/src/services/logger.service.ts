@@ -2,7 +2,7 @@ import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import * as winston from "winston";
 
-export type LogDomain = "default" | "api" | "auth" | "user" | "admin" | "system";
+export type LogDomain = "default" | "api" | "auth" | "user" | "admin" | "system" | "contact";
 
 type LogMeta = Record<string, unknown>;
 
@@ -108,3 +108,5 @@ export const getLogger = (domain: LogDomain, config: LoggingConfig = defaultConf
 };
 
 export const defaultLogger = getLogger("default");
+
+export type { LoggerService };

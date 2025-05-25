@@ -4,7 +4,7 @@ import { CONTACT_SUBMISSION_URL } from "@/config";
 
 export const handlers = [
   http.post(CONTACT_SUBMISSION_URL, () => {
-    return HttpResponse.json({ status: "success" });
+    return new HttpResponse("", { status: 204 });
   }),
 ];
 
