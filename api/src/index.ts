@@ -4,6 +4,8 @@ import express from "express";
 import corsMiddleware from "@/middleware/cors.middleware";
 import { setupLogging } from "@/middleware/logging.middleware";
 import { environment, isProduction, port } from "./config";
+import corsMiddleware from "./middleware/cors.middleware";
+import { setupLogging } from "./middleware/logging.middleware";
 import { contactService } from "./services/contact.service";
 
 const app = express();
@@ -37,6 +39,9 @@ app.post("/api/contact", async (req: Request, res: Response) => {
 
   const [success, error] = await contactService.submitContactForm({ subject, body });
 
+  console.log("success", success);
+  console.log("error", error);
+
   if (success) {
     res.status(204);
   } else {
@@ -51,3 +56,5 @@ app.get("/*splat", (_req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`Starting ${environment} server on port ${port}`);
 });
+
+export { app };

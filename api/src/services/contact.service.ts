@@ -12,7 +12,7 @@ class ContactService {
     this.logger = getLogger("contact");
   }
 
-  async submitContactForm(input: ContactFormInput) {
+  submitContactForm(input: ContactFormInput) {
     this.logger.info("Submitting contact form", { input });
     return [true, null];
   }
