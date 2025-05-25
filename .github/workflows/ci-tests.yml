@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+defaults:
+  run:
+    working-directory: web
+
 jobs:
   tests:
     runs-on: ubuntu-latest
@@ -44,8 +48,6 @@ jobs:
 
       - name: Run coverage report
         run: pnpm test:coverage
-        env:
-          VITE_API_URL: http://exchangehouse.test
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@18283e04ce6e62d37312384ff67231eb8fd56d24 # v5

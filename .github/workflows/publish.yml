@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
+      - "!renovate/**"
   workflow_dispatch:
 
 jobs:
@@ -30,7 +34,7 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:latest
+            ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:${{ github.ref == 'refs/heads/main' && 'latest' || 'next' }}
             ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:${{ github.sha }}
           cache-from: type=registry,ref=ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:buildcache
           cache-to: type=registry,ref=ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:buildcache,mode=max
