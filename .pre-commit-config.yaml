@@ -19,21 +19,21 @@ repos:
     hooks:
       - id: ts-lint-fix
         name: TypeScript Lint Fix
-        entry: bash -c 'pnpm lint:fix;'
+        entry: bash -c 'yarn lint:fix;'
         language: system
         files: .*\.(ts|tsx)$
         pass_filenames: true
         always_run: false
       - id: ts-format
         name: TypeScript Format
-        entry: bash -c 'pnpm format;'
+        entry: bash -c 'yarn format;'
         language: system
         files: .*\.(ts|tsx)$
         pass_filenames: true
         always_run: false
       - id: ts-test
         name: TypeScript Tests
-        entry: bash -c 'pnpm test;'
+        entry: bash -c 'yarn test;'
         language: system
         files: .*\.(ts|tsx)$
         pass_filenames: true
