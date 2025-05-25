@@ -27,6 +27,9 @@ importers:
         specifier: ^3.17.0
         version: 3.17.0
     devDependencies:
+      '@rollup/rollup-linux-x64-gnu':
+        specifier: ^4.41.1
+        version: 4.41.1
       '@types/express':
         specifier: 5.0.2
         version: 5.0.2
@@ -73,6 +76,9 @@ importers:
         specifier: ^3.25.20
         version: 3.25.28
     devDependencies:
+      '@esbuild/linux-x64':
+        specifier: ^0.25.4
+        version: 0.25.4
       '@svgr/rollup':
         specifier: 8.1.0
         version: 8.1.0(rollup@4.41.1)(typescript@5.8.3)
@@ -4528,8 +4534,7 @@ snapshots:
   '@esbuild/linux-s390x@0.25.4':
     optional: true
 
-  '@esbuild/linux-x64@0.25.4':
-    optional: true
+  '@esbuild/linux-x64@0.25.4': {}
 
   '@esbuild/netbsd-arm64@0.25.4':
     optional: true
@@ -5120,8 +5125,7 @@ snapshots:
   '@rollup/rollup-linux-s390x-gnu@4.41.1':
     optional: true
 
-  '@rollup/rollup-linux-x64-gnu@4.41.1':
-    optional: true
+  '@rollup/rollup-linux-x64-gnu@4.41.1': {}
 
   '@rollup/rollup-linux-x64-musl@4.41.1':
     optional: true
