@@ -6,10 +6,12 @@ RUN corepack enable && \
 FROM base AS build
 WORKDIR /app
 
-COPY package.json yarn.lock .yarnrc.yml ./
-COPY apps/*/package.json ./apps/*/
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 
-RUN yarn install --frozen-lockfile
+COPY apps/api/package.json apps/api/pnpm-lock.yaml ./apps/api/
+COPY apps/web/package.json apps/web/pnpm-lock.yaml ./apps/web/
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prefer-offline --no-optional --silent
 
 COPY ./tsconfig.json ./
 
@@ -19,10 +21,11 @@ COPY apps/api/tsconfig.json apps/api/tsup.config.ts ./apps/api/
 COPY apps/web/src apps/web/public ./apps/web/
 COPY apps/web/vite.config.ts apps/web/tsconfig.json apps/web/index.html ./apps/web/
 
-RUN yarn workspaces foreach run build
 
-RUN yarn deploy --filter=./apps/web --prod /prod/web
-RUN yarn deploy --filter=./apps/api --prod /prod/api
+RUN pnpm run -r build
+
+RUN pnpm deploy --filter=./apps/web --prod /prod/web
+RUN pnpm deploy --filter=./apps/api --prod /prod/api
 
 FROM base AS api
 COPY --from=build /prod/api /prod/api
@@ -30,7 +33,7 @@ WORKDIR /prod/api
 
 EXPOSE 8080
 
-CMD [ "yarn", "start" ]
+CMD [ "pnpm", "start" ]
 
 FROM base AS web
 COPY --from=build /prod/web /prod/web
@@ -38,4 +41,4 @@ WORKDIR /prod/web
 
 EXPOSE 5173
 
-CMD [ "yarn", "start" ]
+CMD [ "pnpm", "start" ]
