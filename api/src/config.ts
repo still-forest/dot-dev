@@ -4,4 +4,4 @@ export const isProduction = environment === "production";
 export const isDevelopment = environment === "development";
 
 export const productionOrigins = ["https://stillforest.dev", "https://www.stillforest.dev"];
-export const operatorEmailUrl = process.env.OPERATOR_EMAIL_URL || "http://test/api/email";
+export const operatorEmailUrl = process.env.OPERATOR_EMAIL_URL || "http://operator.test/api/email";
