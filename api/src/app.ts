@@ -4,6 +4,7 @@ import express, { type RequestHandler } from "express";
 import { environment, isDevelopment, isProduction } from "./config";
 import { corsMiddleware } from "./middleware/cors.middleware";
 import { setupLogging } from "./middleware/logging.middleware";
+import { rateLimitMiddleware } from "./middleware/rateLimit.middleware";
 import { contactService } from "./services/contact.service";
 import { getLogger } from "./services/logger.service";
 
@@ -12,6 +13,7 @@ const app = express();
 app.use(express.json());
 
 setupLogging(app);
+rateLimitMiddleware(app);
 
 app.get("/api/status", (_req: Request, res: Response) => {
   res.json({ status: "ok", environment: environment });
