@@ -1,8 +1,6 @@
 import path from "node:path";
 import type { Request, Response } from "express";
 import express from "express";
-import corsMiddleware from "@/middleware/cors.middleware";
-import { setupLogging } from "@/middleware/logging.middleware";
 import { environment, isProduction, port } from "./config";
 import corsMiddleware from "./middleware/cors.middleware";
 import { setupLogging } from "./middleware/logging.middleware";
