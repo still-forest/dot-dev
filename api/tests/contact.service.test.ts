@@ -1,56 +1,60 @@
+import axios from "axios";
+import MockAdapter from "axios-mock-adapter";
+import { operatorEmailUrl } from "../src/config";
 import { contactService } from "../src/services/contact.service";
 
-const mockFetch = jest.fn();
-global.fetch = mockFetch;
+const mockAxios = new MockAdapter(axios);
 
 describe("ContactService", () => {
-  beforeEach(() => {
-    mockFetch.mockClear();
+  const email = { subject: "test subject", body: "test body" };
+
+  afterEach(() => {
+    mockAxios.reset();
   });
 
-  test("should send input to the configured URL", async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ status: "ok" }),
-    });
-
-    const email = { subject: "test subject", body: "test body" };
+  test("should make a request to Operator", async () => {
+    mockAxios.onPost(operatorEmailUrl).reply(200, { status: "ok" });
 
     const result = await contactService.submitContactForm(email);
     expect(result).toEqual([true, null]);
 
-    expect(mockFetch).toHaveBeenCalledWith("http://test/api/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(email),
-    });
+    expect(mockAxios.history.post).toHaveLength(1);
+    const mockRequest = mockAxios.history.post[0];
+    expect(mockRequest.url).toBe(operatorEmailUrl);
+    expect(JSON.parse(mockRequest.data)).toEqual(email);
+    expect(mockRequest.headers!["Content-Type"]).toBe("application/json");
   });
 
   test("should return an error if the fetch fails", async () => {
-    mockFetch.mockResolvedValueOnce({
-      ok: false,
-      status: 500,
-      statusText: "Internal Server Error",
-    });
-
-    const email = { subject: "test subject", body: "test body" };
+    mockAxios.onPost(operatorEmailUrl).reply(500, { status: "error" });
 
     const result = await contactService.submitContactForm(email);
-    expect(result).toEqual([false, new Error("Failed to submit form: 500 Internal Server Error")]);
+    expect(result).toEqual([false, new Error("Request failed with status code 500")]);
 
-    expect(mockFetch).toHaveBeenCalled();
+    expect(mockAxios.history.post).toHaveLength(1);
+    const mockRequest = mockAxios.history.post[0];
+    expect(mockRequest.url).toBe(operatorEmailUrl);
   });
 
-  test.skip("handles network timeouts", async () => {
-    mockFetch.mockResolvedValueOnce(new Error("Network timeout"));
-
-    const email = { subject: "test subject", body: "test body" };
+  test("handles timeout", async () => {
+    mockAxios.onPost(operatorEmailUrl).timeout();
 
     const result = await contactService.submitContactForm(email);
-    expect(result).toEqual([false, new Error("Failed to submit form: Network timeout")]);
+    expect(result).toEqual([false, new Error("timeout of 5000ms exceeded")]);
 
-    expect(mockFetch).toHaveBeenCalled();
+    expect(mockAxios.history.post).toHaveLength(1);
+    const mockRequest = mockAxios.history.post[0];
+    expect(mockRequest.url).toBe(operatorEmailUrl);
+  });
+
+  test("handles network error", async () => {
+    mockAxios.onPost(operatorEmailUrl).networkError();
+
+    const result = await contactService.submitContactForm(email);
+    expect(result).toEqual([false, new Error("Network Error")]);
+
+    expect(mockAxios.history.post).toHaveLength(1);
+    const mockRequest = mockAxios.history.post[0];
+    expect(mockRequest.url).toBe(operatorEmailUrl);
   });
 });

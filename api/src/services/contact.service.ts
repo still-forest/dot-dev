@@ -1,9 +1,14 @@
-import { contactSubmissionUrl } from "../config";
+import axios from "axios";
+import { operatorEmailUrl } from "../config";
 import { getLogger, type LoggerService } from "./logger.service";
 
 interface ContactFormInput {
   subject: string;
   body: string;
+}
+
+interface OperatorResponse {
+  status: "ok";
 }
 
 class ContactService {
@@ -19,23 +24,11 @@ class ContactService {
     // TODO: Add validation
 
     try {
-      const response = await fetch(contactSubmissionUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(input),
+      await axios.post<OperatorResponse>(operatorEmailUrl, input, {
+        timeout: 5000,
       });
-      if (!response.ok) {
-        console.log("response", response);
-        const errorMessage = response.status
-          ? `Failed to submit form: ${response.status} ${response.statusText}`
-          : response.statusText;
-        throw new Error(errorMessage);
-      }
       return [true, null];
     } catch (error) {
-      console.log("error", error);
       return [false, error instanceof Error ? error : new Error(String(error))];
     }
   }
