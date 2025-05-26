@@ -2,7 +2,7 @@ import path from "node:path";
 import type { Request, Response } from "express";
 import express from "express";
 import { environment, isProduction } from "./config";
-import corsMiddleware from "./middleware/cors.middleware";
+import { corsMiddleware } from "./middleware/cors.middleware";
 import { setupLogging } from "./middleware/logging.middleware";
 import { contactService } from "./services/contact.service";
 

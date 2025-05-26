@@ -19,8 +19,6 @@ class ContactService {
   }
 
   async submitContactForm(input: ContactFormInput): Promise<[boolean, Error | null]> {
-    this.logger.info("Submitting contact form", { input });
-
     // TODO: Add validation
 
     try {
@@ -29,6 +27,7 @@ class ContactService {
       });
       return [true, null];
     } catch (error) {
+      this.logger.error("Error submitting contact form", { error });
       return [false, error instanceof Error ? error : new Error(String(error))];
     }
   }

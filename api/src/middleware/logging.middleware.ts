@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import type { Application, NextFunction, Request, Response } from "express";
-import { getLogger, type LogDomain } from "@/services/logger.service";
+import { getLogger, type LogDomain } from "../services/logger.service";
 
 // Extend Express Request type to include logging context
 declare global {

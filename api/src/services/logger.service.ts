@@ -1,6 +1,7 @@
 import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import * as winston from "winston";
+import { isTestEnvironment } from "../config";
 
 export type LogDomain = "default" | "api" | "auth" | "user" | "admin" | "system" | "contact";
 
@@ -16,7 +17,7 @@ export interface LoggingConfig {
 
 const defaultConfig: LoggingConfig = {
   domain: "default",
-  enableConsole: true,
+  enableConsole: !isTestEnvironment,
   logFilePath: `logs/${process.env.NODE_ENV || "development"}.log`,
   serviceName: "still-forest-dot-dev",
   environment: process.env.NODE_ENV || "development",
