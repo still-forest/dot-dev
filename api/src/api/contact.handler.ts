@@ -8,7 +8,8 @@ export const contactHandler: RequestHandler = async (req: Request, res: Response
 
   const { fromEmail, body } = req.body;
   if (!fromEmail || !body || typeof fromEmail !== "string" || typeof body !== "string") {
-    return res.status(400).json({ message: "Invalid input: fromEmail and body are required" });
+    res.status(400).json({ message: "Invalid input: fromEmail and body are required" });
+    return;
   }
 
   if (isDevelopment) {
