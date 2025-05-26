@@ -4,3 +4,4 @@ export const isProduction = environment === "production";
 export const isDevelopment = environment === "development";
 
 export const productionOrigins = ["https://stillforest.dev", "https://www.stillforest.dev"];
+export const contactSubmissionUrl = process.env.CONTACT_SUBMISSION_URL || "http://test/api/contact";
