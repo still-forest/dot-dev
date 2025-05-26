@@ -1,14 +1,15 @@
 import { app } from "./app";
-import { environment } from "./config";
+import { environment, port } from "./config";
+import { getLogger } from "./services/logger.service";
+
+const logger = getLogger("server");
 
 async function startServer(): Promise<void> {
-  const port = process.env.PORT ? Number(process.env.PORT) : 8080;
-
   app.listen(port, () => {
-    console.log(`Starting ${environment} server on port ${port}`);
+    logger.info(`Starting ${environment} server on port ${port}`);
   });
 }
 
 startServer().catch((err) => {
-  console.error("Error starting server:", err);
+  logger.error("Error starting server:", err);
 });

@@ -1,6 +1,6 @@
 import path from "node:path";
 import type { Request, Response } from "express";
-import express from "express";
+import express, { type RequestHandler } from "express";
 import { environment, isDevelopment, isProduction } from "./config";
 import { corsMiddleware } from "./middleware/cors.middleware";
 import { setupLogging } from "./middleware/logging.middleware";
@@ -19,11 +19,15 @@ app.get("/api/status", (_req: Request, res: Response) => {
 
 app.use(corsMiddleware);
 
-app.post("/api/contact", async (req: Request, res: Response) => {
+app.post("/api/contact", (async (req: Request, res: Response) => {
+  const logger = getLogger("contact");
+
   const { subject, body } = req.body;
+  if (!subject || !body || typeof subject !== "string" || typeof body !== "string") {
+    return res.status(400).json({ message: "Invalid input: subject and body are required" });
+  }
 
   if (isDevelopment) {
-    const logger = getLogger("contact");
     logger.info("Contact form submitted in development environment", { subject, body });
     res.status(204).end();
     return;
@@ -34,9 +38,10 @@ app.post("/api/contact", async (req: Request, res: Response) => {
   if (success) {
     res.status(204).end();
   } else {
-    res.status(500).json({ message: error });
+    logger.error("Failed to submit contact form", { error });
+    res.status(500).json({ message: "Failed to submit contact form" });
   }
-});
+}) as RequestHandler);
 
 // React app
 if (isProduction) {

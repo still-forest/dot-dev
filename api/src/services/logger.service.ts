@@ -3,7 +3,7 @@ import { dirname } from "node:path";
 import * as winston from "winston";
 import { isTestEnvironment } from "../config";
 
-export type LogDomain = "default" | "api" | "auth" | "user" | "admin" | "system" | "contact";
+export type LogDomain = "default" | "api" | "server" | "contact";
 
 type LogMeta = Record<string, unknown>;
 
@@ -37,7 +37,7 @@ const createLogger = (config: LoggingConfig) => {
           winston.format.colorize(),
           winston.format.printf((info: winston.Logform.TransformableInfo) => {
             const { timestamp, level, message, correlationId, ...meta } = info;
-            const domainStr = domain ? domain : info.domain;
+            const domainStr = domain || info.domain;
             const metaStr = Object.keys(meta).length ? JSON.stringify(meta) : "";
             return `${timestamp} [${level}] [${domainStr}] [${correlationId || "N/A"}] ${message} ${metaStr}`;
           }),
@@ -64,6 +64,7 @@ const createLogger = (config: LoggingConfig) => {
   return winston.createLogger({
     defaultMeta: {
       service: serviceName,
+      domain: domain,
       environment: environment,
     },
     transports,

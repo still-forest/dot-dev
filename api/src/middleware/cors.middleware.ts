@@ -9,15 +9,11 @@ const corsOptions: CorsOptions = {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
 
-    if (isDevelopment) {
+    if (isDevelopment || productionOrigins.includes(origin)) {
       return callback(null, true);
     }
 
-    if (productionOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-
-    return callback(new Error(`Origin ${origin} not allowed by CORS`));
+    return callback(null, false); // origin not allowed
   },
   credentials: true, // Allow cookies and credentials
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],

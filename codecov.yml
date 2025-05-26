@@ -5,7 +5,7 @@ coverage:
   status:
     project:
       default: false # disable the default status
-      backend:
+      api:
         flags:
           - api
         paths:
@@ -21,7 +21,7 @@ coverage:
         target: 80%
 
 flags:
-  backend:
+  api:
     paths:
       - api/
   web:
