@@ -2,8 +2,10 @@ import axios from "axios";
 import { operatorEmailUrl } from "../config";
 import { getLogger, type LoggerService } from "./logger.service";
 
+const EMAIL_SUBJECT = "Still Forest: contact form submission";
+
 interface ContactFormInput {
-  subject: string;
+  fromEmail: string;
   body: string;
 }
 
@@ -21,8 +23,13 @@ class ContactService {
   async submitContactForm(input: ContactFormInput): Promise<[boolean, Error | null]> {
     // TODO: Add validation
 
+    const params = {
+      subject: EMAIL_SUBJECT,
+      body: this.buildEmailBody(input),
+    };
+
     try {
-      await axios.post<OperatorResponse>(operatorEmailUrl, input, {
+      await axios.post<OperatorResponse>(operatorEmailUrl, params, {
         timeout: 5000,
       });
       return [true, null];
@@ -30,6 +37,10 @@ class ContactService {
       this.logger.error("Error submitting contact form", { error });
       return [false, error instanceof Error ? error : new Error(String(error))];
     }
+  }
+
+  private buildEmailBody(data: ContactFormInput): string {
+    return `Email: ${data.fromEmail}\nMessage: ${data.body}`;
   }
 }
 

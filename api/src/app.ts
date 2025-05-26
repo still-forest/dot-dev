@@ -1,12 +1,11 @@
 import path from "node:path";
 import type { Request, Response } from "express";
-import express, { type RequestHandler } from "express";
-import { environment, isDevelopment, isProduction } from "./config";
+import express from "express";
+import { contactHandler } from "./api/contact.handler";
+import { environment, isProduction } from "./config";
 import { corsMiddleware } from "./middleware/cors.middleware";
 import { setupLogging } from "./middleware/logging.middleware";
 import { rateLimitMiddleware } from "./middleware/rateLimit.middleware";
-import { contactService } from "./services/contact.service";
-import { getLogger } from "./services/logger.service";
 
 const app = express();
 
@@ -21,29 +20,7 @@ app.get("/api/status", (_req: Request, res: Response) => {
 app.use("/api", rateLimitMiddleware);
 app.use(corsMiddleware);
 
-app.post("/api/contact", (async (req: Request, res: Response) => {
-  const logger = getLogger("contact");
-
-  const { subject, body } = req.body;
-  if (!subject || !body || typeof subject !== "string" || typeof body !== "string") {
-    return res.status(400).json({ message: "Invalid input: subject and body are required" });
-  }
-
-  if (isDevelopment) {
-    logger.info("Contact form submitted in development environment", { subject, body });
-    res.status(204).end();
-    return;
-  }
-
-  const [success, error] = await contactService.submitContactForm({ subject, body });
-
-  if (success) {
-    res.status(204).end();
-  } else {
-    logger.error("Failed to submit contact form", { error });
-    res.status(500).json({ message: "Failed to submit contact form" });
-  }
-}) as RequestHandler);
+app.post("/api/contact", contactHandler);
 
 // React app
 if (isProduction) {
