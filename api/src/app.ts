@@ -32,16 +32,13 @@ if (isProduction) {
   });
 }
 
-app.post("/api/contact", async (req: Request, res: Response) => {
+app.post("/api/contact", (req: Request, res: Response) => {
   const { subject, body } = req.body;
 
-  const [success, error] = await contactService.submitContactForm({ subject, body });
-
-  console.log("success", success);
-  console.log("error", error);
+  const [success, error] = contactService.submitContactForm({ subject, body });
 
   if (success) {
-    res.status(204);
+    res.status(204).end();
   } else {
     res.status(500).json({ message: error });
   }

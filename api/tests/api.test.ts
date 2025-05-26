@@ -6,7 +6,7 @@ describe("POST /api/contact", () => {
     expect(true).toBe(true);
   });
 
-  test.skip("should return 204", async () => {
+  test("should return 204", async () => {
     const response = await supertest(app).post("/api/contact").send({ subject: "test", body: "test" });
     expect(response.status).toBe(204);
   });

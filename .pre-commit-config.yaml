@@ -31,10 +31,3 @@ repos:
         files: .*\.(ts|tsx)$
         pass_filenames: true
         always_run: false
-      - id: ts-test
-        name: TypeScript Tests
-        entry: bash -c 'pnpm test;'
-        language: system
-        files: .*\.(ts|tsx)$
-        pass_filenames: true
-        always_run: false
