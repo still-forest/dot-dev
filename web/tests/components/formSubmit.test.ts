@@ -8,7 +8,7 @@ describe("formSubmit", () => {
 
     const formData = { email: "test@example.test", message: "Test message" };
     const response = await formSubmit(formData);
-    expect(response).toEqual({ status: "success" });
+    expect(response).toEqual(true);
 
     expect(fetchSpy).toHaveBeenCalledWith(CONTACT_SUBMISSION_URL, {
       method: "POST",

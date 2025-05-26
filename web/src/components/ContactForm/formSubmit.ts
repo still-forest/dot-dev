@@ -20,7 +20,7 @@ export const formSubmit = async (data: FormData) => {
     if (!response.ok) {
       throw new Error(`Failed to submit form: ${response.status} ${response.statusText}`);
     }
-    return response.json();
+    return true;
   } catch (error) {
     throw new Error(`Failed to submit form: ${error instanceof Error ? error.message : "Unknown error"}`);
   }

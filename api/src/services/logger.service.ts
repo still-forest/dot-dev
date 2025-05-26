@@ -1,8 +1,9 @@
 import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import * as winston from "winston";
+import { isTestEnvironment } from "../config";
 
-export type LogDomain = "default" | "api" | "auth" | "user" | "admin" | "system";
+export type LogDomain = "default" | "api" | "server" | "contact";
 
 type LogMeta = Record<string, unknown>;
 
@@ -16,14 +17,14 @@ export interface LoggingConfig {
 
 const defaultConfig: LoggingConfig = {
   domain: "default",
-  enableConsole: true,
+  enableConsole: !isTestEnvironment,
   logFilePath: `logs/${process.env.NODE_ENV || "development"}.log`,
   serviceName: "still-forest-dot-dev",
   environment: process.env.NODE_ENV || "development",
 };
 
 const createLogger = (config: LoggingConfig) => {
-  const { enableConsole, logFilePath, serviceName, environment } = config;
+  const { enableConsole, logFilePath, domain, serviceName, environment } = config;
 
   const transports: winston.transport[] = [];
 
@@ -35,9 +36,10 @@ const createLogger = (config: LoggingConfig) => {
           winston.format.errors({ stack: true }),
           winston.format.colorize(),
           winston.format.printf((info: winston.Logform.TransformableInfo) => {
-            const { timestamp, level, message, domain, correlationId, ...meta } = info;
+            const { timestamp, level, message, correlationId, ...meta } = info;
+            const domainStr = domain || info.domain;
             const metaStr = Object.keys(meta).length ? JSON.stringify(meta) : "";
-            return `${timestamp} [${level}] [${domain}] [${correlationId || "N/A"}] ${message} ${metaStr}`;
+            return `${timestamp} [${level}] [${domainStr}] [${correlationId || "N/A"}] ${message} ${metaStr}`;
           }),
         ),
       }),
@@ -62,6 +64,7 @@ const createLogger = (config: LoggingConfig) => {
   return winston.createLogger({
     defaultMeta: {
       service: serviceName,
+      domain: domain,
       environment: environment,
     },
     transports,
@@ -108,3 +111,5 @@ export const getLogger = (domain: LogDomain, config: LoggingConfig = defaultConf
 };
 
 export const defaultLogger = getLogger("default");
+
+export type { LoggerService };

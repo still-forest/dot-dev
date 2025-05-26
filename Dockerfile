@@ -34,7 +34,7 @@ COPY ./tsconfig.json ../
 RUN pnpm build
 
 # Build final, combined image --------------------------------
-FROM base as final
+FROM base AS final
 
 WORKDIR /app
 

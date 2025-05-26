@@ -5,5 +5,6 @@
       "@/*": ["./src/*"],
       "@tests/*": ["./tests/*"]
     }
-  }
+  },
+  "include": ["src", "tests", "jest.*.ts", "tsup.config.ts"]
 }
