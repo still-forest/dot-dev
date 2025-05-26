@@ -1,9 +1,11 @@
 import path from "node:path";
-import type { Request, Response } from "express";
-import express, { type RequestHandler } from "express";
+import type { Request, RequestHandler, Response } from "express";
+import express from "express";
 import { environment, isDevelopment, isProduction } from "./config";
 import { corsMiddleware } from "./middleware/cors.middleware";
 import { setupLogging } from "./middleware/logging.middleware";
+import { validateInputSchema } from "./middleware/schemaValidation.middleware";
+import { ContactFormInputSchema } from "./schemas/ContactFormInput.schema";
 import { contactService } from "./services/contact.service";
 import { getLogger } from "./services/logger.service";
 
@@ -19,26 +21,31 @@ app.get("/api/status", (_req: Request, res: Response) => {
 
 app.use(corsMiddleware);
 
-app.post("/api/contact", (async (req: Request, res: Response) => {
-  const logger = getLogger("contact");
+const contactHandler: RequestHandler = async (req, res, next) => {
+  try {
+    const logger = getLogger("contact");
+    const { subject, body } = req.body;
 
-  const { subject, body } = req.body;
+    if (isDevelopment) {
+      logger.info("Contact form submitted in development environment", { subject, body });
+      res.status(204).end();
+      return;
+    }
 
-  if (isDevelopment) {
-    logger.info("Contact form submitted in development environment", { subject, body });
-    res.status(204).end();
-    return;
+    const [success, error] = await contactService.submitContactForm({ subject, body });
+
+    if (success) {
+      res.status(204).end();
+    } else {
+      logger.error("Failed to submit contact form", { error });
+      res.status(500).json({ message: "Failed to submit contact form" });
+    }
+  } catch (error) {
+    next(error);
   }
+};
 
-  const [success, error] = await contactService.submitContactForm({ subject, body });
-
-  if (success) {
-    res.status(204).end();
-  } else {
-    logger.error("Failed to submit contact form", { error });
-    res.status(500).json({ message: "Failed to submit contact form" });
-  }
-}) as RequestHandler);
+app.post("/api/contact", validateInputSchema(ContactFormInputSchema), contactHandler);
 
 // React app
 if (isProduction) {
