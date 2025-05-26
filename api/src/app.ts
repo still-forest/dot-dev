@@ -23,9 +23,6 @@ app.post("/api/contact", (async (req: Request, res: Response) => {
   const logger = getLogger("contact");
 
   const { subject, body } = req.body;
-  if (!subject || !body || typeof subject !== "string" || typeof body !== "string") {
-    return res.status(400).json({ message: "Invalid input: subject and body are required" });
-  }
 
   if (isDevelopment) {
     logger.info("Contact form submitted in development environment", { subject, body });

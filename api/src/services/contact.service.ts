@@ -19,7 +19,10 @@ class ContactService {
   }
 
   async submitContactForm(input: ContactFormInput): Promise<[boolean, Error | null]> {
-    // TODO: Add validation
+    const [valid, error] = this.validateInputs(input);
+    if (!valid) {
+      return [false, error];
+    }
 
     try {
       await axios.post<OperatorResponse>(operatorEmailUrl, input, {
@@ -30,6 +33,13 @@ class ContactService {
       this.logger.error("Error submitting contact form", { error });
       return [false, error instanceof Error ? error : new Error(String(error))];
     }
+  }
+
+  validateInputs(input: ContactFormInput): [boolean, Error | null] {
+    if (!input.subject || !input.body || typeof input.subject !== "string" || typeof input.body !== "string") {
+      return [false, new Error("Invalid input: subject and body are required")];
+    }
+    return [true, null];
   }
 }
 
