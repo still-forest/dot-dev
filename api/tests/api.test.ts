@@ -6,15 +6,12 @@ jest.mock("../src/services/contact.service");
 const mockedContactService = contactService as jest.Mocked<typeof contactService>;
 
 describe("POST /api/contact", () => {
-  test("temp", async () => {
-    expect(true).toBe(true);
-  });
-
   test("should return 204 on success", async () => {
     mockedContactService.submitContactForm.mockResolvedValue([true, null]);
 
     const response = await supertest(app).post("/api/contact").send({ subject: "test", body: "test" });
     expect(response.status).toBe(204);
+    expect(response.body).toEqual({});
   });
 
   test("should return 500 on error", async () => {
@@ -22,5 +19,6 @@ describe("POST /api/contact", () => {
 
     const response = await supertest(app).post("/api/contact").send({ subject: "test", body: "test" });
     expect(response.status).toBe(500);
+    expect(response.body.message).toBe("Failed to submit contact form");
   });
 });
