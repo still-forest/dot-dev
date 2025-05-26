@@ -13,12 +13,12 @@ const app = express();
 app.use(express.json());
 
 setupLogging(app);
-rateLimitMiddleware(app);
 
 app.get("/api/status", (_req: Request, res: Response) => {
   res.json({ status: "ok", environment: environment });
 });
 
+rateLimitMiddleware(app);
 app.use(corsMiddleware);
 
 app.post("/api/contact", (async (req: Request, res: Response) => {
