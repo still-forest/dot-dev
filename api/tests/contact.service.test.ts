@@ -1,9 +1,7 @@
-import { describe, expect, test } from "vitest";
-import "@testing-library/jest-dom";
-import { contactService } from "../server/services/contact.service";
+import { contactService } from "../src/services/contact.service";
 
 describe("ContactService", () => {
-  test("should submit a contact form", async () => {
+  test("should submit a contact form", () => {
     // const fetchSpy = vi.spyOn(global, "fetch");
     // fetchSpy.mockResolvedValue({
     //   ok: true,
@@ -11,7 +9,7 @@ describe("ContactService", () => {
     //   json: () => Promise.resolve({}),
     // });
 
-    const result = await contactService.submitContactForm({ subject: "test subject", body: "test body" });
+    const result = contactService.submitContactForm({ subject: "test subject", body: "test body" });
     expect(result).toEqual([true, null]);
 
     // expect(fetchSpy).toHaveBeenCalledWith(CONTACT_SUBMISSION_URL, {
