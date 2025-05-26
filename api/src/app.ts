@@ -1,10 +1,11 @@
 import path from "node:path";
 import type { Request, Response } from "express";
 import express from "express";
-import { environment, isProduction } from "./config";
+import { environment, isDevelopment, isProduction } from "./config";
 import { corsMiddleware } from "./middleware/cors.middleware";
 import { setupLogging } from "./middleware/logging.middleware";
 import { contactService } from "./services/contact.service";
+import { getLogger } from "./services/logger.service";
 
 const app = express();
 
@@ -17,6 +18,25 @@ app.get("/api/status", (_req: Request, res: Response) => {
 });
 
 app.use(corsMiddleware);
+
+app.post("/api/contact", async (req: Request, res: Response) => {
+  const { subject, body } = req.body;
+
+  if (isDevelopment) {
+    const logger = getLogger("contact");
+    logger.info("Contact form submitted in development environment", { subject, body });
+    res.status(204).end();
+    return;
+  }
+
+  const [success, error] = await contactService.submitContactForm({ subject, body });
+
+  if (success) {
+    res.status(204).end();
+  } else {
+    res.status(500).json({ message: error });
+  }
+});
 
 // React app
 if (isProduction) {
@@ -31,18 +51,6 @@ if (isProduction) {
     res.json({ message: "Dev server running - React app is on port 5173" });
   });
 }
-
-app.post("/api/contact", async (req: Request, res: Response) => {
-  const { subject, body } = req.body;
-
-  const [success, error] = await contactService.submitContactForm({ subject, body });
-
-  if (success) {
-    res.status(204).end();
-  } else {
-    res.status(500).json({ message: error });
-  }
-});
 
 app.get("/*splat", (_req: Request, res: Response) => {
   res.status(404).json({ message: "Not found" });

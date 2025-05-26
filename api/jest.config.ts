@@ -3,7 +3,7 @@ export default {
   testMatch: ["**/tests/**/*.test.ts"],
   extensionsToTreatAsEsm: [".ts", ".tsx"],
   collectCoverage: false,
-  collectCoverageFrom: ["src/**/*.ts", "!src/index.ts"],
+  collectCoverageFrom: ["src/**/*.ts", "!src/index.ts", "!src/middleware/*.ts"],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
     "^@tests/(.*)$": "<rootDir>/tests/$1",

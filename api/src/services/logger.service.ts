@@ -24,7 +24,7 @@ const defaultConfig: LoggingConfig = {
 };
 
 const createLogger = (config: LoggingConfig) => {
-  const { enableConsole, logFilePath, serviceName, environment } = config;
+  const { enableConsole, logFilePath, domain, serviceName, environment } = config;
 
   const transports: winston.transport[] = [];
 
@@ -36,9 +36,10 @@ const createLogger = (config: LoggingConfig) => {
           winston.format.errors({ stack: true }),
           winston.format.colorize(),
           winston.format.printf((info: winston.Logform.TransformableInfo) => {
-            const { timestamp, level, message, domain, correlationId, ...meta } = info;
+            const { timestamp, level, message, correlationId, ...meta } = info;
+            const domainStr = domain ? domain : info.domain;
             const metaStr = Object.keys(meta).length ? JSON.stringify(meta) : "";
-            return `${timestamp} [${level}] [${domain}] [${correlationId || "N/A"}] ${message} ${metaStr}`;
+            return `${timestamp} [${level}] [${domainStr}] [${correlationId || "N/A"}] ${message} ${metaStr}`;
           }),
         ),
       }),
