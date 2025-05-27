@@ -6,7 +6,7 @@ import { contactService } from "../src/services/contact.service";
 const mockAxios = new MockAdapter(axios);
 
 describe("ContactService", () => {
-  const email = { subject: "test subject", body: "test body" };
+  const email = { fromEmail: "someone@mail.test", body: "test body" };
 
   afterEach(() => {
     mockAxios.reset();
@@ -21,16 +21,22 @@ describe("ContactService", () => {
     expect(mockAxios.history.post).toHaveLength(1);
     const mockRequest = mockAxios.history.post[0];
     expect(mockRequest.url).toBe(operatorEmailUrl);
-    expect(JSON.parse(mockRequest.data)).toEqual(email);
+
+    const expectedParams = {
+      subject: "Still Forest: contact form submission",
+      body: `Email: ${email.fromEmail}\nMessage: ${email.body}`,
+    };
+
+    expect(JSON.parse(mockRequest.data)).toEqual(expectedParams);
     expect(mockRequest.headers!["Content-Type"]).toBe("application/json");
   });
 
-  test("should return an error if subject and/or body are empty", async () => {
-    const result = await contactService.submitContactForm({ subject: "", body: "test body" });
-    expect(result).toEqual([false, new Error("Invalid input: subject and body are required")]);
+  test("should return an error if fromEmail and/or body are empty", async () => {
+    const result = await contactService.submitContactForm({ fromEmail: "", body: "test body" });
+    expect(result).toEqual([false, new Error("Invalid input: fromEmail and body are required")]);
 
-    const result2 = await contactService.submitContactForm({ subject: "test subject", body: "" });
-    expect(result2).toEqual([false, new Error("Invalid input: subject and body are required")]);
+    const result2 = await contactService.submitContactForm({ fromEmail: "test@example.test", body: "" });
+    expect(result2).toEqual([false, new Error("Invalid input: fromEmail and body are required")]);
 
     expect(mockAxios.history.post).toHaveLength(0);
   });
