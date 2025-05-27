@@ -102,6 +102,22 @@ describe("POST /api/contact", () => {
     }
   });
 
+  test("sanitizes html in input", async () => {
+    mockedContactService.submitContactForm.mockResolvedValue([true, null]);
+    const response = await supertest(app)
+      .post("/api/contact")
+      .send({ fromEmail: "test@example.com", body: "<script>alert('test')</script>" });
+
+    const expectedSanitizedBody = "alert(&#x27;test&#x27;)";
+
+    expect(response.status).toBe(204);
+    expect(response.body).toEqual({});
+    expect(mockedContactService.submitContactForm).toHaveBeenCalledWith({
+      fromEmail: "test@example.com",
+      body: expectedSanitizedBody,
+    });
+  });
+
   test("does not send requests in development", async () => {
     jest.resetModules();
     jest.mock("@/config", () => ({ isDevelopment: true, shouldLogToConsole: false }));
