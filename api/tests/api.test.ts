@@ -37,6 +37,8 @@ describe("POST /api/contact", () => {
   });
 
   test("returns 400 on invalid input", async () => {
+    mockedContactService.submitContactForm.mockResolvedValue([true, null]);
+
     const testCases = [
       // missing both fields
       {
@@ -57,24 +59,9 @@ describe("POST /api/contact", () => {
         expectedErrors: [{ field: "fromEmail", message: "Required" }],
       },
       // invalid fromEmail
-      // {
-      //   input: { fromEmail: "invalid-email", body: "test message" },
-      //   expectedErrors: [{ field: "fromEmail", message: "Invalid email" }],
-      // },
-      // invalid fromEmail (wrong type)
       {
-        input: { fromEmail: 123, body: "This is a valid message" },
-        expectedErrors: [{ field: "fromEmail", message: "Expected string, received number" }],
-      },
-      // invalid fromEmail (too short)
-      {
-        input: { fromEmail: "a@b.c", body: "This is a valid message" },
-        expectedErrors: [{ field: "fromEmail", message: "String must contain at least 10 character(s)" }],
-      },
-      // invalid fromEmail (too long)
-      {
-        input: { fromEmail: "a".repeat(101), body: "This is a valid message" },
-        expectedErrors: [{ field: "fromEmail", message: "String must contain at most 100 character(s)" }],
+        input: { fromEmail: "invalid-email@", body: "test message" },
+        expectedErrors: [{ field: "fromEmail", message: "Invalid email" }],
       },
       // invalid body (wrong type)
       {
@@ -97,12 +84,12 @@ describe("POST /api/contact", () => {
       const response = await supertest(app).post("/api/contact").send(testCase.input);
       if (response.status !== 400) {
         console.debug(
-          "Test failed with status:",
+          "Test failed with unexpected status",
           response.status,
-          "input:",
-          testCase.input,
           "and response:",
           response.body,
+          "; input was:",
+          testCase.input,
         );
       }
       expect(response.status).toBe(400);

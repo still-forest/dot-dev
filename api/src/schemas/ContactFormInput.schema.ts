@@ -8,7 +8,7 @@ const sanitizeString = (raw: unknown) => {
 
 export const ContactFormInputSchema = z
   .object({
-    fromEmail: z.preprocess(sanitizeString, z.string().min(10).max(100)), // TODO: email type
+    fromEmail: z.preprocess(sanitizeString, z.string().email()),
     body: z.preprocess(sanitizeString, z.string().min(10).max(1000)),
   })
   .strict();
