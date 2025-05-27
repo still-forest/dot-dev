@@ -46,13 +46,13 @@ importers:
         specifier: 22.15.21
         version: 22.15.21
       '@types/supertest':
-        specifier: ^6.0.3
+        specifier: 6.0.3
         version: 6.0.3
       '@types/validator':
-        specifier: ^13.15.1
+        specifier: 13.15.1
         version: 13.15.1
       axios-mock-adapter:
-        specifier: ^2.1.0
+        specifier: 2.1.0
         version: 2.1.0(axios@1.9.0)
       jest:
         specifier: 29.7.0
