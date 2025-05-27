@@ -6,7 +6,7 @@ import { contactService } from "../src/services/contact.service";
 const mockAxios = new MockAdapter(axios);
 
 describe("ContactService", () => {
-  const email = { subject: "test subject", body: "test body" };
+  const email = { fromEmail: "someone@mail.test", body: "test body" };
 
   afterEach(() => {
     mockAxios.reset();
@@ -21,7 +21,13 @@ describe("ContactService", () => {
     expect(mockAxios.history.post).toHaveLength(1);
     const mockRequest = mockAxios.history.post[0];
     expect(mockRequest.url).toBe(operatorEmailUrl);
-    expect(JSON.parse(mockRequest.data)).toEqual(email);
+
+    const expectedParams = {
+      subject: "Still Forest: contact form submission",
+      body: `Email: ${email.fromEmail}\nMessage: ${email.body}`,
+    };
+
+    expect(JSON.parse(mockRequest.data)).toEqual(expectedParams);
     expect(mockRequest.headers!["Content-Type"]).toBe("application/json");
   });
 

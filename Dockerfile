@@ -15,7 +15,6 @@ RUN pnpm install --frozen-lockfile
 COPY web/tsconfig.json web/vite.config.ts web/index.html ./
 COPY web/src ./src
 COPY web/public ./public
-COPY ./tsconfig.json ../
 
 RUN pnpm build
 
@@ -29,7 +28,6 @@ RUN pnpm install --frozen-lockfile
 
 COPY api/tsconfig.json api/tsup.config.ts ./
 COPY api/src ./src
-COPY ./tsconfig.json ../
 
 RUN pnpm build
 
