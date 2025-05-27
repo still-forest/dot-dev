@@ -2,7 +2,7 @@ import path from "node:path";
 import type { Request, Response } from "express";
 import express from "express";
 import { contactHandler } from "./api/contact.handler";
-import { environment, isProduction } from "./config";
+import { environment, isProduction, isTestEnvironment } from "./config";
 import { corsMiddleware } from "./middleware/cors.middleware";
 import { setupLogging } from "./middleware/logging.middleware";
 import { rateLimitMiddleware } from "./middleware/rateLimit.middleware";
@@ -19,7 +19,9 @@ app.get("/api/status", (_req: Request, res: Response) => {
   res.json({ status: "ok", environment: environment });
 });
 
-app.use("/api", rateLimitMiddleware);
+if (!isTestEnvironment) {
+  app.use("/api", rateLimitMiddleware);
+}
 app.use(corsMiddleware);
 
 app.post("/api/contact", validateInputSchema(ContactFormInputSchema), contactHandler);

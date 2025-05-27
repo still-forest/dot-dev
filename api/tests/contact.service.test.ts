@@ -31,16 +31,6 @@ describe("ContactService", () => {
     expect(mockRequest.headers!["Content-Type"]).toBe("application/json");
   });
 
-  test("should return an error if fromEmail and/or body are empty", async () => {
-    const result = await contactService.submitContactForm({ fromEmail: "", body: "test body" });
-    expect(result).toEqual([false, new Error("Invalid input: fromEmail and body are required")]);
-
-    const result2 = await contactService.submitContactForm({ fromEmail: "test@example.test", body: "" });
-    expect(result2).toEqual([false, new Error("Invalid input: fromEmail and body are required")]);
-
-    expect(mockAxios.history.post).toHaveLength(0);
-  });
-
   test("should return an error if the fetch fails", async () => {
     mockAxios.onPost(operatorEmailUrl).reply(500, { status: "error" });
 

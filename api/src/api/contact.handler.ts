@@ -1,9 +1,9 @@
-import type { RequestHandler } from "express";
+import type { NextFunction, Request, RequestHandler, Response } from "express";
 import { isDevelopment } from "@/config";
 import { contactService } from "@/services/contact.service";
 import { getLogger } from "@/services/logger.service";
 
-export const contactHandler: RequestHandler = async (req, res, next) => {
+export const contactHandler: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const logger = getLogger("contact");
     const { fromEmail, body } = req.body;

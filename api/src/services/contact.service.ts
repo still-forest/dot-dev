@@ -21,11 +21,6 @@ class ContactService {
   }
 
   async submitContactForm(input: ContactFormInput): Promise<[boolean, Error | null]> {
-    const [valid, error] = this.validateInputs(input);
-    if (!valid) {
-      return [false, error];
-    }
-
     const params = {
       subject: EMAIL_SUBJECT,
       body: this.buildEmailBody(input),
@@ -40,13 +35,6 @@ class ContactService {
       this.logger.error("Error submitting contact form", { error });
       return [false, error instanceof Error ? error : new Error(String(error))];
     }
-  }
-
-  validateInputs(input: ContactFormInput): [boolean, Error | null] {
-    if (!input.fromEmail || !input.body || typeof input.fromEmail !== "string" || typeof input.body !== "string") {
-      return [false, new Error("Invalid input: fromEmail and body are required")];
-    }
-    return [true, null];
   }
 
   private buildEmailBody(data: ContactFormInput): string {
