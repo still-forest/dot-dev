@@ -21,8 +21,6 @@ class ContactService {
   }
 
   async submitContactForm(input: ContactFormInput): Promise<[boolean, Error | null]> {
-    // TODO: Add validation
-
     const params = {
       subject: EMAIL_SUBJECT,
       body: this.buildEmailBody(input),
