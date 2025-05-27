@@ -18,7 +18,7 @@ app.get("/api/status", (_req: Request, res: Response) => {
   res.json({ status: "ok", environment: environment });
 });
 
-rateLimitMiddleware(app);
+app.use("/api", rateLimitMiddleware);
 app.use(corsMiddleware);
 
 app.post("/api/contact", (async (req: Request, res: Response) => {

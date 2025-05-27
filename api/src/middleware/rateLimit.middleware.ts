@@ -1,13 +1,8 @@
-import type { Application } from "express";
 import { rateLimit } from "express-rate-limit";
 
-const limiter = rateLimit({
+export const rateLimitMiddleware = rateLimit({
   windowMs: 60 * 1000,
-  limit: 10, // Limit each IP to N requests per `window`
-  standardHeaders: "draft-8", // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  max: 10,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
 });
-
-export const rateLimitMiddleware = (app: Application) => {
-  app.use(limiter);
-};
