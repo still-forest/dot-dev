@@ -24,7 +24,7 @@
     "@swc/jest": "0.2.38",
     "@types/express": "5.0.2",
     "@types/jest": "29.5.14",
-    "@types/node": "22.15.21",
+    "@types/node": "22.15.23",
     "@types/supertest": "6.0.3",
     "@types/validator": "13.15.1",
     "axios-mock-adapter": "2.1.0",
