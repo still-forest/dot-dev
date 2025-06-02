@@ -5,7 +5,7 @@
     "dev": "concurrently \"pnpm dev:web\" \"pnpm dev:api\"",
     "dev:web": "cd ./web && pnpm dev",
     "dev:api": "cd ./api && pnpm dev",
-    "build": "pnpm build:web && pnpm build:api",
+    "build": "concurrently \"pnpm build:web\" \"pnpm build:api\"",
     "build:web": "cd ./web && pnpm build",
     "build:api": "cd ./api && pnpm build",
     "format": "biome format --write .",
