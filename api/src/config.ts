@@ -1,3 +1,4 @@
+import "dotenv/config";
 import type { LokiTransportOptions } from "winston-loki";
 
 export const port = Number(process.env.PORT) || 8080;
@@ -20,5 +21,6 @@ export const lokiConfig: LokiTransportOptions = {
     username: process.env.LOKI_USERNAME,
     password: process.env.LOKI_API_KEY,
   },
+  onConnectionError: (err: Error) => console.error("Loki connection error:", err),
   json: true,
 };

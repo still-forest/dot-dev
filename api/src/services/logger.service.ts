@@ -24,6 +24,8 @@ const defaultConfig: LoggingConfig = {
   environment: process.env.NODE_ENV || "development",
 };
 
+const lokiTransport = new LokiTransport(lokiConfig);
+
 const createLogger = (config: LoggingConfig) => {
   const { enableConsole, logFilePath, domain, serviceName, environment } = config;
 
@@ -63,7 +65,7 @@ const createLogger = (config: LoggingConfig) => {
   }
 
   if (isProduction) {
-    transports.push(new LokiTransport(lokiConfig));
+    transports.push(lokiTransport);
   }
 
   return winston.createLogger({
