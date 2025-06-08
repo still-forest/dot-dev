@@ -3,7 +3,6 @@ import { Counter, collectDefaultMetrics, Histogram, Registry } from "prom-client
 const registry = new Registry();
 collectDefaultMetrics({ register: registry });
 
-// Custom metrics
 const httpDuration = new Histogram({
   name: "http_request_duration_seconds",
   help: "Duration of HTTP requests in seconds",

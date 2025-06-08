@@ -1,4 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
+import { PROMETHEUS_PUSH_INTERVAL_MS, prometheusConfig } from "../config";
+import { type GrafanaCloudConfig, MetricsPusher } from "../services/metricsPusher.service";
 import { httpDuration, httpRequests } from "../services/prometheus.service";
 
 export const prometheusMiddleware = (req: Request, res: Response, next: NextFunction) => {
@@ -14,3 +16,16 @@ export const prometheusMiddleware = (req: Request, res: Response, next: NextFunc
 
   next();
 };
+
+const metricsPusher = new MetricsPusher(prometheusConfig as GrafanaCloudConfig);
+metricsPusher.startPushing(PROMETHEUS_PUSH_INTERVAL_MS);
+
+process.on("SIGINT", () => {
+  metricsPusher.stop();
+  process.exit(0);
+});
+
+process.on("SIGTERM", () => {
+  metricsPusher.stop();
+  process.exit(0);
+});

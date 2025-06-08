@@ -1,3 +1,4 @@
+import "dotenv/config";
 import type { LokiTransportOptions } from "winston-loki";
 
 export const port = Number(process.env.PORT) || 8080;
@@ -22,3 +23,11 @@ export const lokiConfig: LokiTransportOptions = {
   },
   json: true,
 };
+
+export const prometheusConfig = {
+  pushUrl: process.env.PROMETHEUS_PUSH_URL,
+  username: process.env.PROMETHEUS_USER,
+  password: process.env.PROMETHEUS_PASSWORD,
+  jobName: "still-forest-dot-dev",
+};
+export const PROMETHEUS_PUSH_INTERVAL_MS = 30_000;
