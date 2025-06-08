@@ -9,7 +9,7 @@ import { prometheusMiddleware } from "./middleware/prometheus.middleware";
 import { rateLimitMiddleware } from "./middleware/rateLimit.middleware";
 import { validateInputSchema } from "./middleware/schemaValidation.middleware";
 import { ContactFormInputSchema } from "./schemas/ContactFormInput.schema";
-import { registry } from "./services/prom.service";
+import { registry } from "./services/prometheus.service";
 
 const app = express();
 
@@ -49,6 +49,11 @@ if (isProduction) {
     res.json({ message: "Dev server running - React app is on port 5173" });
   });
 }
+
+app.get("/metrics", async (_req: Request, res: Response) => {
+  res.set("Content-Type", registry.contentType);
+  res.end(await registry.metrics());
+});
 
 app.get("/*splat", (_req: Request, res: Response) => {
   res.status(404).json({ message: "Not found" });
