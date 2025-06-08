@@ -16,11 +16,7 @@ app.use(express.json());
 setupLogging(app);
 
 app.get("/api/status", (_req: Request, res: Response) => {
-  res.json({
-    status: "ok",
-    environment: environment,
-    timestamp: new Date().toISOString(),
-  });
+  res.json({ status: "ok", environment: environment });
 });
 
 if (!isTestEnvironment) {
