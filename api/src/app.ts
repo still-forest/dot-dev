@@ -5,11 +5,9 @@ import { contactHandler } from "./api/contact.handler";
 import { environment, isProduction, isTestEnvironment } from "./config";
 import { corsMiddleware } from "./middleware/cors.middleware";
 import { setupLogging } from "./middleware/logging.middleware";
-import { prometheusMiddleware } from "./middleware/prometheus.middleware";
 import { rateLimitMiddleware } from "./middleware/rateLimit.middleware";
 import { validateInputSchema } from "./middleware/schemaValidation.middleware";
 import { ContactFormInputSchema } from "./schemas/ContactFormInput.schema";
-import { registry } from "./services/prometheus.service";
 
 const app = express();
 
@@ -22,9 +20,6 @@ app.get("/api/status", (_req: Request, res: Response) => {
     status: "ok",
     environment: environment,
     timestamp: new Date().toISOString(),
-    metrics: {
-      registry_metrics: registry.getMetricsAsArray().length,
-    },
   });
 });
 
@@ -32,7 +27,6 @@ if (!isTestEnvironment) {
   app.use("/api", rateLimitMiddleware);
 }
 app.use(corsMiddleware);
-app.use(prometheusMiddleware);
 
 app.post("/api/contact", validateInputSchema(ContactFormInputSchema), contactHandler);
 
@@ -49,11 +43,6 @@ if (isProduction) {
     res.json({ message: "Dev server running - React app is on port 5173" });
   });
 }
-
-app.get("/metrics", async (_req: Request, res: Response) => {
-  res.set("Content-Type", registry.contentType);
-  res.end(await registry.metrics());
-});
 
 app.get("/*splat", (_req: Request, res: Response) => {
   res.status(404).json({ message: "Not found" });
