@@ -9,7 +9,7 @@ import { prometheusMiddleware } from "./middleware/prometheus.middleware";
 import { rateLimitMiddleware } from "./middleware/rateLimit.middleware";
 import { validateInputSchema } from "./middleware/schemaValidation.middleware";
 import { ContactFormInputSchema } from "./schemas/ContactFormInput.schema";
-import { registry } from "./services/prometheus.service";
+import { registry } from "./services/prom.service";
 
 const app = express();
 

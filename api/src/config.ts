@@ -1,5 +1,6 @@
 import "dotenv/config";
 import type { LokiTransportOptions } from "winston-loki";
+import type { GrafanaCloudConfig } from "./types";
 
 export const port = Number(process.env.PORT) || 8080;
 export const environment = process.env.NODE_ENV || "development";
@@ -24,10 +25,10 @@ export const lokiConfig: LokiTransportOptions = {
   json: true,
 };
 
-export const prometheusConfig = {
-  pushUrl: process.env.PROMETHEUS_PUSH_URL,
-  username: process.env.PROMETHEUS_USER,
-  password: process.env.PROMETHEUS_PASSWORD,
+export const prometheusConfig: GrafanaCloudConfig = {
+  pushUrl: process.env.PROMETHEUS_PUSH_URL || "",
+  username: process.env.PROMETHEUS_USERNAME || "",
+  password: process.env.PROMETHEUS_API_KEY || "",
   jobName: "still-forest-dot-dev",
 };
 export const PROMETHEUS_PUSH_INTERVAL_MS = 30_000;

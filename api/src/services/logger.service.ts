@@ -4,7 +4,7 @@ import * as winston from "winston";
 import LokiTransport from "winston-loki";
 import { isProduction, lokiConfig, shouldLogToConsole } from "../config";
 
-export type LogDomain = "default" | "api" | "server" | "contact";
+export type LogDomain = "default" | "api" | "server" | "contact" | "prometheus";
 
 type LogMeta = Record<string, unknown>;
 

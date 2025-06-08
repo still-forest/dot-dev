@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { PROMETHEUS_PUSH_INTERVAL_MS, prometheusConfig } from "../config";
-import { type GrafanaCloudConfig, MetricsPusher } from "../services/metricsPusher.service";
-import { httpDuration, httpRequests } from "../services/prometheus.service";
+import { httpDuration, httpRequests, MetricsPusher } from "../services/prom.service";
+import type { GrafanaCloudConfig } from "../types";
 
 export const prometheusMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const start = Date.now();
