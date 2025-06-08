@@ -9,6 +9,7 @@ import { prometheusMiddleware } from "./middleware/prometheus.middleware";
 import { rateLimitMiddleware } from "./middleware/rateLimit.middleware";
 import { validateInputSchema } from "./middleware/schemaValidation.middleware";
 import { ContactFormInputSchema } from "./schemas/ContactFormInput.schema";
+import { registry } from "./services/prometheus.service";
 
 const app = express();
 
@@ -17,7 +18,14 @@ app.use(express.json());
 setupLogging(app);
 
 app.get("/api/status", (_req: Request, res: Response) => {
-  res.json({ status: "ok", environment: environment });
+  res.json({
+    status: "ok",
+    environment: environment,
+    timestamp: new Date().toISOString(),
+    metrics: {
+      registry_metrics: registry.getMetricsAsArray().length,
+    },
+  });
 });
 
 if (!isTestEnvironment) {
