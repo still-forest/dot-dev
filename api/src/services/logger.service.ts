@@ -1,7 +1,8 @@
 import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import * as winston from "winston";
-import { shouldLogToConsole } from "../config";
+import LokiTransport from "winston-loki";
+import { isProduction, lokiConfig, shouldLogToConsole } from "../config";
 
 export type LogDomain = "default" | "api" | "server" | "contact";
 
@@ -59,6 +60,11 @@ const createLogger = (config: LoggingConfig) => {
         ),
       }),
     );
+  }
+
+  if (isProduction) {
+    const lokiTransport = new LokiTransport(lokiConfig);
+    transports.push(lokiTransport);
   }
 
   return winston.createLogger({
