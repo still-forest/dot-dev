@@ -13,6 +13,7 @@ export const operatorEmailUrl = process.env.OPERATOR_EMAIL_URL || "http://operat
 
 export const lokiConfig: HttpTransportOptions = {
   host: process.env.LOKI_HOST,
+  port: Number(process.env.LOKI_PORT) || 3100,
   auth: {
     username: process.env.LOKI_USERNAME,
     password: process.env.LOKI_API_KEY,
