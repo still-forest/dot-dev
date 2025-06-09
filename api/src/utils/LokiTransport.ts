@@ -179,7 +179,7 @@ export class LokiTransport extends Transport {
 
       clearTimeout(timeoutId);
 
-      console.debug(`📬 Loki response status: ${response.status}}`);
+      console.debug(`📬 Loki response status: ${response.status}`);
 
       // Loki returns 204 No Content on success
       if (!response.ok && response.status !== 204) {
@@ -198,16 +198,18 @@ export class LokiTransport extends Transport {
   }
 
   // Flush any remaining logs when transport is closed
-  close(): void {
+  async close(): Promise<void> {
     if (this.batchTimer) {
       clearTimeout(this.batchTimer);
     }
 
     // Flush remaining logs synchronously
     if (this.logBuffer.length > 0) {
-      this.flushLogs().catch((error) => {
+      try {
+        await this.flushLogs();
+      } catch (error) {
         console.error("Failed to flush remaining logs:", error);
-      });
+      }
     }
   }
 }
