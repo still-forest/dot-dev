@@ -83,7 +83,7 @@ const createLogger = (config: LoggingConfig) => {
                 values: [
                   [
                     // Convert timestamp to nanoseconds (Loki requirement)
-                    (new Date(timestamp).getTime() * 1000000).toString(),
+                    (timestamp.getTime() * 1000000).toString(),
                     JSON.stringify(rest),
                   ],
                 ],
