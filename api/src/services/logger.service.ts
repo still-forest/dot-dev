@@ -2,7 +2,7 @@ import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import * as winston from "winston";
 import { createLokiTransport } from "@/utils/LokiTransport";
-import { isProduction, lokiStreamConfig, shouldLogToConsole } from "../config";
+import { isProduction, lokiConfig, shouldLogToConsole } from "../config";
 
 export type LogDomain = "default" | "api" | "server" | "contact";
 
@@ -62,16 +62,7 @@ const createLogger = (config: LoggingConfig) => {
   }
 
   if (isProduction) {
-    console.log("Creating Loki transport");
-
-    const lokiTransport = createLokiTransport({
-      host: process.env.LOKI_HOST!, // railway-grafana-alloy-production.up.railway.app
-      port: Number(process.env.LOKI_PORT) || 443,
-      ssl: process.env.LOKI_SSL !== "false", // Default to true
-      streamLabels: lokiStreamConfig,
-      batchSize: 1, // Send immediately for now
-      timeout: 10000, // 10 second timeout
-    });
+    const lokiTransport = createLokiTransport(lokiConfig);
 
     transports.push(lokiTransport);
   }
@@ -105,7 +96,6 @@ class LoggerService {
   }
 
   info(message: string, meta: LogMeta = {}) {
-    console.log("Info", message, meta);
     this.logger.info(message, meta);
   }
 

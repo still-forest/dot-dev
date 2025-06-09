@@ -8,7 +8,6 @@ import { setupLogging } from "./middleware/logging.middleware";
 import { rateLimitMiddleware } from "./middleware/rateLimit.middleware";
 import { validateInputSchema } from "./middleware/schemaValidation.middleware";
 import { ContactFormInputSchema } from "./schemas/ContactFormInput.schema";
-import { getLogger } from "./services/logger.service";
 
 const app = express();
 
@@ -17,16 +16,6 @@ app.use(express.json());
 setupLogging(app);
 
 app.get("/api/status", (_req: Request, res: Response) => {
-  res.json({ status: "ok", environment: environment });
-});
-
-app.get("/api/log_test", (_req: Request, res: Response) => {
-  console.log("[regular console log]");
-  const logger = getLogger("api");
-  logger.info("Log test", {
-    message: "Log test",
-    environment: environment,
-  });
   res.json({ status: "ok", environment: environment });
 });
 

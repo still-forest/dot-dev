@@ -4,7 +4,7 @@ import Transport from "winston-transport";
 type WinstonInfo = winston.Logform.TransformableInfo;
 type SuccessInfo = { count: number };
 
-interface LokiTransportOptions extends Transport.TransportStreamOptions {
+export interface LokiTransportOptions extends Transport.TransportStreamOptions {
   host: string;
   port?: number;
   ssl?: boolean;
@@ -213,14 +213,7 @@ export class LokiTransport extends Transport {
 }
 
 // Factory function to create the transport
-export function createLokiTransport(options: {
-  host: string;
-  port?: number;
-  ssl?: boolean;
-  streamLabels?: Record<string, string>;
-  batchSize?: number;
-  timeout?: number;
-}): LokiTransport {
+export function createLokiTransport(options: LokiTransportOptions): LokiTransport {
   return new LokiTransport({
     host: options.host,
     port: options.port,
