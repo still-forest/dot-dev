@@ -1,5 +1,5 @@
 import "dotenv/config";
-import type { LokiTransportOptions } from "winston-loki";
+import type { HttpTransportOptions } from "winston/lib/winston/transports";
 
 export const port = Number(process.env.PORT) || 8080;
 export const environment = process.env.NODE_ENV || "development";
@@ -11,16 +11,15 @@ export const shouldLogToConsole = !isTestEnvironment;
 export const productionOrigins = ["https://stillforest.dev", "https://www.stillforest.dev"];
 export const operatorEmailUrl = process.env.OPERATOR_EMAIL_URL || "http://operator.test/api/email";
 
-export const lokiConfig: LokiTransportOptions = {
+export const lokiConfig: HttpTransportOptions = {
   host: process.env.LOKI_HOST,
-  labels: {
-    app: "still-forest-dot-dev",
-    environment: environment,
-  },
   auth: {
     username: process.env.LOKI_USERNAME,
     password: process.env.LOKI_API_KEY,
   },
-  onConnectionError: (err: Error) => console.error("Loki connection error:", err),
-  json: true,
+};
+
+export const lokiStreamConfig = {
+  job: "still-forest-dot-dev",
+  service: "api",
 };
