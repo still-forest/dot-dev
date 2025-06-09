@@ -1,7 +1,8 @@
 import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import * as winston from "winston";
-import { isProduction, lokiConfig, lokiStreamConfig, shouldLogToConsole } from "../config";
+import { createLokiTransport } from "@/utils/LokiTransport";
+import { isProduction, lokiConfig, shouldLogToConsole } from "../config";
 
 export type LogDomain = "default" | "api" | "server" | "contact";
 
@@ -46,7 +47,6 @@ const createLogger = (config: LoggingConfig) => {
     );
   }
 
-  // File transport (JSON format for Grafana/Loki)
   if (logFilePath) {
     mkdirSync(dirname(logFilePath), { recursive: true });
     transports.push(
@@ -62,37 +62,8 @@ const createLogger = (config: LoggingConfig) => {
   }
 
   if (isProduction) {
-    const lokiTransport = new winston.transports.Http({
-      ...lokiConfig,
-      path: "/loki/api/v1/push",
-      format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.json(),
-        // Transform Winston format to Loki format
-        winston.format.printf((info) => {
-          const { timestamp: _timestamp, ...rest } = info;
-          const timestamp: Date = _timestamp ? new Date(_timestamp as string) : new Date();
+    const lokiTransport = createLokiTransport(lokiConfig);
 
-          return JSON.stringify({
-            streams: [
-              {
-                stream: {
-                  ...lokiStreamConfig,
-                  level: info.level,
-                },
-                values: [
-                  [
-                    // Convert timestamp to nanoseconds (Loki requirement)
-                    (timestamp.getTime() * 1000000).toString(),
-                    JSON.stringify(rest),
-                  ],
-                ],
-              },
-            ],
-          });
-        }),
-      ),
-    });
     transports.push(lokiTransport);
   }
 

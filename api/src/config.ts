@@ -1,5 +1,5 @@
 import "dotenv/config";
-import type { HttpTransportOptions } from "winston/lib/winston/transports";
+import type { LokiTransportOptions } from "./utils/LokiTransport";
 
 export const port = Number(process.env.PORT) || 8080;
 export const environment = process.env.NODE_ENV || "development";
@@ -11,14 +11,15 @@ export const shouldLogToConsole = !isTestEnvironment;
 export const productionOrigins = ["https://stillforest.dev", "https://www.stillforest.dev"];
 export const operatorEmailUrl = process.env.OPERATOR_EMAIL_URL || "http://operator.test/api/email";
 
-export const lokiConfig: HttpTransportOptions = {
-  host: process.env.LOKI_HOST,
+export const lokiConfig: LokiTransportOptions = {
+  host: process.env.LOKI_HOST!,
   port: Number(process.env.LOKI_PORT) || 443,
-  ssl: process.env.LOKI_SSL === undefined ? true : process.env.LOKI_SSL === "true",
+  ssl: process.env.LOKI_SSL !== "false",
   path: "/loki/api/v1/push",
-};
-
-export const lokiStreamConfig = {
-  job: "still-forest-dot-dev",
-  service: "api",
+  streamLabels: {
+    job: "still-forest-dot-dev",
+    service: "api",
+  },
+  batchSize: 1, // Send immediately for now
+  timeout: 10000, // 10 second timeout
 };
