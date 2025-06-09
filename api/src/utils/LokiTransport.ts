@@ -217,17 +217,16 @@ export class LokiTransport extends Transport {
 // Factory function to create the transport
 export function createLokiTransport(options: LokiTransportOptions): LokiTransport {
   return new LokiTransport({
-    host: options.host,
-    port: options.port,
-    ssl: options.ssl,
+    ...options,
     streamLabels: options.streamLabels || {},
-    batchSize: options.batchSize || 1,
-    timeout: options.timeout || 5000,
-    onError: (error) => {
+    batchSize: options.batchSize ?? 1,
+    batchInterval: options.batchInterval ?? 1000,
+    timeout: options.timeout ?? 5000,
+    onError: options.onError || ((error) => {
       console.error("🚨 Loki transport error:", error.message);
-    },
-    onSuccess: (info) => {
+    }),
+    onSuccess: options.onSuccess || ((info) => {
       console.debug(`✨ Successfully sent ${info.count} log(s) to Loki`);
-    },
+    }),
   });
 }
