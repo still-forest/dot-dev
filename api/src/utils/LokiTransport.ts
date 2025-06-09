@@ -222,11 +222,15 @@ export function createLokiTransport(options: LokiTransportOptions): LokiTranspor
     batchSize: options.batchSize ?? 1,
     batchInterval: options.batchInterval ?? 1000,
     timeout: options.timeout ?? 5000,
-    onError: options.onError || ((error) => {
-      console.error("🚨 Loki transport error:", error.message);
-    }),
-    onSuccess: options.onSuccess || ((info) => {
-      console.debug(`✨ Successfully sent ${info.count} log(s) to Loki`);
-    }),
+    onError:
+      options.onError ||
+      ((error) => {
+        console.error("🚨 Loki transport error:", error.message);
+      }),
+    onSuccess:
+      options.onSuccess ||
+      ((info) => {
+        console.debug(`✨ Successfully sent ${info.count} log(s) to Loki`);
+      }),
   });
 }
