@@ -1,5 +1,5 @@
 # Build web
-FROM node:22-slim@sha256:2f3571619daafc6b53232ebf2fcc0817c1e64795e92de317c1684a915d13f1a5 AS base
+FROM node:22-slim@sha256:048ed02c5fd52e86fda6fbd2f6a76cf0d4492fd6c6fee9e2c463ed5108da0e34 AS base
 
 RUN corepack enable && \
   corepack prepare pnpm@10.11.0 --activate
