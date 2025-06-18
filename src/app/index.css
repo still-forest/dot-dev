@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@source "../node_modules/@still-forest/canopy/dist";
+@source "../../node_modules/@still-forest/canopy/dist";
 
 @custom-variant dark (&:is(.dark *));
 
