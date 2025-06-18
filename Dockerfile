@@ -1,49 +1,57 @@
-# Build web
-FROM node:22-slim@sha256:2f3571619daafc6b53232ebf2fcc0817c1e64795e92de317c1684a915d13f1a5 AS base
+FROM node:22-alpine@sha256:41e4389f3d988d2ed55392df4db1420ad048ae53324a8e2b7c6d19508288107e AS base
+
+# Install dependencies only when needed
+FROM base AS deps
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
 
 RUN corepack enable && \
   corepack prepare pnpm@10.11.0 --activate
 
-# Build web
-FROM base AS web-builder
-
-WORKDIR /app/web
-
-COPY web/package.json web/pnpm-lock.yaml ./
+# Install dependencies based on the preferred package manager
+COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
-COPY web/tsconfig.json web/vite.config.ts web/index.html ./
-COPY web/src ./src
-COPY web/public ./public
 
-RUN pnpm build
+# Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
 
-# Build api
-FROM base AS api-builder
+# Next.js collects completely anonymous telemetry data about general usage.
+# Learn more here: https://nextjs.org/telemetry
+# Uncomment the following line in case you want to disable telemetry during the build.
+ENV NEXT_TELEMETRY_DISABLED=1
 
-WORKDIR /app/api
+RUN corepack enable pnpm && pnpm run build
 
-COPY api/package.json api/pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
-
-COPY api/tsconfig.json api/tsup.config.ts ./
-COPY api/src ./src
-
-RUN pnpm build
-
-# Build final, combined image --------------------------------
-FROM base AS final
-
+# Production image, copy all the files and run next
+FROM base AS runner
 WORKDIR /app
 
-# Copy built assets and server
-COPY --from=web-builder /app/web/dist ./public
+ENV NODE_ENV=production
+# Uncomment the following line in case you want to disable telemetry during runtime.
+ENV NEXT_TELEMETRY_DISABLED=1
 
-COPY --from=api-builder /app/api/dist ./dist
-COPY --from=api-builder /app/api/package.json /app/api/pnpm-lock.yaml ./
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
-RUN pnpm install --prod --frozen-lockfile
+# COPY --from=builder /app/public ./public
 
-EXPOSE 8080
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-CMD ["node", "dist/index.js"]
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT=3000
+
+# server.js is created by next build from the standalone output
+# https://nextjs.org/docs/pages/api-reference/config/next-config-js/output
+ENV HOSTNAME="0.0.0.0"
+CMD ["node", "server.js"]
