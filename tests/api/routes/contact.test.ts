@@ -4,12 +4,15 @@ import { POST } from "@/app/api/contact/route";
 import { contactService } from "@/services/contact.service";
 import { createTestServer } from "../../support/test-server";
 
-vi.mock("@/services/contact.service");
-
-const mockedContactService = contactService as Mock<typeof contactService>;
+vi.mock("@/services/contact.service", () => ({
+  contactService: {
+    submitContactForm: vi.fn(),
+  },
+}));
 
 describe("POST /api/contact", () => {
   const server = createTestServer(POST);
+  const mockSubmitContactForm = contactService.submitContactForm as Mock<typeof contactService.submitContactForm>;
 
   const validInput = {
     fromEmail: "test@example.com",
@@ -17,27 +20,27 @@ describe("POST /api/contact", () => {
   };
 
   test("returns 204 on successful contact form submission", async () => {
-    mockedContactService.submitContactForm.mockResolvedValue([true, null]);
+    mockSubmitContactForm.mockResolvedValue([true, null]);
 
     const response = await request(server).post("/api/contact").send(validInput);
-    expect(response.status).toBe(204);
-    expect(response.body).toEqual({});
+    expect(response.status).toBe(201);
+    expect(response.body).toEqual({ message: "Contact form submitted" });
 
-    expect(mockedContactService.submitContactForm).toHaveBeenCalledWith(validInput);
+    expect(mockSubmitContactForm).toHaveBeenCalledWith(validInput);
   });
 
   test("returns 500 on failed contact form submission", async () => {
-    mockedContactService.submitContactForm.mockResolvedValue([false, new Error("test error")]);
+    mockSubmitContactForm.mockResolvedValue([false, new Error("test error")]);
 
     const response = await request(server).post("/api/contact").send(validInput);
     expect(response.status).toBe(500);
     expect(response.body).toEqual({ message: "Failed to submit contact form" });
 
-    expect(mockedContactService.submitContactForm).toHaveBeenCalledWith(validInput);
+    expect(mockSubmitContactForm).toHaveBeenCalledWith(validInput);
   });
 
   test("returns 400 on invalid input", async () => {
-    mockedContactService.submitContactForm.mockResolvedValue([true, null]);
+    mockSubmitContactForm.mockResolvedValue([true, null]);
 
     const testCases = [
       // missing both fields
@@ -108,12 +111,12 @@ describe("POST /api/contact", () => {
         errors: testCase.expectedErrors,
       });
 
-      expect(mockedContactService.submitContactForm).not.toHaveBeenCalled();
+      expect(mockSubmitContactForm).not.toHaveBeenCalled();
     }
   });
 
   test("sanitizes html in input", async () => {
-    mockedContactService.submitContactForm.mockResolvedValue([true, null]);
+    mockSubmitContactForm.mockResolvedValue([true, null]);
     const response = await request(server).post("/api/contact").send({
       fromEmail: "test@example.com",
       body: "<script>alert('test')</script>",
@@ -121,9 +124,9 @@ describe("POST /api/contact", () => {
 
     const expectedSanitizedBody = "alert(&#x27;test&#x27;)";
 
-    expect(response.status).toBe(204);
-    expect(response.body).toEqual({});
-    expect(mockedContactService.submitContactForm).toHaveBeenCalledWith({
+    expect(response.status).toBe(201);
+    expect(response.body).toEqual({ message: "Contact form submitted" });
+    expect(mockSubmitContactForm).toHaveBeenCalledWith({
       fromEmail: "test@example.com",
       body: expectedSanitizedBody,
     });
@@ -142,6 +145,6 @@ describe("POST /api/contact", () => {
   //   expect(response.status).toBe(204);
   //   expect(response.body).toEqual({});
 
-  //   expect(mockedContactService.submitContactForm).not.toHaveBeenCalled();
+  //   expect(mockSubmitContactForm).not.toHaveBeenCalled();
   // });
 });

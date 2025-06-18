@@ -22,13 +22,17 @@ export async function POST(req: NextRequest, _res: NextResponse) {
       body,
     });
 
+    console.log("success", success);
+    console.log("error", error);
+
     if (success) {
-      return NextResponse.json({ message: "Contact form submitted" }, { status: 204 });
+      return NextResponse.json({ message: "Contact form submitted" }, { status: 201 });
     } else {
       logger.error("Failed to submit contact form", { error });
       return NextResponse.json({ message: "Failed to submit contact form" }, { status: 500 });
     }
   } catch (error) {
+    console.log("error", error);
     logger.error("Failed to submit contact form", { error });
     return NextResponse.json({ message: "Failed to submit contact form" }, { status: 500 });
   }
