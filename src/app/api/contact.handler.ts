@@ -1,11 +1,12 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { isDevelopment } from "@/config";
 import { contactService } from "@/services/contact.service";
-import { getLogger, logger } from "@/services/logger.service";
+import { getLogger } from "@/services/logger.service";
 
 export const contactHandler = async (req: NextRequest, _res: NextResponse) => {
+  const logger = getLogger("contact");
+
   try {
-    const logger = getLogger("contact");
     const { fromEmail, body } = await req.json();
 
     if (isDevelopment) {

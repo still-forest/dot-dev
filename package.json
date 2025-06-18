@@ -14,6 +14,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@daveyplate/next-rate-limit": "^2.0.1",
     "@hookform/resolvers": "5.0.1",
     "@still-forest/canopy": "0.21.0",
     "lucide-react": "^0.513.0",
@@ -21,6 +22,9 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-hook-form": "7.58.1",
+    "validator": "^13.15.15",
+    "winston": "^3.17.0",
+    "winston-transport": "^4.9.0",
     "zod": "3.25.20"
   },
   "devDependencies": {
@@ -31,6 +35,7 @@
     "@types/node": "22.15.31",
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
+    "@types/validator": "^13.15.2",
     "@vitest/coverage-v8": "3.2.2",
     "jsdom": "26.1.0",
     "msw": "2.9.0",
