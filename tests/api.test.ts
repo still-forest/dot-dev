@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import { app } from "../src/app";
+import { app } from "../api/src/app";
 import { contactService } from "../src/services/contact.service";
 
 jest.mock("../src/services/contact.service");
@@ -71,12 +71,22 @@ describe("POST /api/contact", () => {
       // invalid body (too short)
       {
         input: { fromEmail: "test@example.com", body: "hi" },
-        expectedErrors: [{ field: "body", message: "String must contain at least 10 character(s)" }],
+        expectedErrors: [
+          {
+            field: "body",
+            message: "String must contain at least 10 character(s)",
+          },
+        ],
       },
       // invalid body (too long)
       {
         input: { fromEmail: "test@example.com", body: "a".repeat(1001) },
-        expectedErrors: [{ field: "body", message: "String must contain at most 1000 character(s)" }],
+        expectedErrors: [
+          {
+            field: "body",
+            message: "String must contain at most 1000 character(s)",
+          },
+        ],
       },
     ];
 
@@ -104,9 +114,10 @@ describe("POST /api/contact", () => {
 
   test("sanitizes html in input", async () => {
     mockedContactService.submitContactForm.mockResolvedValue([true, null]);
-    const response = await supertest(app)
-      .post("/api/contact")
-      .send({ fromEmail: "test@example.com", body: "<script>alert('test')</script>" });
+    const response = await supertest(app).post("/api/contact").send({
+      fromEmail: "test@example.com",
+      body: "<script>alert('test')</script>",
+    });
 
     const expectedSanitizedBody = "alert(&#x27;test&#x27;)";
 
@@ -120,10 +131,13 @@ describe("POST /api/contact", () => {
 
   test("does not send requests in development", async () => {
     jest.resetModules();
-    jest.mock("@/config", () => ({ isDevelopment: true, shouldLogToConsole: false }));
+    jest.mock("@/config", () => ({
+      isDevelopment: true,
+      shouldLogToConsole: false,
+    }));
 
     // Re-import app after mocking
-    const { app: devApp } = await import("../src/app");
+    const { app: devApp } = await import("../api/src/app");
     const response = await supertest(devApp).post("/api/contact").send(validInput);
     expect(response.status).toBe(204);
     expect(response.body).toEqual({});

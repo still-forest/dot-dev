@@ -1,13 +1,13 @@
 import path from "node:path";
 import type { Request, Response } from "express";
 import express from "express";
+import { ContactFormInputSchema } from "../../src/schemas/ContactFormInput.schema";
 import { contactHandler } from "./api/contact.handler";
 import { environment, isProduction, isTestEnvironment } from "./config";
 import { corsMiddleware } from "./middleware/cors.middleware";
 import { setupLogging } from "./middleware/logging.middleware";
 import { rateLimitMiddleware } from "./middleware/rateLimit.middleware";
 import { validateInputSchema } from "./middleware/schemaValidation.middleware";
-import { ContactFormInputSchema } from "./schemas/ContactFormInput.schema";
 
 const app = express();
 
