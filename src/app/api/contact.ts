@@ -3,7 +3,7 @@ import { isDevelopment } from "@/config";
 import { contactService } from "@/services/contact.service";
 import { getLogger } from "@/services/logger.service";
 
-export const contactHandler = async (req: NextRequest, _res: NextResponse) => {
+export async function POST(req: NextRequest, _res: NextResponse) {
   const logger = getLogger("contact");
 
   try {
@@ -32,4 +32,4 @@ export const contactHandler = async (req: NextRequest, _res: NextResponse) => {
     logger.error("Failed to submit contact form", { error });
     return NextResponse.json({ message: "Failed to submit contact form" }, { status: 500 });
   }
-};
+}

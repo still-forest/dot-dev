@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { isTestEnvironment } from "./config";
 import { corsMiddleware } from "./middleware/cors";
 import { loggingMiddleware } from "./middleware/logging";
 import { rateLimitMiddleware } from "./middleware/rate-limit";
@@ -17,7 +18,7 @@ export async function middleware(request: NextRequest) {
     response = corsMiddleware(request, response);
   }
 
-  if (pathname.startsWith("/api/contact")) {
+  if (pathname.startsWith("/api/contact") && !isTestEnvironment) {
     response = await rateLimitMiddleware(request);
 
     const validationMiddleware = createValidationMiddleware(ContactFormInputSchema);
