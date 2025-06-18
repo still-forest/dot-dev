@@ -1,7 +1,8 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { operatorEmailUrl } from "../src/config";
-import { contactService } from "../src/services/contact.service";
+import { afterEach, describe, expect, test } from "vitest";
+import { operatorEmailUrl } from "@/config";
+import { contactService } from "@/services/contact.service";
 
 const mockAxios = new MockAdapter(axios);
 
