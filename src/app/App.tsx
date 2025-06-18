@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ContactForm } from "@/components/ContactForm";
 import { Layout } from "@/components/Layout";
 import ThemeProvider from "@/context/ThemeProvider";
-import { THEMES } from "../context/ThemeProviderContext";
+import { THEMES } from "@/context/ThemeProviderContext";
 
 function InnerApp() {
   return (

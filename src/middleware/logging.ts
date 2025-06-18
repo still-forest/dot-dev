@@ -1,4 +1,3 @@
-// lib/middlewares/logging.ts
 import { type NextRequest, NextResponse } from "next/server";
 import { getLogger, type LogDomain } from "../services/logger.service";
 
