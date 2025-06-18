@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 import "@testing-library/jest-dom";
 
-import App from "@/App";
+import App from "@/app/page";
 
 describe("App", () => {
   test("renders ContactForm within App layout", () => {

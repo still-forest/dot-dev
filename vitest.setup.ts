@@ -1,4 +1,8 @@
-import { vi } from "vitest";
+import { afterEach, vi } from "vitest";
+
+afterEach(() => {
+  vi.clearAllMocks();
+});
 
 Object.defineProperty(window, "matchMedia", {
   writable: true,
