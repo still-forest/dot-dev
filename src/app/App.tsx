@@ -1,8 +1,11 @@
+"use client";
+
 import { Container, Flex } from "@still-forest/canopy";
+import Image from "next/image";
 import { ContactForm } from "@/components/ContactForm";
 import { Layout } from "@/components/Layout";
 import ThemeProvider from "@/context/ThemeProvider";
-import { THEMES } from "./context/ThemeProviderContext";
+import { THEMES } from "../context/ThemeProviderContext";
 
 function InnerApp() {
   return (
@@ -10,7 +13,7 @@ function InnerApp() {
       <Container className="h-full">
         <Flex justify="between" direction="col" gap="4" className="h-full">
           <Flex.Item flex="auto" className="flex items-center justify-center">
-            <img src="/logo-full-lg.png" alt="Logo" className="w-xl" />
+            <Image src="/logo-full-lg.png" alt="Logo" className="w-xl" width={2071} height={1910} />
           </Flex.Item>
           <Flex.Item flex="auto" className="flex items-center justify-center">
             <ContactForm />

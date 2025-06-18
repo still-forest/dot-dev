@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useEffect, useState } from "react";
 import { THEMES, type Theme, ThemeProviderContext } from "@/context/ThemeProviderContext";
 

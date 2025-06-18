@@ -1,9 +1,9 @@
 import { Footer as BaseFooter, Box, Flex, Separator, Text, type Theme, Tooltip } from "@still-forest/canopy";
 import { MonitorCog, Moon, SquareArrowOutUpRight, Sun } from "lucide-react";
+import GithubIcon from "@/assets/github.svg";
+import LinkedInIcon from "@/assets/linkedin.svg";
 import { GITHUB_URL, LINKEDIN_URL } from "@/config";
 import { useTheme } from "@/context/useTheme";
-import { ReactComponent as GithubIcon } from "../assets/github.svg";
-import { ReactComponent as LinkedInIcon } from "../assets/linkedin.svg";
 
 const ThemeSelection = () => {
   const { theme, setTheme } = useTheme();
