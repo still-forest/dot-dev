@@ -34,9 +34,7 @@ export const DisclosuresPage = () => {
       <Text color="muted" className="mb-4 italic">
         Effective date: 2025-06-19
       </Text>
-      <Paragraph>
-        This Privacy Policy explains how your information is handled when you use our application (“App”).
-      </Paragraph>
+      <Paragraph>This page contains important disclosures about our application ("App" or "app").</Paragraph>
 
       <Separator className="my-4" />
 
