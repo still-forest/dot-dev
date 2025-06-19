@@ -9,19 +9,12 @@ export async function POST(req: NextRequest) {
   try {
     const { fromEmail, body } = await req.json();
 
-    console.log("isDevelopment", isDevelopment);
-
     if (isDevelopment) {
       logger.info("Contact form submitted in development environment", {
         fromEmail,
         body,
       });
-      return NextResponse.json(
-        {
-          message: "Contact form submitted",
-        },
-        { status: 201 },
-      );
+      return NextResponse.json({ message: "Contact form submitted in development environment" }, { status: 204 });
     }
 
     const [success, error] = await contactService.submitContactForm({

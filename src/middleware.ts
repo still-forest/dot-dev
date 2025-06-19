@@ -11,8 +11,6 @@ export async function middleware(request: NextRequest) {
   let response = NextResponse.next();
   const { pathname } = request.nextUrl;
 
-  console.log("middleware", request);
-
   const loggingResult = await loggingMiddleware(request, response);
   if (loggingResult) response = loggingResult;
 

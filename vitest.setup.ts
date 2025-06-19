@@ -1,21 +1,7 @@
-import { afterAll, afterEach, beforeAll, vi } from "vitest";
-import { server } from "./support/server";
-
-vi.stubGlobal("process", {
-  env: {
-    NODE_ENV: "test",
-  },
-});
-
-beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
+import { afterEach, vi } from "vitest";
 
 afterEach(() => {
-  server.resetHandlers();
-});
-
-afterAll(() => {
   vi.clearAllMocks();
-  server.close();
 });
 
 Object.defineProperty(window, "matchMedia", {
