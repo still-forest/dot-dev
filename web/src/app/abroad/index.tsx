@@ -32,10 +32,15 @@ export const Abroad = () => {
           </Flex>
         </Container>
         <Container>
-          <Flex justify="center" align="center">
+          <Flex justify="center" align="center" gap="2">
             <Button variant="outline" asChild>
               <Link to="/abroad/privacy" noStyle>
                 Privacy Policy
+              </Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link to="/abroad/disclosures" noStyle>
+                Disclosures
               </Link>
             </Button>
           </Flex>

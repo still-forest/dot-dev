@@ -1,8 +1,9 @@
-import { Heading, Separator, Text, type TextProps } from "@still-forest/canopy";
+import { Heading, Separator, Text } from "@still-forest/canopy";
 import { useEffect } from "react";
 import { Header } from "@/Abroad/Header";
 import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
+import { Paragraph } from "@/components/Paragraph";
 import { contact } from "@/config";
 import { useHead } from "@/hooks/useHead";
 import { isMobileWebView } from "@/utils";
@@ -12,14 +13,6 @@ const SectionHeading = ({ children }: { children: React.ReactNode }) => {
     <Heading level="3" family="serif" variant="muted" weight="light" className="mt-4">
       {children}
     </Heading>
-  );
-};
-
-const Paragraph = ({ children }: TextProps) => {
-  return (
-    <Text family="sans" className="mb-2">
-      {children}
-    </Text>
   );
 };
 
@@ -42,7 +35,7 @@ export const PrivacyPage = () => {
         Effective date: 2025-06-19
       </Text>
       <Paragraph>
-        This Privacy Policy explains how your information is handled when you use our mobile application (“App”).
+        This Privacy Policy explains how your information is handled when you use our application ("App" or "app").
       </Paragraph>
 
       <Separator className="my-4" />
