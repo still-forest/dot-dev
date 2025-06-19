@@ -1,10 +1,39 @@
-import { Footer as BaseFooter, Box, Flex, Separator, Text, type Theme, Tooltip } from "@still-forest/canopy";
+import { Footer as BaseFooter, Box, Button, Flex, Separator, Text, type Theme, Tooltip } from "@still-forest/canopy";
 import { MonitorCog, Moon, SquareArrowOutUpRight, Sun } from "lucide-react";
-import { Link } from "react-router";
+import { Link } from "@/components/Link";
 import { GITHUB_URL, LINKEDIN_URL } from "@/config";
 import { useTheme } from "@/context/useTheme";
 import { ReactComponent as GithubIcon } from "../assets/github.svg";
 import { ReactComponent as LinkedInIcon } from "../assets/linkedin.svg";
+
+const ProjectIcon = ({ link, src, label }: { link: string; src: string; label: string }) => {
+  return (
+    <Link to={link} noStyle>
+      <Button variant="outline" asChild>
+        <Flex
+          align="center"
+          justify="center"
+          className="h-full w-[60px] p-2 opacity-25 hover:cursor-pointer hover:opacity-100"
+        >
+          <img src={src} alt={label} />
+        </Flex>
+      </Button>
+    </Link>
+  );
+};
+
+const ProjectLinks = () => {
+  return (
+    <Flex gap="4">
+      <Tooltip>
+        <Tooltip.Trigger>
+          <ProjectIcon link="/abroad" src="/abroad/logo.png" label="Abroad logo" />
+        </Tooltip.Trigger>
+        <Tooltip.Content>Abroad</Tooltip.Content>
+      </Tooltip>
+    </Flex>
+  );
+};
 
 const ThemeSelection = () => {
   const { theme, setTheme } = useTheme();
@@ -48,6 +77,10 @@ export const Footer = () => {
         .
       </Text>
       <Flex gap="4" align="center">
+        <ProjectLinks />
+        <Box className="h-10">
+          <Separator orientation="vertical" />
+        </Box>
         <ThemeSelection />
         <Box className="h-10">
           <Separator orientation="vertical" />
