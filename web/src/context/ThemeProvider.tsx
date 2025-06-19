@@ -46,7 +46,6 @@ export default function ThemeProvider({
 
   const setThemeCallback = useCallback(
     (theme: Theme) => {
-      console.log("setting theme", theme);
       try {
         localStorage.setItem(storageKey, theme);
       } catch (error) {

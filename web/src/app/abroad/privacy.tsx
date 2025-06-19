@@ -1,8 +1,8 @@
 import { Container, Heading, Separator, Text } from "@still-forest/canopy";
 import { useEffect } from "react";
-import { Link } from "react-router";
 import { Header } from "@/Abroad/Header";
 import { Layout } from "@/components/Layout";
+import { Link } from "@/components/Link";
 import { contact } from "@/config";
 import { useHead } from "@/hooks/useHead";
 
@@ -51,18 +51,13 @@ export const PrivacyPage = () => {
         <Text>
           We use Expo for app development and delivery. Expo may collect device information (such as device type, OS
           version) to provide build and update services. See Expo's privacy policy for details:{" "}
-          <Link to="https://expo.dev/privacy" target="_blank">
-            https://expo.dev/privacy
-          </Link>
+          <Link to="https://expo.dev/privacy">https://expo.dev/privacy</Link>
         </Text>
         <Heading level="4">Sentry</Heading>
         <Text>
           We use Sentry for error tracking and crash reporting. Sentry may collect non-personal diagnostic data (such as
           error logs and device context) to help us fix bugs and improve stability. No personal data is collected. See
-          Sentry's privacy policy for details:{" "}
-          <Link to="https://sentry.io/privacy/" target="_blank">
-            https://sentry.io/privacy/
-          </Link>
+          Sentry's privacy policy for details: <Link to="https://sentry.io/privacy/">https://sentry.io/privacy/</Link>
         </Text>
       </Container>
 
@@ -81,9 +76,7 @@ export const PrivacyPage = () => {
       <SectionHeading>Contact Us</SectionHeading>
       <Text>
         If you have any questions about this Privacy Policy, please contact us at:{" "}
-        <Link to={`mailto:${contact.email}`} target="_blank">
-          {contact.email}
-        </Link>
+        <Link to={`mailto:${contact.email}`}>{contact.email}</Link>
       </Text>
     </Layout>
   );
