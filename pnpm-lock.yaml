@@ -12,8 +12,8 @@ importers:
         specifier: 2.0.0-beta.4
         version: 2.0.0-beta.4
       '@still-forest/biomejs-config':
-        specifier: 1.3.1
-        version: 1.3.1
+        specifier: 1.3.0
+        version: 1.3.0
       concurrently:
         specifier: 9.1.2
         version: 9.1.2
@@ -73,8 +73,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@still-forest/biomejs-config@1.3.1':
-    resolution: {integrity: sha512-A9LOUPVRsgpcvt7H0nr1WyVMukWisVb+mWoR8N7j+ecrwMgEAn7BVUKVFUL6JFpm61j+QtNZZ/SaxBNIWtHiMQ==}
+  '@still-forest/biomejs-config@1.3.0':
+    resolution: {integrity: sha512-Lg+QZROTaZM822SQzjCFZ1hiRDfxsO5TluohX08bUeQs06kXw1VLt7Sv+gQm5SylNWQdvi1G6Gp9rRQvPdJ32g==}
 
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
@@ -213,7 +213,7 @@ snapshots:
   '@biomejs/cli-win32-x64@2.0.0-beta.4':
     optional: true
 
-  '@still-forest/biomejs-config@1.3.1': {}
+  '@still-forest/biomejs-config@1.3.0': {}
 
   ansi-regex@5.0.1: {}
 
