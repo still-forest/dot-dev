@@ -3,6 +3,7 @@ import { MonitorCog, Moon, SquareArrowOutUpRight, Sun } from "lucide-react";
 import { Link } from "@/components/Link";
 import { GITHUB_URL, LINKEDIN_URL } from "@/config";
 import { useTheme } from "@/context/useTheme";
+import { isMobileWebView } from "@/utils";
 import { ReactComponent as GithubIcon } from "../assets/github.svg";
 import { ReactComponent as LinkedInIcon } from "../assets/linkedin.svg";
 
@@ -67,8 +68,10 @@ const ThemeSelection = () => {
 };
 
 export const Footer = () => {
+  const webview = isMobileWebView();
+
   return (
-    <BaseFooter className="flex items-center justify-between">
+    <BaseFooter className="flex flex-col items-center justify-between gap-4 md:flex-row">
       <Text variant="muted" size="sm">
         © 2025{" "}
         <Link to="/" className="hover:underline">
@@ -76,40 +79,42 @@ export const Footer = () => {
         </Link>
         .
       </Text>
-      <Flex gap="4" align="center">
-        <ProjectLinks />
-        <Box className="h-10">
-          <Separator orientation="vertical" />
-        </Box>
-        <ThemeSelection />
-        <Box className="h-10">
-          <Separator orientation="vertical" />
-        </Box>
-        <Tooltip>
-          <Tooltip.Trigger>
-            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
-              <GithubIcon width={32} height={32} className="text-primary/60 hover:text-primary" />
-            </a>
-          </Tooltip.Trigger>
-          <Tooltip.Content>
-            <Flex align="center" gap="1">
-              GitHub <SquareArrowOutUpRight size={12} strokeWidth={1.5} />
-            </Flex>
-          </Tooltip.Content>
-        </Tooltip>
-        <Tooltip>
-          <Tooltip.Trigger>
-            <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
-              <LinkedInIcon width={32} height={32} className="text-primary/60 hover:text-primary" />
-            </a>
-          </Tooltip.Trigger>
-          <Tooltip.Content>
-            <Flex align="center" gap="1">
-              LinkedIn <SquareArrowOutUpRight size={12} strokeWidth={1.5} />
-            </Flex>
-          </Tooltip.Content>
-        </Tooltip>
-      </Flex>
+      {!webview && (
+        <Flex gap="4" align="center">
+          <ProjectLinks />
+          <Box className="h-10">
+            <Separator orientation="vertical" />
+          </Box>
+          <ThemeSelection />
+          <Box className="h-10">
+            <Separator orientation="vertical" />
+          </Box>
+          <Tooltip>
+            <Tooltip.Trigger>
+              <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
+                <GithubIcon width={32} height={32} className="text-primary/60 hover:text-primary" />
+              </a>
+            </Tooltip.Trigger>
+            <Tooltip.Content>
+              <Flex align="center" gap="1">
+                GitHub <SquareArrowOutUpRight size={12} strokeWidth={1.5} />
+              </Flex>
+            </Tooltip.Content>
+          </Tooltip>
+          <Tooltip>
+            <Tooltip.Trigger>
+              <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
+                <LinkedInIcon width={32} height={32} className="text-primary/60 hover:text-primary" />
+              </a>
+            </Tooltip.Trigger>
+            <Tooltip.Content>
+              <Flex align="center" gap="1">
+                LinkedIn <SquareArrowOutUpRight size={12} strokeWidth={1.5} />
+              </Flex>
+            </Tooltip.Content>
+          </Tooltip>
+        </Flex>
+      )}
     </BaseFooter>
   );
 };

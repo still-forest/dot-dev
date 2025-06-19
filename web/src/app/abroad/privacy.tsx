@@ -5,6 +5,7 @@ import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
 import { contact } from "@/config";
 import { useHead } from "@/hooks/useHead";
+import { isMobileWebView } from "@/utils";
 
 const SectionHeading = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -23,9 +24,11 @@ export const PrivacyPage = () => {
     setTitle("Privacy Policy");
   }, [setTitle]);
 
+  const webview = isMobileWebView();
+
   return (
     <Layout>
-      <Header />
+      {!webview && <Header />}
       <Heading level="1">Privacy Policy</Heading>
       <Text color="muted" className="mb-4 italic">
         Effective date: 2025-06-10
