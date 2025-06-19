@@ -18,11 +18,6 @@ afterAll(() => {
   server.close();
 });
 
-// Ensure jsdom environment is properly set up
-if (typeof window === "undefined") {
-  throw new Error("jsdom environment not properly configured");
-}
-
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({
@@ -36,15 +31,3 @@ Object.defineProperty(window, "matchMedia", {
     dispatchEvent: vi.fn(),
   })),
 });
-
-// Mock Next.js modules for components
-vi.mock("next/navigation", () => ({
-  useRouter: vi.fn(() => ({
-    push: vi.fn(),
-    replace: vi.fn(),
-    back: vi.fn(),
-    forward: vi.fn(),
-  })),
-  usePathname: vi.fn(() => "/"),
-  useSearchParams: vi.fn(() => new URLSearchParams()),
-}));

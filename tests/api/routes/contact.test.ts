@@ -9,7 +9,7 @@ vi.mock("@/services/contact.service", () => ({
   },
 }));
 
-describe.skip("POST /api/contact", () => {
+describe("POST /api/contact", () => {
   let server: any;
 
   beforeAll(async () => {

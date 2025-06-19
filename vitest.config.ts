@@ -4,49 +4,33 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import { defineConfig, type ViteUserConfig } from "vitest/config";
 
 export default defineConfig({
+  plugins: [tsconfigPaths(), react()],
   resolve: {
     alias: {
       "@": resolve(__dirname, "./src"),
       "@tests": resolve(__dirname, "./tests"),
     },
   },
+  test: {
+    globals: true,
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "json", "html"],
+      exclude: ["tests/**/*", "**/*.d.ts", "dist*/**", "*.config.ts", "*.setup.ts"],
+    },
+  },
   projects: [
     {
       name: "api",
-      plugins: [tsconfigPaths(), react()],
-      resolve: {
-        alias: {
-          "@": resolve(__dirname, "./src"),
-          "@tests": resolve(__dirname, "./tests"),
-        },
-      },
-      test: {
-        globals: true,
-        environment: "node",
-        include: ["tests/api/**/*.{test,spec}.{ts,js}"],
-        setupFiles: ["./tests/setup-node.ts"],
-      },
+      environment: "node",
+      include: ["tests/api/**/*.test.ts"],
+      setupFiles: ["./tests/setup-node.ts"], // Node-specific setup
     },
     {
-      name: "components",
-      plugins: [tsconfigPaths(), react()],
-      resolve: {
-        alias: {
-          "@": resolve(__dirname, "./src"),
-          "@tests": resolve(__dirname, "./tests"),
-        },
-      },
-      test: {
-        globals: true,
-        environment: "jsdom",
-        include: ["tests/components/**/*.{test,spec}.{tsx,jsx}"],
-        setupFiles: ["./tests/setup-frontend.ts"],
-        coverage: {
-          provider: "v8",
-          reporter: ["text", "json", "html"],
-          exclude: ["tests/**/*", "**/*.d.ts", "dist*/**", "*.config.ts", "*.setup.ts"],
-        },
-      },
+      name: "frontend",
+      environment: "jsdom",
+      include: ["tests/components/**/*.test.tsx"],
+      setupFiles: ["./tests/setup-msw.ts"], // Browser-specific setup
     },
   ],
 } as ViteUserConfig);
