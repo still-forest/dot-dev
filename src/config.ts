@@ -1,17 +1,16 @@
-export const NODE_ENV = process.env.NODE_ENV || "development";
-
-export const GITHUB_URL = "https://github.com/still-forest";
-export const LINKEDIN_URL = "https://www.linkedin.com/in/jszymanowski";
-
-export const CONTACT_SUBMISSION_URL = NODE_ENV === "production" ? "/api/contact" : "http://localhost:8080/api/contact";
-
 import type { LokiTransportOptions } from "@/utils/LokiTransport";
 
-export const port = Number(process.env.PORT) || 8080;
 export const environment = process.env.NODE_ENV || "development";
 export const isProduction = environment === "production";
 export const isDevelopment = environment === "development";
 export const isTestEnvironment = environment === "test";
+
+export const GITHUB_URL = "https://github.com/still-forest";
+export const LINKEDIN_URL = "https://www.linkedin.com/in/jszymanowski";
+
+export const CONTACT_SUBMISSION_URL = isProduction ? "/api/contact" : "http://localhost:8080/api/contact";
+
+export const port = Number(process.env.PORT) || 8080;
 export const shouldLogToConsole = !isTestEnvironment;
 
 export const productionOrigins = ["https://stillforest.dev", "https://www.stillforest.dev"];

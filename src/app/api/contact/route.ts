@@ -3,7 +3,7 @@ import { isDevelopment } from "@/config";
 import { contactService } from "@/services/contact.service";
 import { getLogger } from "@/services/logger.service";
 
-export async function POST(req: NextRequest, _res: NextResponse) {
+export async function POST(req: NextRequest) {
   const logger = getLogger("contact");
 
   try {
@@ -21,9 +21,6 @@ export async function POST(req: NextRequest, _res: NextResponse) {
       fromEmail,
       body,
     });
-
-    console.log("success", success);
-    console.log("error", error);
 
     if (success) {
       return NextResponse.json({ message: "Contact form submitted" }, { status: 201 });

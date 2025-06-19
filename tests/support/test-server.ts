@@ -7,7 +7,7 @@ export function createTestServer(handler: (req: NextRequest) => Promise<Response
     const nextRequest = new NextRequest(url, {
       method: req.method,
       headers: req.headers as any,
-      body: req.method !== "GET" ? req : undefined,
+      body: ["POST", "PUT", "PATCH"].includes(req.method ?? "") ? (req as any) : undefined,
     });
 
     try {

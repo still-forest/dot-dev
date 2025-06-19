@@ -42,7 +42,6 @@ export async function loggingMiddleware(request: NextRequest, _response: NextRes
   logger.info("Incoming request", {
     httpMethod: request.method,
     httpUrl: pathname,
-    headers: Object.fromEntries(request.headers.entries()),
     query: Object.fromEntries(request.nextUrl.searchParams.entries()),
   });
 

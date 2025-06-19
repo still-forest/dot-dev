@@ -18,11 +18,20 @@ export function createValidationMiddleware(schema: z.ZodSchema<unknown>) {
       const body = await request.json();
       const validatedData = schema.parse(body);
 
-      // Store validated data in headers (as JSON string) for API routes
-      const response = NextResponse.next();
-      response.headers.set("X-Validated-Body", JSON.stringify(validatedData));
+      // Clone the request and add validated data as a header
+      const modifiedRequest = new NextRequest(request.url, {
+        method: request.method,
+        headers: new Headers(request.headers),
+        body: JSON.stringify(validatedData),
+      });
 
-      return response;
+      // Add the validated data as a header on the cloned request
+      modifiedRequest.headers.set("X-Validated-Body", JSON.stringify(validatedData));
+
+      // Forward the modified request to the next handler
+      return NextResponse.next({
+        request: modifiedRequest,
+      });
     } catch (error) {
       if (error instanceof z.ZodError) {
         return NextResponse.json(

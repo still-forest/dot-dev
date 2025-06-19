@@ -1,5 +1,5 @@
 import request from "supertest";
-import { describe, expect, type Mock, test, vi } from "vitest";
+import { afterAll, beforeEach, describe, expect, type Mock, test, vi } from "vitest";
 import { POST } from "@/app/api/contact/route";
 import { contactService } from "@/services/contact.service";
 import { createTestServer } from "../../support/test-server";
@@ -12,6 +12,14 @@ vi.mock("@/services/contact.service", () => ({
 
 describe("POST /api/contact", () => {
   const server = createTestServer(POST);
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
   const mockSubmitContactForm = contactService.submitContactForm as Mock<typeof contactService.submitContactForm>;
 
   const validInput = {
@@ -40,8 +48,6 @@ describe("POST /api/contact", () => {
   });
 
   test("returns 400 on invalid input", async () => {
-    mockSubmitContactForm.mockResolvedValue([true, null]);
-
     const testCases = [
       // missing both fields
       {

@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-export function corsMiddleware(request: NextRequest, response: NextResponse): NextResponse {
+export function corsMiddleware(request: NextRequest, response: NextResponse = NextResponse.next()): NextResponse {
   // Handle preflight requests
   if (request.method === "OPTIONS") {
     return new NextResponse(null, {
