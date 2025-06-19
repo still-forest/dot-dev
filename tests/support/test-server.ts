@@ -6,8 +6,8 @@ export function createTestServer(handler: (req: NextRequest) => Promise<Response
     const url = new URL(req.url!, `http://${req.headers.host}`);
     const nextRequest = new NextRequest(url, {
       method: req.method,
-      headers: req.headers as any,
-      body: ["POST", "PUT", "PATCH"].includes(req.method ?? "") ? (req as any) : undefined,
+      headers: req.headers as unknown as Headers,
+      body: ["POST", "PUT", "PATCH"].includes(req.method ?? "") ? (req as unknown as BodyInit) : undefined,
     });
 
     try {

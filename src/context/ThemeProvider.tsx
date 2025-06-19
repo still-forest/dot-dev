@@ -15,18 +15,24 @@ export default function ThemeProvider({
   storageKey = "still-forest-theme",
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => {
+  // Initialize with defaultTheme for SSR safety
+  const [theme, setTheme] = useState<Theme>(defaultTheme);
+
+  // On mount, sync theme from localStorage if available
+  useEffect(() => {
+    if (typeof window === "undefined") return;
     try {
-      return (localStorage.getItem(storageKey) as Theme) || defaultTheme;
+      const storedTheme = localStorage.getItem(storageKey) as Theme | null;
+      if (storedTheme && Object.values(THEMES).includes(storedTheme)) {
+        setTheme(storedTheme);
+      }
     } catch (error) {
       console.warn("Unable to access localStorage:", error);
-      return defaultTheme;
     }
-  });
+  }, [storageKey]);
 
   useEffect(() => {
     const root = window.document.documentElement;
-
     root.classList.remove(...Object.values(THEMES));
 
     if (theme === "system") {

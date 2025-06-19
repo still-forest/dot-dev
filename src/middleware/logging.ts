@@ -1,18 +1,19 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { getLogger, type LogDomain } from "../services/logger.service";
 
 // Generate a simple correlation ID (crypto.randomUUID not available in Edge Runtime)
 function generateCorrelationId(): string {
   return Math.random().toString(36).substring(2) + Date.now().toString(36);
 }
 
-function extractDomain(request: NextRequest, defaultDomain: LogDomain): LogDomain {
+function extractDomain(request: NextRequest, defaultDomain: string): string {
   // Priority order: header > query param > default
-  return (
-    (request.headers.get("x-log-domain") as LogDomain) ||
-    (request.nextUrl.searchParams.get("domain") as LogDomain) ||
-    defaultDomain
-  );
+  return request.headers.get("x-log-domain") || request.nextUrl.searchParams.get("domain") || defaultDomain;
+}
+
+// Simple Edge-compatible logger
+function logInfo(message: string, meta: Record<string, unknown> = {}) {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] [INFO] ${message}`, JSON.stringify(meta));
 }
 
 export async function loggingMiddleware(request: NextRequest, _response: NextResponse): Promise<NextResponse | null> {
@@ -28,20 +29,17 @@ export async function loggingMiddleware(request: NextRequest, _response: NextRes
   const defaultDomain = "api";
   const domain = extractDomain(request, defaultDomain);
 
-  // Create logger with request context
-  const logger = getLogger(domain).child({
+  // Get IP address from headers
+  const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown";
+
+  // Log incoming request
+  logInfo("Incoming request", {
     correlationId,
     domain,
     method: request.method,
     url: pathname,
     userAgent: request.headers.get("user-agent"),
-    ip: request.headers.get("x-forwarded-for") || request.ip || "unknown",
-  });
-
-  // Log incoming request
-  logger.info("Incoming request", {
-    httpMethod: request.method,
-    httpUrl: pathname,
+    ip,
     query: Object.fromEntries(request.nextUrl.searchParams.entries()),
   });
 
