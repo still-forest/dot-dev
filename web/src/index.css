@@ -40,7 +40,7 @@
     --sidebar-border: hsl(220 13% 91%);
     --sidebar-ring: hsl(217.2 91.2% 59.8%);
 
-    --border: oklch(0.929 0.013 255.508);
+    --border: oklch(0.87 0 56);
     --input: oklch(0.985 0 0);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.129 0.042 264.695);
@@ -140,6 +140,7 @@
   --font-serif: "Source Serif 4", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   --font-mono: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
+  --font-abroad-brand: "Playwrite IN", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 
   --font-display: var(--font-serif);
 }
