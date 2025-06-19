@@ -1,5 +1,6 @@
 import { Footer as BaseFooter, Box, Flex, Separator, Text, type Theme, Tooltip } from "@still-forest/canopy";
 import { MonitorCog, Moon, SquareArrowOutUpRight, Sun } from "lucide-react";
+import { Link } from "react-router";
 import { GITHUB_URL, LINKEDIN_URL } from "@/config";
 import { useTheme } from "@/context/useTheme";
 import { ReactComponent as GithubIcon } from "../assets/github.svg";
@@ -40,7 +41,11 @@ export const Footer = () => {
   return (
     <BaseFooter className="flex items-center justify-between">
       <Text variant="muted" size="sm">
-        © 2025 Still Forest LLC.
+        © 2025{" "}
+        <Link to="/" className="hover:underline">
+          Still Forest LLC
+        </Link>
+        .
       </Text>
       <Flex gap="4" align="center">
         <ThemeSelection />

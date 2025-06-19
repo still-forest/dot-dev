@@ -1,8 +1,13 @@
 import { Button, Container, Flex, Heading } from "@still-forest/canopy";
-import { Link } from "react-router";
 import { Layout } from "@/components/Layout";
+import { Link } from "@/components/Link";
+import { useTheme } from "@/context/useTheme";
 
 export const Abroad = () => {
+  const { theme } = useTheme();
+
+  console.log("theme", theme);
+
   return (
     <Layout>
       <Flex direction="col" align="center" justify="center" gap="12" className="h-full">
@@ -24,7 +29,9 @@ export const Abroad = () => {
         <Container>
           <Flex justify="center" align="center">
             <Button variant="outline" asChild>
-              <Link to="/abroad/privacy">Privacy Policy</Link>
+              <Link to="/abroad/privacy" noStyle>
+                Privacy Policy
+              </Link>
             </Button>
           </Flex>
         </Container>
