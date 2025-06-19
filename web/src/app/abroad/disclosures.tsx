@@ -38,10 +38,10 @@ export const DisclosuresPage = () => {
 
       <Separator className="my-4" />
 
-      <SectionHeading>Images</SectionHeading>
+      <SectionHeading>Background Images</SectionHeading>
       <Paragraph>
-        Images are sourced from <Link to="https://unsplash.com/">Unsplash</Link> and are not owned by Still Forest. We
-        do not claim ownership of the images.
+        Background images are sourced from <Link to="https://unsplash.com/">Unsplash</Link> and are not owned by Still
+        Forest. We do not claim ownership of the images.
       </Paragraph>
       <Paragraph>
         Images are used in accordance with the <Link to="https://unsplash.com/terms">Unsplash Terms & Conditions</Link>{" "}
