@@ -26,7 +26,7 @@ const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Flex direction="row" gap="2">
+      <Flex direction="col" gap="2" className="sm:flex-row">
         <Flex.Item className="flex min-w-[220px] flex-col gap-y-2">
           <TextInput placeholder="your@email.com" aria-label="Email" {...register("email")} className="bg-input" />
           {errors.email && <InputError message={errors.email.message!} />}
