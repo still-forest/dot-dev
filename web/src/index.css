@@ -47,6 +47,8 @@
     --ring: oklch(0.869 0.022 252.894);
 
     --radius: 0.625rem;
+
+    --color-abroad-brand: rgb(85, 61, 136);
   }
 
   .dark {
@@ -133,6 +135,8 @@
   /* Specific elements */
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
+
+  --color-abroad-brand: var(--color-abroad-brand);
 
   /* Typography */
   --font-brand: "Cormorant Unicase", "Cormorant Garamond", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;

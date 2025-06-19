@@ -12,7 +12,7 @@ export const Header = () => {
       <Link to="/abroad">
         <Flex align="center" gap="2">
           <img src="/abroad/logo.png" alt="Abroad logo" className="w-[48px]" />
-          <Heading level="1" className="font-abroad-brand">
+          <Heading level="1" className="font-abroad-brand text-abroad-brand">
             Abroad
           </Heading>
         </Flex>
