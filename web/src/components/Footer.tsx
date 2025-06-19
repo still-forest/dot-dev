@@ -68,7 +68,7 @@ const ThemeSelection = () => {
 
 export const Footer = () => {
   return (
-    <BaseFooter className="flex items-center justify-between">
+    <BaseFooter className="flex flex-col items-center justify-between gap-4 md:flex-row">
       <Text variant="muted" size="sm">
         © 2025{" "}
         <Link to="/" className="hover:underline">
