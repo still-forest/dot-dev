@@ -11,27 +11,26 @@ export default defineConfig({
       "@tests": resolve(__dirname, "./tests"),
     },
   },
-  projects: [
-    {
-      name: "api",
-      environment: "node",
-      include: ["tests/api/**/*.test.ts"],
-    },
-    {
-      name: "components",
-      environment: "jsdom",
-      include: ["tests/components/**/*.test.tsx"],
-      setupFiles: ["./tests/setup-msw.ts"],
-    },
-  ],
   test: {
     globals: true,
-    environment: "jsdom",
-    setupFiles: "./vitest.setup.ts",
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "html"],
       exclude: ["tests/**/*", "**/*.d.ts", "dist*/**", "*.config.ts", "*.setup.ts"],
     },
   },
+  projects: [
+    {
+      name: "api",
+      environment: "node",
+      include: ["tests/api/**/*.test.ts"],
+      setupFiles: ["./tests/setup-node.ts"], // Node-specific setup
+    },
+    {
+      name: "frontend",
+      environment: "jsdom",
+      include: ["tests/components/**/*.test.tsx"],
+      setupFiles: ["./tests/setup-msw.ts"], // Browser-specific setup
+    },
+  ],
 } as ViteUserConfig);

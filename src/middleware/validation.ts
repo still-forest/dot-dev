@@ -18,6 +18,8 @@ export function createValidationMiddleware(schema: z.ZodSchema<unknown>) {
       const body = await request.json();
       const validatedData = schema.parse(body);
 
+      console.log("validatedData", validatedData);
+
       // Clone the request and add validated data as a header
       const modifiedRequest = new NextRequest(request.url, {
         method: request.method,

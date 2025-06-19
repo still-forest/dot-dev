@@ -26,9 +26,6 @@ importers:
       lucide-react:
         specifier: ^0.513.0
         version: 0.513.0(react@19.1.0)
-      next:
-        specifier: 15.3.3
-        version: 15.3.3(@babel/core@7.27.4)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react:
         specifier: 19.1.0
         version: 19.1.0
@@ -99,6 +96,9 @@ importers:
       msw:
         specifier: 2.9.0
         version: 2.9.0(@types/node@22.15.31)(typescript@5.8.3)
+      next:
+        specifier: 15.3.3
+        version: 15.3.3(@babel/core@7.27.4)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       supertest:
         specifier: 7.1.1
         version: 7.1.1

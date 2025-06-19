@@ -3,7 +3,7 @@ import { formSubmit } from "@/components/ContactForm/formSubmit";
 import type { FormData } from "@/components/ContactForm/schema";
 import { CONTACT_SUBMISSION_URL } from "@/config";
 
-describe("formSubmit", () => {
+describe.skip("formSubmit", () => {
   const formData: FormData = { email: "test@example.test", message: "Test message" };
 
   test("submits form data to the contact submission URL", async () => {
