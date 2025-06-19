@@ -1,10 +1,18 @@
 import { Container, Flex } from "@still-forest/canopy";
+import { useEffect } from "react";
 import { ContactForm } from "@/components/ContactForm";
 import { Layout } from "@/components/Layout";
-import ThemeProvider from "@/context/ThemeProvider";
-import { THEMES } from "./context/ThemeProviderContext";
+import { useHead } from "@/hooks/useHead";
 
-function InnerApp() {
+export const Root = () => {
+  const { setIcon } = useHead({
+    baseTitle: "Still Forest",
+  });
+
+  useEffect(() => {
+    setIcon("/icon-192.png");
+  }, [setIcon]);
+
   return (
     <Layout>
       <Container className="h-full">
@@ -19,12 +27,4 @@ function InnerApp() {
       </Container>
     </Layout>
   );
-}
-
-export default function App() {
-  return (
-    <ThemeProvider defaultTheme={THEMES.SYSTEM} storageKey="still-forest-theme">
-      <InnerApp />
-    </ThemeProvider>
-  );
-}
+};
