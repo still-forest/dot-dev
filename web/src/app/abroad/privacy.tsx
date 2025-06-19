@@ -1,8 +1,10 @@
 import { Container, Heading, Separator, Text } from "@still-forest/canopy";
+import { useEffect } from "react";
 import { Link } from "react-router";
 import { Header } from "@/Abroad/Header";
 import { Layout } from "@/components/Layout";
 import { contact } from "@/config";
+import { useHead } from "@/hooks/useHead";
 
 const SectionHeading = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -13,6 +15,14 @@ const SectionHeading = ({ children }: { children: React.ReactNode }) => {
 };
 
 export const PrivacyPage = () => {
+  const { setTitle } = useHead({
+    baseTitle: "Abroad",
+  });
+
+  useEffect(() => {
+    setTitle("Privacy Policy");
+  }, [setTitle]);
+
   return (
     <Layout>
       <Header />

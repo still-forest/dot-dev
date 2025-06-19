@@ -1,12 +1,17 @@
 import { Button, Container, Flex, Heading } from "@still-forest/canopy";
+import { useEffect } from "react";
 import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
-import { useTheme } from "@/context/useTheme";
+import { useHead } from "@/hooks/useHead";
 
 export const Abroad = () => {
-  const { theme } = useTheme();
+  const { setIcon } = useHead({
+    baseTitle: "Abroad",
+  });
 
-  console.log("theme", theme);
+  useEffect(() => {
+    setIcon("/abroad/favicon.png");
+  }, [setIcon]);
 
   return (
     <Layout>
