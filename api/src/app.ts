@@ -30,18 +30,14 @@ app.post("/api/contact", validateInputSchema(ContactFormInputSchema), contactHan
 if (isProduction) {
   app.use(express.static(path.join(process.cwd(), "public")));
 
-  app.get("/", (_req: Request, res: Response) => {
+  app.get("/*splat", (_req: Request, res: Response) => {
     res.sendFile(path.join(process.cwd(), "public", "index.html"));
   });
 } else {
   // Development: just a simple fallback for non-API routes
-  app.get("/", (_req: Request, res: Response) => {
+  app.get("/*splat", (_req: Request, res: Response) => {
     res.json({ message: "Dev server running - React app is on port 5173" });
   });
 }
-
-app.get("/*splat", (_req: Request, res: Response) => {
-  res.status(404).json({ message: "Not found" });
-});
 
 export { app };
