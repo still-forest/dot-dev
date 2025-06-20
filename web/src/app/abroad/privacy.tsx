@@ -28,7 +28,7 @@ export const PrivacyPage = () => {
   const webview = isMobileWebView();
 
   return (
-    <Layout>
+    <Layout className={`${webview ? "mt-8" : ""}`}>
       {!webview && <Header />}
       <Heading level="1">Privacy Policy</Heading>
       <Text color="muted" className="mb-4 italic">
