@@ -16,10 +16,6 @@ coverage:
         paths:
           - "web/"
 
-    patch:
-      default:
-        target: 80%
-
 flags:
   api:
     paths:

@@ -6,6 +6,7 @@ import { Root } from "./app/[root]";
 import { DisclosuresPage as AbroadDisclosures } from "./app/abroad/disclosures";
 import { Abroad } from "./app/abroad/index";
 import { PrivacyPage as AbroadPrivacy } from "./app/abroad/privacy";
+import { SupportPage as AbroadSupport } from "./app/abroad/support";
 import { NotFoundPage } from "./app/not-found";
 import ThemeProvider from "./context/ThemeProvider";
 import { THEMES } from "./context/ThemeProviderContext";
@@ -19,6 +20,7 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/abroad" element={<Abroad />} />
           <Route path="/abroad/privacy" element={<AbroadPrivacy />} />
           <Route path="/abroad/disclosures" element={<AbroadDisclosures />} />
+          <Route path="/abroad/support" element={<AbroadSupport />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
