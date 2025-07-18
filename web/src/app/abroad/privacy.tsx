@@ -10,7 +10,7 @@ import { isMobileWebView } from "@/utils";
 
 const SectionHeading = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Heading level="3" family="serif" variant="muted" weight="light" className="mt-4">
+    <Heading className="mt-4" family="serif" level="3" variant="muted" weight="light">
       {children}
     </Heading>
   );
@@ -31,7 +31,7 @@ export const PrivacyPage = () => {
     <Layout className={`${webview ? "mt-8" : ""}`}>
       {!webview && <Header />}
       <Heading level="1">Privacy Policy</Heading>
-      <Text color="muted" className="mb-4 italic">
+      <Text className="mb-4 italic" color="muted">
         Effective date: 2025-06-19
       </Text>
       <Paragraph>

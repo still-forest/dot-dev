@@ -8,7 +8,7 @@ interface LayoutProps {
 
 export const Layout = ({ children, className }: LayoutProps) => {
   return (
-    <Flex direction="col" className={`mx-auto h-screen w-full max-w-screen-lg ${className}`}>
+    <Flex className={`mx-auto h-screen w-full max-w-screen-lg ${className}`} direction="col">
       <Container as="main" className="mx-0 flex-1">
         {children}
       </Container>

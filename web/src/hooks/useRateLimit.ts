@@ -1,7 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 import { useLocalStorage } from "./useLocalStorage";
 
-export const useRateLimit = (key: string, limitMs: number = 5_000) => {
+export const useRateLimit = (key: string, limitMs = 5_000) => {
   const [lastAction, setLastAction] = useLocalStorage<number | null>(key, null);
 
   const canExecute = () => {

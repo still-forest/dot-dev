@@ -26,23 +26,23 @@ const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Flex direction="col" gap="2" className="sm:flex-row">
+      <Flex className="sm:flex-row" direction="col" gap="2">
         <Flex.Item className="flex min-w-[220px] flex-col gap-y-2">
-          <TextInput placeholder="your@email.com" aria-label="Email" {...register("email")} className="bg-input" />
+          <TextInput aria-label="Email" placeholder="your@email.com" {...register("email")} className="bg-input" />
           {errors.email && <InputError message={errors.email.message!} />}
         </Flex.Item>
-        <Flex.Item flex="1" className="flex flex-col gap-y-2">
+        <Flex.Item className="flex flex-col gap-y-2" flex="1">
           <TextInput
-            placeholder="Your brief message here..."
             aria-label="Message"
+            placeholder="Your brief message here..."
             {...register("message")}
             className="grow bg-input"
           />
           {errors.message && <InputError message={errors.message.message!} />}
         </Flex.Item>
-        <Flex justify="end" gap="2">
+        <Flex gap="2" justify="end">
           <SubmitButton disabled={!isValid} submitting={submitting} />
-          <Button variant="secondary" onClick={onCancel} icon={<CircleX />} aria-label="Cancel" />
+          <Button aria-label="Cancel" icon={<CircleX />} onClick={onCancel} variant="secondary" />
         </Flex>
       </Flex>
     </form>
@@ -80,7 +80,7 @@ export const ContactForm = () => {
   };
 
   return (
-    <Flex direction="col" gap="2" className="w-full" data-testid="contact-form">
+    <Flex className="w-full" data-testid="contact-form" direction="col" gap="2">
       {submitError && <Alert message={submitError} title="Submission failure" type="error" />}
       {!isOpen && !hasSubmitted && (
         <Flex justify="center">
@@ -88,11 +88,11 @@ export const ContactForm = () => {
         </Flex>
       )}
       {isOpen && !hasSubmitted && (
-        <Form onSubmit={handleSubmit} onCancel={() => setIsOpen(false)} submitting={isSubmitting} />
+        <Form onCancel={() => setIsOpen(false)} onSubmit={handleSubmit} submitting={isSubmitting} />
       )}
       {hasSubmitted && (
         <Flex justify="center">
-          <Alert message="Message sent successfully." type="success" className="w-fit" />
+          <Alert className="w-fit" message="Message sent successfully." type="success" />
         </Flex>
       )}
     </Flex>

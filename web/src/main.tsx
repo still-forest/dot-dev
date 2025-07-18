@@ -16,12 +16,12 @@ createRoot(document.getElementById("root")!).render(
     <ThemeProvider defaultTheme={THEMES.SYSTEM} storageKey="still-forest-theme">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Root />} />
-          <Route path="/abroad" element={<Abroad />} />
-          <Route path="/abroad/privacy" element={<AbroadPrivacy />} />
-          <Route path="/abroad/disclosures" element={<AbroadDisclosures />} />
-          <Route path="/abroad/support" element={<AbroadSupport />} />
-          <Route path="*" element={<NotFoundPage />} />
+          <Route element={<Root />} path="/" />
+          <Route element={<Abroad />} path="/abroad" />
+          <Route element={<AbroadPrivacy />} path="/abroad/privacy" />
+          <Route element={<AbroadDisclosures />} path="/abroad/disclosures" />
+          <Route element={<AbroadSupport />} path="/abroad/support" />
+          <Route element={<NotFoundPage />} path="*" />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
