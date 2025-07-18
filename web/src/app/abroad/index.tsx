@@ -15,36 +15,36 @@ export const Abroad = () => {
 
   return (
     <Layout>
-      <Flex direction="col" align="center" justify="center" gap="12" className="h-full">
+      <Flex align="center" className="h-full" direction="col" gap="12" justify="center">
         <Container>
-          <Flex justify="center" align="center">
-            <img src="/abroad/splash-icon.png" alt="Abroad logo" className="w-lg" />
+          <Flex align="center" justify="center">
+            <img alt="Abroad logo" className="w-lg" src="/abroad/splash-icon.png" />
           </Flex>
         </Container>
         <Container>
-          <Flex justify="center" align="center">
-            <Link to="/" className="flex items-center gap-2">
-              <Heading level="3" weight="thin" className="font-brand">
+          <Flex align="center" justify="center">
+            <Link className="flex items-center gap-2" to="/">
+              <Heading className="font-brand" level="3" weight="thin">
                 by Still Forest
               </Heading>
-              <img src="/icon-192.png" alt="Still Forest logo" className="w-[24px]" />
+              <img alt="Still Forest logo" className="w-[24px]" src="/icon-192.png" />
             </Link>
           </Flex>
         </Container>
         <Container>
-          <Flex justify="center" align="center" gap="2">
-            <Button variant="outline" asChild>
-              <Link to="/abroad/privacy" noStyle>
+          <Flex align="center" gap="2" justify="center">
+            <Button asChild variant="outline">
+              <Link noStyle to="/abroad/privacy">
                 Privacy Policy
               </Link>
             </Button>
-            <Button variant="outline" asChild>
-              <Link to="/abroad/disclosures" noStyle>
+            <Button asChild variant="outline">
+              <Link noStyle to="/abroad/disclosures">
                 Disclosures
               </Link>
             </Button>
-            <Button variant="outline" asChild>
-              <Link to="/abroad/support" noStyle>
+            <Button asChild variant="outline">
+              <Link noStyle to="/abroad/support">
                 Support
               </Link>
             </Button>

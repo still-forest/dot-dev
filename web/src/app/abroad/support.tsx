@@ -10,7 +10,7 @@ import { isMobileWebView } from "@/utils";
 
 const SectionHeading = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Heading level="3" family="serif" variant="muted" weight="light" className="mt-4">
+    <Heading className="mt-4" family="serif" level="3" variant="muted" weight="light">
       {children}
     </Heading>
   );

@@ -16,11 +16,11 @@ export const Root = () => {
   return (
     <Layout>
       <Container className="h-full">
-        <Flex justify="between" direction="col" gap="4" className="h-full">
-          <Flex.Item flex="auto" className="flex items-center justify-center">
-            <img src="/logo-full-lg.png" alt="Logo" className="w-xl" />
+        <Flex className="h-full" direction="col" gap="4" justify="between">
+          <Flex.Item className="flex items-center justify-center" flex="auto">
+            <img alt="Logo" className="w-xl" src="/logo-full-lg.png" />
           </Flex.Item>
-          <Flex.Item flex="auto" className="flex items-center justify-center">
+          <Flex.Item className="flex items-center justify-center" flex="auto">
             <ContactForm />
           </Flex.Item>
         </Flex>

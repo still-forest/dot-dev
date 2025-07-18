@@ -13,14 +13,14 @@ export const Link = ({ children, to, className, noStyle, ...props }: LinkProps) 
 
   if (external) {
     return (
-      <a href={to} className={classNames} target="_blank" rel="noopener noreferrer" {...props}>
+      <a className={classNames} href={to} rel="noopener noreferrer" target="_blank" {...props}>
         {children}
       </a>
     );
   }
 
   return (
-    <RouterLink to={to} className={classNames} {...props}>
+    <RouterLink className={classNames} to={to} {...props}>
       {children}
     </RouterLink>
   );

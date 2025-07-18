@@ -7,7 +7,7 @@ export const renderWithProviders = (ui: ReactNode) => {
     wrapper: ({ children }) => (
       <MemoryRouter>
         <Routes>
-          <Route path="/" element={children} />
+          <Route element={children} path="/" />
         </Routes>
       </MemoryRouter>
     ),
