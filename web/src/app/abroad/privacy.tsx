@@ -48,7 +48,7 @@ export const PrivacyPage = () => {
         </Paragraph>
 
         <SectionHeading>Information We Collect</SectionHeading>
-        <Paragraph>
+        <Paragraph as="div">
           We may collect anonymous usage data to understand how the app is used and improve your experience. This
           includes:
           <ul className="mt-2 list-disc pl-8">
@@ -59,7 +59,7 @@ export const PrivacyPage = () => {
         </Paragraph>
 
         <SectionHeading>How We Use This Information</SectionHeading>
-        <Paragraph>
+        <Paragraph as="div">
           We use this data solely to:
           <ul className="mt-2 list-disc pl-8">
             <li>Understand how users interact with the app</li>
@@ -72,7 +72,7 @@ export const PrivacyPage = () => {
         </Paragraph>
 
         <SectionHeading>Third-Party Services</SectionHeading>
-        <Paragraph>
+        <Paragraph as="div">
           We use the following third-party services that may process data on our behalf:
           <ul className="mt-2 list-disc pl-8">
             <li>
