@@ -22,8 +22,8 @@
     "zod": "^3.25.28"
   },
   "devDependencies": {
-    "@swc/core": "1.12.11",
-    "@swc/jest": "0.2.38",
+    "@swc/core": "1.12.14",
+    "@swc/jest": "0.2.39",
     "@types/express": "5.0.3",
     "@types/jest": "30.0.0",
     "@types/node": "22.15.33",
