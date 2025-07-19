@@ -147,7 +147,7 @@
     "Courier New", monospace;
   --font-abroad-brand: "Playwrite IN", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 
-  --font-display: var(--font-serif);
+  --font-display: var(--font-sans);
 }
 
 @layer base {

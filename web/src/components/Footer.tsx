@@ -1,4 +1,4 @@
-import { Footer as BaseFooter, Box, Button, Flex, Separator, Text, type Theme, Tooltip } from "@still-forest/canopy";
+import { Box, Button, Flex, Separator, Text, type Theme, Tooltip } from "@still-forest/canopy";
 import { MonitorCog, Moon, SquareArrowOutUpRight, Sun } from "lucide-react";
 import { Link } from "@/components/Link";
 import { GITHUB_URL, LINKEDIN_URL } from "@/config";
@@ -9,14 +9,14 @@ import { ReactComponent as LinkedInIcon } from "../assets/linkedin.svg";
 
 const ProjectIcon = ({ link, src, label }: { link: string; src: string; label: string }) => {
   return (
-    <Link to={link} noStyle>
-      <Button variant="outline" asChild>
+    <Link noStyle to={link}>
+      <Button asChild variant="outline">
         <Flex
           align="center"
-          justify="center"
           className="h-full w-[60px] p-2 opacity-25 hover:cursor-pointer hover:opacity-100"
+          justify="center"
         >
-          <img src={src} alt={label} />
+          <img alt={label} src={src} />
         </Flex>
       </Button>
     </Link>
@@ -28,7 +28,7 @@ const ProjectLinks = () => {
     <Flex gap="4">
       <Tooltip>
         <Tooltip.Trigger>
-          <ProjectIcon link="/abroad" src="/abroad/logo.png" label="Abroad logo" />
+          <ProjectIcon label="Abroad logo" link="/abroad" src="/abroad/logo.png" />
         </Tooltip.Trigger>
         <Tooltip.Content>Abroad</Tooltip.Content>
       </Tooltip>
@@ -47,19 +47,19 @@ const ThemeSelection = () => {
     <Flex gap="4">
       <Tooltip>
         <Tooltip.Trigger>
-          <MonitorCog size={32} className={getClassName("system")} onClick={() => setTheme("system")} />
+          <MonitorCog className={getClassName("system")} onClick={() => setTheme("system")} size={32} />
         </Tooltip.Trigger>
         <Tooltip.Content>Use system theme</Tooltip.Content>
       </Tooltip>
       <Tooltip>
         <Tooltip.Trigger>
-          <Sun size={32} className={getClassName("light")} onClick={() => setTheme("light")} />
+          <Sun className={getClassName("light")} onClick={() => setTheme("light")} size={32} />
         </Tooltip.Trigger>
         <Tooltip.Content>Use light theme</Tooltip.Content>
       </Tooltip>
       <Tooltip>
         <Tooltip.Trigger>
-          <Moon size={32} className={getClassName("dark")} onClick={() => setTheme("dark")} />
+          <Moon className={getClassName("dark")} onClick={() => setTheme("dark")} size={32} />
         </Tooltip.Trigger>
         <Tooltip.Content>Use dark theme</Tooltip.Content>
       </Tooltip>
@@ -71,16 +71,15 @@ export const Footer = () => {
   const webview = isMobileWebView();
 
   return (
-    <BaseFooter className="flex flex-col items-center justify-between gap-4 md:flex-row">
-      <Text variant="muted" size="sm">
+    <Flex align="center" className="md:flex-row" gap="4" justify="between">
+      <Text family="serif" size="sm" variant="muted">
         © 2025{" "}
-        <Link to="/" className="hover:underline">
+        <Link className="hover:underline" to="/">
           Still Forest LLC
         </Link>
-        .
       </Text>
       {!webview && (
-        <Flex gap="4" align="center">
+        <Flex align="center" gap="4">
           <ProjectLinks />
           <Box className="h-10">
             <Separator orientation="vertical" />
@@ -91,8 +90,8 @@ export const Footer = () => {
           </Box>
           <Tooltip>
             <Tooltip.Trigger>
-              <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
-                <GithubIcon width={32} height={32} className="text-primary/60 hover:text-primary" />
+              <a href={GITHUB_URL} rel="noopener noreferrer" target="_blank">
+                <GithubIcon className="text-primary/60 hover:text-primary" height={32} width={32} />
               </a>
             </Tooltip.Trigger>
             <Tooltip.Content>
@@ -103,8 +102,8 @@ export const Footer = () => {
           </Tooltip>
           <Tooltip>
             <Tooltip.Trigger>
-              <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
-                <LinkedInIcon width={32} height={32} className="text-primary/60 hover:text-primary" />
+              <a href={LINKEDIN_URL} rel="noopener noreferrer" target="_blank">
+                <LinkedInIcon className="text-primary/60 hover:text-primary" height={32} width={32} />
               </a>
             </Tooltip.Trigger>
             <Tooltip.Content>
@@ -115,6 +114,6 @@ export const Footer = () => {
           </Tooltip>
         </Flex>
       )}
-    </BaseFooter>
+    </Flex>
   );
 };
