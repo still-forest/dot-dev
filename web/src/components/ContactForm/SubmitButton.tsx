@@ -11,11 +11,11 @@ export const SubmitButton = ({ submitting = false, disabled = false, ...rest }: 
 
   return (
     <Button
-      type="submit"
-      variant="primary"
+      aria-label={submitting ? "Sending..." : "Send"}
       disabled={disabled || submitting}
       icon={icon}
-      aria-label={submitting ? "Sending..." : "Send"}
+      type="submit"
+      variant="primary"
       {...rest}
     />
   );

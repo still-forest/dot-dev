@@ -78,9 +78,8 @@ const loggingMiddleware = () => {
 
       if (typeof encoding === "function") {
         return (originalEnd as typeof res.end).call(this, chunk, "utf8", encoding);
-      } else {
-        return (originalEnd as typeof res.end).call(this, chunk, encoding || "utf8", cb);
       }
+      return (originalEnd as typeof res.end).call(this, chunk, encoding || "utf8", cb);
     };
 
     // Handle errors
