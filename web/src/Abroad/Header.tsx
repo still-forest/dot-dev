@@ -3,12 +3,7 @@ import { Link } from "react-router";
 
 export const Header = () => {
   return (
-    <Flex
-      align="center"
-      className="mt-2 mb-8 flex-col border-border border-b py-4 sm:flex-row"
-      gap="4"
-      justify="between"
-    >
+    <Flex align="center" className="border-border border-b py-4 sm:flex-row" direction="col" gap="4" justify="between">
       <Link to="/abroad">
         <Flex align="center" gap="2">
           <img alt="Abroad logo" className="w-[48px]" src="/abroad/logo.png" />

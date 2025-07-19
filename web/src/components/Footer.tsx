@@ -1,4 +1,4 @@
-import { Footer as BaseFooter, Box, Button, Flex, Separator, Text, type Theme, Tooltip } from "@still-forest/canopy";
+import { Box, Button, Flex, Separator, Text, type Theme, Tooltip } from "@still-forest/canopy";
 import { MonitorCog, Moon, SquareArrowOutUpRight, Sun } from "lucide-react";
 import { Link } from "@/components/Link";
 import { GITHUB_URL, LINKEDIN_URL } from "@/config";
@@ -71,13 +71,12 @@ export const Footer = () => {
   const webview = isMobileWebView();
 
   return (
-    <BaseFooter className="flex flex-col items-center justify-between gap-4 md:flex-row">
-      <Text size="sm" variant="muted">
+    <Flex align="center" className="md:flex-row" gap="4" justify="between">
+      <Text family="serif" size="sm" variant="muted">
         © 2025{" "}
         <Link className="hover:underline" to="/">
           Still Forest LLC
         </Link>
-        .
       </Text>
       {!webview && (
         <Flex align="center" gap="4">
@@ -115,6 +114,6 @@ export const Footer = () => {
           </Tooltip>
         </Flex>
       )}
-    </BaseFooter>
+    </Flex>
   );
 };

@@ -15,15 +15,13 @@ export const Root = () => {
 
   return (
     <Layout>
-      <Container className="h-full">
-        <Flex className="h-full" direction="col" gap="4" justify="between">
-          <Flex.Item className="flex items-center justify-center" flex="auto">
-            <img alt="Logo" className="w-xl" src="/logo-full-lg.png" />
-          </Flex.Item>
-          <Flex.Item className="flex items-center justify-center" flex="auto">
-            <ContactForm />
-          </Flex.Item>
-        </Flex>
+      <Container className="h-full" gap="4" justify="between">
+        <Flex.Item className="flex items-center justify-center" flex="auto">
+          <img alt="Logo" className="w-xl" src="/logo-full-lg.png" />
+        </Flex.Item>
+        <Flex.Item className="flex items-center justify-center" flex="auto">
+          <ContactForm />
+        </Flex.Item>
       </Container>
     </Layout>
   );
