@@ -40,7 +40,7 @@ WORKDIR /app
 COPY --from=web-builder /app/web/dist ./public
 
 COPY --from=api-builder /app/api/dist ./dist
-COPY --from=api-builder /app/api/package.json /app/api/pnpm-lock.yaml ./
+COPY --from=api-builder /app/api/package.json /app/api/pnpm-lock.yaml /app/api/pnpm-workspace.yaml ./
 
 RUN pnpm install --prod --frozen-lockfile
 
