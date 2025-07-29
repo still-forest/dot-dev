@@ -23,7 +23,7 @@ FROM base AS api-builder
 
 WORKDIR /app/api
 
-COPY api/package.json api/pnpm-lock.yaml ./
+COPY api/package.json api/pnpm-lock.yaml api/pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile
 
 COPY api/tsconfig.json api/tsup.config.ts ./
