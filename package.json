@@ -17,7 +17,7 @@
     "test:api": "cd ./api && pnpm test"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.1.2",
+    "@biomejs/biome": "2.2.0",
     "@still-forest/biomejs-config": "2.0.1",
     "concurrently": "9.2.0"
   },
