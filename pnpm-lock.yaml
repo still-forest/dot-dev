@@ -12,8 +12,8 @@ importers:
         specifier: 2.2.0
         version: 2.2.0
       '@still-forest/biomejs-config':
-        specifier: 2.0.1
-        version: 2.0.1(@biomejs/biome@2.2.0)
+        specifier: 2.1.0
+        version: 2.1.0(@biomejs/biome@2.2.0)
       concurrently:
         specifier: 9.2.0
         version: 9.2.0
@@ -73,10 +73,10 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@still-forest/biomejs-config@2.0.1':
-    resolution: {integrity: sha512-Tnn7HajP9tmEpFAx9GTHu8xTiB2BP67rtleaToFtaG4hxDHOXzvq/0fiIPcTIkcfVu4DmEOJURRMB0TeO2p9KA==}
+  '@still-forest/biomejs-config@2.1.0':
+    resolution: {integrity: sha512-p0ejd8gG84w09FS7EhrapvJrm+sM78MOiJdZh0nwVVmb2LAhfRyN+ueT7v2UlV1qaRR0IC2OssVruuB3zvU3Kg==}
     peerDependencies:
-      '@biomejs/biome': '>=2.0.4, <3.0.0'
+      '@biomejs/biome': ^2.2.0
 
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
@@ -215,7 +215,7 @@ snapshots:
   '@biomejs/cli-win32-x64@2.2.0':
     optional: true
 
-  '@still-forest/biomejs-config@2.0.1(@biomejs/biome@2.2.0)':
+  '@still-forest/biomejs-config@2.1.0(@biomejs/biome@2.2.0)':
     dependencies:
       '@biomejs/biome': 2.2.0
 
