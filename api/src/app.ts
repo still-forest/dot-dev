@@ -2,7 +2,7 @@ import path from "node:path";
 import type { Request, Response } from "express";
 import express from "express";
 import { contactHandler } from "./api/contact.handler";
-import { environment, isProductionLike, isTestEnvironment } from "./config";
+import { environment, isProduction, isTestEnvironment } from "./config";
 import { corsMiddleware } from "./middleware/cors.middleware";
 import { setupLogging } from "./middleware/logging.middleware";
 import { rateLimitMiddleware } from "./middleware/rateLimit.middleware";
@@ -27,7 +27,7 @@ app.use(corsMiddleware);
 app.post("/api/contact", validateInputSchema(ContactFormInputSchema), contactHandler);
 
 // React app
-if (isProductionLike) {
+if (isProduction) {
   app.use(express.static(path.join(process.cwd(), "public")));
 
   app.get("/*splat", (_req: Request, res: Response) => {
