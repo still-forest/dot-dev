@@ -1,6 +1,0 @@
- # Optional: for development & staging only
-
-services:
-  still-forest-dot-dev:
-    volumes:
-      - ${LOG_DIR:-${HOME}/logs}:/app/logs
