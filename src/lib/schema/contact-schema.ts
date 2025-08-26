@@ -1,8 +1,7 @@
 import validator from "validator";
 import { z } from "zod";
 
-const sanitizeString = (raw: unknown) => {
-  if (typeof raw !== "string") return raw;
+const sanitizeString = (raw: string) => {
   return validator.escape(raw.trim().replace(/<[^>]*>/g, ""));
 };
 
