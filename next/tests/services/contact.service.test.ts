@@ -1,7 +1,8 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { operatorEmailUrl } from "../src/config";
-import { contactService } from "../src/services/contact.service";
+import { afterEach, describe, expect, test } from "vitest";
+import { operatorEmailUrl } from "@/lib/config";
+import { contactService } from "@/services/contact.service";
 
 const mockAxios = new MockAdapter(axios);
 
@@ -16,7 +17,7 @@ describe("ContactService", () => {
     mockAxios.onPost(operatorEmailUrl).reply(200, { status: "ok" });
 
     const result = await contactService.submitContactForm(email);
-    expect(result).toEqual([true, null]);
+    expect(result).toEqual({ success: true, data: true });
 
     expect(mockAxios.history.post).toHaveLength(1);
     const mockRequest = mockAxios.history.post[0];
@@ -35,7 +36,12 @@ describe("ContactService", () => {
     mockAxios.onPost(operatorEmailUrl).reply(500, { status: "error" });
 
     const result = await contactService.submitContactForm(email);
-    expect(result).toEqual([false, new Error("Request failed with status code 500")]);
+
+    expect(result.success).toBe(false);
+    expect(result.error).toBeDefined();
+    expect(result.error).toBeInstanceOf(Error);
+    expect(result.error?.message).toBe("Request failed with status code 500");
+    expect(result.data).toBe(undefined);
 
     expect(mockAxios.history.post).toHaveLength(1);
     const mockRequest = mockAxios.history.post[0];
@@ -46,7 +52,12 @@ describe("ContactService", () => {
     mockAxios.onPost(operatorEmailUrl).timeout();
 
     const result = await contactService.submitContactForm(email);
-    expect(result).toEqual([false, new Error("timeout of 5000ms exceeded")]);
+
+    expect(result.success).toBe(false);
+    expect(result.error).toBeDefined();
+    expect(result.error).toBeInstanceOf(Error);
+    expect(result.error?.message).toBe("timeout of 5000ms exceeded");
+    expect(result.data).toBe(undefined);
 
     expect(mockAxios.history.post).toHaveLength(1);
     const mockRequest = mockAxios.history.post[0];
@@ -57,7 +68,12 @@ describe("ContactService", () => {
     mockAxios.onPost(operatorEmailUrl).networkError();
 
     const result = await contactService.submitContactForm(email);
-    expect(result).toEqual([false, new Error("Network Error")]);
+
+    expect(result.success).toBe(false);
+    expect(result.error).toBeDefined();
+    expect(result.error).toBeInstanceOf(Error);
+    expect(result.error?.message).toBe("Network Error");
+    expect(result.data).toBe(undefined);
 
     expect(mockAxios.history.post).toHaveLength(1);
     const mockRequest = mockAxios.history.post[0];

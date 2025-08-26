@@ -16,6 +16,7 @@
     "@hookform/resolvers": "5.1.1",
     "@still-forest/canopy": "0.24.0",
     "axios": "^1.11.0",
+    "axios-mock-adapter": "^2.1.0",
     "lucide-react": "^0.541.0",
     "next": "15.5.0",
     "react": "19.1.0",
