@@ -48,25 +48,35 @@ describe("ContactService", () => {
     expect(mockRequest.url).toBe(operatorEmailUrl);
   });
 
-  // test("handles timeout", async () => {
-  //   mockAxios.onPost(operatorEmailUrl).timeout();
+  test("handles timeout", async () => {
+    mockAxios.onPost(operatorEmailUrl).timeout();
 
-  //   const result = await contactService.submitContactForm(email);
-  //   expect(result).toEqual([false, new Error("timeout of 5000ms exceeded")]);
+    const result = await contactService.submitContactForm(email);
 
-  //   expect(mockAxios.history.post).toHaveLength(1);
-  //   const mockRequest = mockAxios.history.post[0];
-  //   expect(mockRequest.url).toBe(operatorEmailUrl);
-  // });
+    expect(result.success).toBe(false);
+    expect(result.error).toBeDefined();
+    expect(result.error).toBeInstanceOf(Error);
+    expect(result.error?.message).toBe("timeout of 5000ms exceeded");
+    expect(result.data).toBe(undefined);
 
-  // test("handles network error", async () => {
-  //   mockAxios.onPost(operatorEmailUrl).networkError();
+    expect(mockAxios.history.post).toHaveLength(1);
+    const mockRequest = mockAxios.history.post[0];
+    expect(mockRequest.url).toBe(operatorEmailUrl);
+  });
 
-  //   const result = await contactService.submitContactForm(email);
-  //   expect(result).toEqual([false, new Error("Network Error")]);
+  test("handles network error", async () => {
+    mockAxios.onPost(operatorEmailUrl).networkError();
 
-  //   expect(mockAxios.history.post).toHaveLength(1);
-  //   const mockRequest = mockAxios.history.post[0];
-  //   expect(mockRequest.url).toBe(operatorEmailUrl);
-  // });
+    const result = await contactService.submitContactForm(email);
+
+    expect(result.success).toBe(false);
+    expect(result.error).toBeDefined();
+    expect(result.error).toBeInstanceOf(Error);
+    expect(result.error?.message).toBe("Network Error");
+    expect(result.data).toBe(undefined);
+
+    expect(mockAxios.history.post).toHaveLength(1);
+    const mockRequest = mockAxios.history.post[0];
+    expect(mockRequest.url).toBe(operatorEmailUrl);
+  });
 });
