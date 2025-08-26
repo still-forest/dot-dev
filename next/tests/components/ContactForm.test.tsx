@@ -4,6 +4,7 @@ import "@testing-library/jest-dom";
 
 import { ContactForm } from "@/components/ContactForm";
 import { useRateLimit } from "@/hooks/useRateLimit";
+import { contact } from "@/lib/actions/contact-actions";
 
 beforeEach(() => {
   vi.mock("@/lib/actions/contact-actions", () => ({
@@ -41,8 +42,8 @@ describe("ContactForm", () => {
   });
 
   test("can submit form with valid data", async () => {
-    const mockedFormSubmit = vi.mocked(formSubmit);
-    mockedFormSubmit.mockResolvedValue({ success: true });
+    const mockedContact = vi.mocked(contact);
+    mockedContact.mockResolvedValue(true);
 
     const mockedUseRateLimit = vi.mocked(useRateLimit);
     mockedUseRateLimit.mockReturnValue({
@@ -74,7 +75,7 @@ describe("ContactForm", () => {
     await waitFor(() => {
       expect(screen.getByText("Message sent successfully.")).toBeInTheDocument();
     });
-    expect(formSubmit).toHaveBeenCalledWith({
+    expect(mockedContact).toHaveBeenCalledWith({
       email: "test@example.com",
       message: "Test message",
     });
@@ -82,8 +83,8 @@ describe("ContactForm", () => {
   });
 
   test("cannot submit form with invalid data", async () => {
-    const mockedFormSubmit = vi.mocked(formSubmit);
-    mockedFormSubmit.mockResolvedValue({ success: true });
+    const mockedContact = vi.mocked(contact);
+    mockedContact.mockResolvedValue(true);
 
     render(<ContactForm />);
 
@@ -111,12 +112,12 @@ describe("ContactForm", () => {
       expect(submitButton).toBeDisabled();
     });
 
-    expect(formSubmit).not.toHaveBeenCalled();
+    expect(mockedContact).not.toHaveBeenCalled();
   });
 
   test("should show error message if form submission fails", async () => {
-    const mockedFormSubmit = vi.mocked(formSubmit);
-    mockedFormSubmit.mockRejectedValue(new Error("You shall not pass!"));
+    const mockedContact = vi.mocked(contact);
+    mockedContact.mockRejectedValue(new Error("You shall not pass!"));
 
     render(<ContactForm />);
 
@@ -138,7 +139,7 @@ describe("ContactForm", () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(formSubmit).toHaveBeenCalledWith({
+      expect(mockedContact).toHaveBeenCalledWith({
         email: "test@example.com",
         message: "Test message",
       });
