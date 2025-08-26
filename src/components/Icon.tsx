@@ -1,10 +1,10 @@
-import type { SVGProps } from "react";
+import Image, { type ImageProps } from "next/image";
 
-interface IconProps extends SVGProps<SVGSVGElement> {
+interface IconProps extends ImageProps {
   src: string;
   size?: number;
 }
 
 export const Icon = ({ src, size = 32, ...props }: IconProps) => {
-  return <img alt="Icon" height={size} src={src} width={size} {...props} />;
+  return <Image height={size} src={src} width={size} {...props} />;
 };

@@ -103,7 +103,7 @@ export const Footer = () => {
           <Tooltip>
             <Tooltip.Trigger>
               <a href={GITHUB_URL} rel="noopener noreferrer" target="_blank">
-                <Icon size={32} src="/github.svg" />
+                <Icon alt="GitHub" size={32} src="/github.svg" />
               </a>
             </Tooltip.Trigger>
             <Tooltip.Content>
@@ -115,7 +115,7 @@ export const Footer = () => {
           <Tooltip>
             <Tooltip.Trigger>
               <a href={LINKEDIN_URL} rel="noopener noreferrer" target="_blank">
-                <Icon size={32} src="/linkedin.svg" />
+                <Icon alt="LinkedIn" size={32} src="/linkedin.svg" />
               </a>
             </Tooltip.Trigger>
             <Tooltip.Content>
