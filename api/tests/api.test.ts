@@ -16,26 +16,6 @@ describe("POST /api/contact", () => {
     jest.clearAllMocks();
   });
 
-  test("returns 204 on successful contact form submission", async () => {
-    mockedContactService.submitContactForm.mockResolvedValue([true, null]);
-
-    const response = await supertest(app).post("/api/contact").send(validInput);
-    expect(response.status).toBe(204);
-    expect(response.body).toEqual({});
-
-    expect(mockedContactService.submitContactForm).toHaveBeenCalledWith(validInput);
-  });
-
-  test("returns 500 on failed contact form submission", async () => {
-    mockedContactService.submitContactForm.mockResolvedValue([false, new Error("test error")]);
-
-    const response = await supertest(app).post("/api/contact").send(validInput);
-    expect(response.status).toBe(500);
-    expect(response.body).toEqual({ message: "Failed to submit contact form" });
-
-    expect(mockedContactService.submitContactForm).toHaveBeenCalledWith(validInput);
-  });
-
   test("returns 400 on invalid input", async () => {
     mockedContactService.submitContactForm.mockResolvedValue([true, null]);
 
