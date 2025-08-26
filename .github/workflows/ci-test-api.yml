@@ -15,7 +15,7 @@ defaults:
     working-directory: api
 
 jobs:
-  tests:
+  test-api:
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
