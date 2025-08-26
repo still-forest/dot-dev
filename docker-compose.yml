@@ -4,9 +4,11 @@ services:
     image: ghcr.io/still-forest/still-forest-dot-dev:latest
     ports:
       - 8080:3000
+    volumes:
+      - ~/Development/logs:/app/logs # Optional: for development & staging only
     environment:
       - NODE_ENV=production
-      - APP_ENV=production
+      - APP_ENV=staging
       - OPERATOR_EMAIL_URL=http://operator.test/api/email
       - LOKI_HOST=https://logs-prod-eu-west-0.grafana.net
       - LOKI_USERNAME=your-grafana-instance-id

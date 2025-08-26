@@ -34,7 +34,6 @@ jobs:
             docker build -t ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:latest .
             docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:latest
           else
-            BRANCH_TAG=$(echo "${{ github.ref_name }}" | tr '/[:upper:]' '-[:lower:]' | tr -c 'a-z0-9_.-' '-')
-            docker build -t ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:${BRANCH_TAG} .
-            docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:${BRANCH_TAG}
+            docker build -t ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:next .
+            docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:next
           fi
