@@ -2,13 +2,12 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import "@testing-library/jest-dom";
 
-import { ContactForm } from "@/components/ContactForm/ContactForm";
-import { formSubmit } from "@/components/ContactForm/formSubmit";
+import { ContactForm } from "@/components/ContactForm";
 import { useRateLimit } from "@/hooks/useRateLimit";
 
 beforeEach(() => {
-  vi.mock("@/components/ContactForm/formSubmit", () => ({
-    formSubmit: vi.fn().mockResolvedValue({ success: true }),
+  vi.mock("@/lib/actions/contact-actions", () => ({
+    contact: vi.fn().mockResolvedValue({ success: true }),
   }));
 
   vi.mock("@/hooks/useRateLimit", () => ({

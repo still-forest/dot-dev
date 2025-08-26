@@ -1,18 +1,17 @@
 import { describe, expect, test, vi } from "vitest";
-import { formSubmit } from "@/components/ContactForm/formSubmit";
-import type { FormData } from "@/components/ContactForm/schema";
-import { CONTACT_SUBMISSION_URL } from "@/lib/config";
+import { contact } from "@/lib/actions/contact-actions";
+import { operatorEmailUrl } from "@/lib/config";
 
 describe("formSubmit", () => {
-  const formData: FormData = { email: "test@example.test", message: "Test message" };
+  const formData = { email: "test@example.test", message: "Test message" };
 
   test("submits form data to the contact submission URL", async () => {
     const fetchSpy = vi.spyOn(global, "fetch");
 
-    const response = await formSubmit(formData);
+    const response = await contact(formData);
     expect(response).toEqual(true);
 
-    expect(fetchSpy).toHaveBeenCalledWith(CONTACT_SUBMISSION_URL, {
+    expect(fetchSpy).toHaveBeenCalledWith(operatorEmailUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +30,7 @@ describe("formSubmit", () => {
     const fetchSpy = vi.spyOn(global, "fetch");
     fetchSpy.mockRejectedValue(new Error("Failed to submit form"));
 
-    await expect(formSubmit(formData)).rejects.toThrow("Failed to submit form");
+    await expect(contact(formData)).rejects.toThrow("Failed to submit form");
   });
 
   test("throws an error if the server returns an error response", async () => {
@@ -43,7 +42,7 @@ describe("formSubmit", () => {
       json: vi.fn(),
     } as unknown as Response);
 
-    await expect(formSubmit(formData)).rejects.toThrow("Failed to submit form: 400 Bad Request");
+    await expect(contact(formData)).rejects.toThrow("Failed to submit form: 400 Bad Request");
     fetchSpy.mockRestore();
   });
 });
