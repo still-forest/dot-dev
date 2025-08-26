@@ -7,7 +7,7 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { useHead } from "@/hooks/useHead";
 import { isMobileWebView } from "@/utils";
 
-export const PrivacyPage = () => {
+export default function Page() {
   const { setTitle } = useHead({
     baseTitle: "Abroad",
   });
@@ -106,4 +106,4 @@ export const PrivacyPage = () => {
       </Container>
     </Layout>
   );
-};
+}

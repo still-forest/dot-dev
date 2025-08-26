@@ -4,7 +4,7 @@ import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
 import { useHead } from "@/hooks/useHead";
 
-export const Root = () => {
+export default function Page() {
   const { setIcon } = useHead({
     baseTitle: "Still Forest",
   });
@@ -27,4 +27,4 @@ export const Root = () => {
       </Container>
     </Layout>
   );
-};
+}

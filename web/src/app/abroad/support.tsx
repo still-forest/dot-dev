@@ -7,7 +7,7 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { useHead } from "@/hooks/useHead";
 import { isMobileWebView } from "@/utils";
 
-export const SupportPage = () => {
+export default function Page() {
   const { setTitle } = useHead({
     baseTitle: "Abroad",
   });
@@ -29,4 +29,4 @@ export const SupportPage = () => {
       </Container>
     </Layout>
   );
-};
+}

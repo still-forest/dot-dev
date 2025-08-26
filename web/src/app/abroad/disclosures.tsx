@@ -7,7 +7,7 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { useHead } from "@/hooks/useHead";
 import { isMobileWebView } from "@/utils";
 
-export const DisclosuresPage = () => {
+export default function Page() {
   const { setTitle } = useHead({
     baseTitle: "Abroad",
   });
@@ -56,4 +56,4 @@ export const DisclosuresPage = () => {
       </Container>
     </Layout>
   );
-};
+}

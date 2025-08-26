@@ -4,7 +4,7 @@ import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
 import { useHead } from "@/hooks/useHead";
 
-export const Abroad = () => {
+export default function Page() {
   const { setIcon } = useHead({
     baseTitle: "Abroad",
   });
@@ -53,4 +53,4 @@ export const Abroad = () => {
       </Flex>
     </Layout>
   );
-};
+}
