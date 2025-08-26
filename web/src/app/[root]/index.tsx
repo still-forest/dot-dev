@@ -1,7 +1,7 @@
-import { Container, Flex } from "@still-forest/canopy";
+import { Button, Container, Flex } from "@still-forest/canopy";
 import { useEffect } from "react";
-import { ContactForm } from "@/components/ContactForm";
 import { Layout } from "@/components/Layout";
+import { Link } from "@/components/Link";
 import { useHead } from "@/hooks/useHead";
 
 export const Root = () => {
@@ -20,7 +20,9 @@ export const Root = () => {
           <img alt="Logo" className="w-xl" src="/logo-full-lg.png" />
         </Flex.Item>
         <Flex.Item className="flex items-center justify-center" flex="auto">
-          <ContactForm />
+          <Link to="/contact">
+            <Button>Get in touch</Button>
+          </Link>
         </Flex.Item>
       </Container>
     </Layout>

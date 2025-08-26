@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Alert, Button, Flex, Text, TextInput } from "@still-forest/canopy";
+import { Alert, Button, Flex, Text, Textarea, TextInput } from "@still-forest/canopy";
 import { CircleX } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRateLimit } from "@/hooks/useRateLimit";
+import { Link, useNavigate } from "react-router";
 import { formSubmit } from "./formSubmit";
 import { InputError } from "./InputError";
 import { SubmitButton } from "./SubmitButton";
@@ -26,13 +26,13 @@ const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Flex className="sm:flex-row" direction="col" gap="2">
-        <Flex.Item className="flex min-w-[220px] flex-col gap-y-2">
+      <Flex direction="col" gap="16">
+        <Flex className="flex min-w-[220px] flex-col gap-y-2">
           <TextInput aria-label="Email" placeholder="your@email.com" {...register("email")} className="bg-input" />
           {errors.email && <InputError message={errors.email.message!} />}
-        </Flex.Item>
+        </Flex>
         <Flex.Item className="flex flex-col gap-y-2" flex="1">
-          <TextInput
+          <Textarea
             aria-label="Message"
             placeholder="Your brief message here..."
             {...register("message")}
@@ -40,9 +40,13 @@ const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
           />
           {errors.message && <InputError message={errors.message.message!} />}
         </Flex.Item>
-        <Flex gap="2" justify="end">
-          <SubmitButton disabled={!isValid} submitting={submitting} />
-          <Button aria-label="Cancel" icon={<CircleX />} onClick={onCancel} variant="secondary" />
+        <Flex gap="2">
+          <SubmitButton disabled={!isValid} submitting={submitting}>
+            Send
+          </SubmitButton>
+          <Button aria-label="Cancel" icon={<CircleX />} onClick={onCancel} variant="secondary">
+            Cancel
+          </Button>
         </Flex>
       </Flex>
     </form>
@@ -50,49 +54,47 @@ const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
 };
 
 export const ContactForm = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const { canExecute, execute } = useRateLimit("contact-form", 60_000);
+  const navigate = useNavigate();
 
   const handleSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     setSubmitError(null);
 
-    if (!canExecute()) {
-      setSubmitError("You are sending messages too quickly. Please try again later.");
-      setIsSubmitting(false);
-      return;
-    }
-
-    execute(async () => {
-      try {
-        await formSubmit(data);
-        setIsOpen(false);
+    try {
+      const result = await formSubmit(data);
+      if (result.success) {
         setHasSubmitted(true);
-      } catch (error) {
-        setSubmitError(error instanceof Error ? error.message : "Failed to submit form");
-      } finally {
-        setIsSubmitting(false);
+      } else {
+        setSubmitError(result.error.message);
       }
-    });
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "Failed to submit form");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleCancel = () => {
+    navigate("/");
   };
 
   return (
-    <Flex className="w-full" data-testid="contact-form" direction="col" gap="2">
+    <Flex className="w-full flex-1" data-testid="contact-form" direction="col" gap="8">
       {submitError && <Alert message={submitError} title="Submission failure" type="error" />}
-      {!isOpen && !hasSubmitted && (
-        <Flex justify="center">
-          {canExecute() ? <Button onClick={() => setIsOpen(true)}>Get in touch</Button> : <Text>Welcome back.</Text>}
-        </Flex>
-      )}
-      {isOpen && !hasSubmitted && (
-        <Form onCancel={() => setIsOpen(false)} onSubmit={handleSubmit} submitting={isSubmitting} />
-      )}
+      {!hasSubmitted && <Form onCancel={handleCancel} onSubmit={handleSubmit} submitting={isSubmitting} />}
       {hasSubmitted && (
-        <Flex justify="center">
-          <Alert className="w-fit" message="Message sent successfully." type="success" />
+        <Flex align="center" direction="col" gap="12" justify="center">
+          <Text align="center">
+            Message sent successfully.
+            <br />
+            We will get back to you as soon as possible.
+          </Text>
+          <Button asChild className="w-fit">
+            <Link to="/">Back to home</Link>
+          </Button>
         </Flex>
       )}
     </Flex>
