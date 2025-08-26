@@ -6,17 +6,17 @@ import { contactService } from "@/services/contact.service";
 import { getLogger } from "@/services/logger.service";
 
 const submitContactForm = async (formData: ContactFormData) => {
+  const logger = getLogger("contact");
   const { email, message } = formData;
 
-  try {
-    const [success, error] = await contactService.submitContactForm({ fromEmail: email, body: message });
-    if (!success) {
-      throw new Error(`Failed to submit form: ${error instanceof Error ? error.message : "Unknown error"}`);
-    }
+  const [success, error] = await contactService.submitContactForm({ fromEmail: email, body: message });
+
+  if (success) {
     return true;
-  } catch (error) {
-    throw new Error(`Failed to submit form: ${error instanceof Error ? error.message : "Unknown error"}`);
   }
+
+  logger.error("Failed to submit contact form", { error });
+  throw new Error(`Failed to submit form: ${error instanceof Error ? error.message : "Unknown error"}`);
 };
 
 export const contact = async (data: ContactFormData) => {
