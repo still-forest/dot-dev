@@ -3,9 +3,10 @@ services:
     container_name: still-forest-dot-dev
     image: ghcr.io/still-forest/still-forest-dot-dev:latest
     ports:
-      - 8080:8080
+      - 8080:3000
     environment:
       - NODE_ENV=production
+      - APP_ENV=staging
       - OPERATOR_EMAIL_URL=http://operator.test/api/email
       - LOKI_HOST=https://logs-prod-eu-west-0.grafana.net
       - LOKI_USERNAME=your-grafana-instance-id

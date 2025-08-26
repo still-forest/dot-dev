@@ -1,49 +1,53 @@
-# Build web
-FROM node:22-slim@sha256:b2fa526a10dad3c5ab4b3779eca81607ed05a96160ef5497c36cd4ebed68803d AS base
+FROM node:22-alpine@sha256:1b2479dd35a99687d6638f5976fd235e26c5b37e8122f786fcd5fe231d63de5b AS base
 
-RUN corepack enable && \
-  corepack prepare pnpm@10.11.0 --activate
-
-# Build web
-FROM base AS web-builder
-
-WORKDIR /app/web
-
-COPY web/package.json web/pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
-
-COPY web/tsconfig.json web/vite.config.ts web/index.html ./
-COPY web/src ./src
-COPY web/public ./public
-
-RUN pnpm build
-
-# Build api
-FROM base AS api-builder
-
-WORKDIR /app/api
-
-COPY api/package.json api/pnpm-lock.yaml api/pnpm-workspace.yaml ./
-RUN pnpm install --frozen-lockfile
-
-COPY api/tsconfig.json api/tsup.config.ts ./
-COPY api/src ./src
-
-RUN pnpm build
-
-# Build final, combined image --------------------------------
-FROM base AS final
-
+# Install dependencies only when needed
+FROM base AS deps
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Copy built assets and server
-COPY --from=web-builder /app/web/dist ./public
+# Install dependencies based on the preferred package manager
+COPY package.json pnpm-lock.yaml* ./
+RUN corepack enable pnpm && pnpm i --frozen-lockfile
 
-COPY --from=api-builder /app/api/dist ./dist
-COPY --from=api-builder /app/api/package.json /app/api/pnpm-lock.yaml /app/api/pnpm-workspace.yaml ./
 
-RUN pnpm install --prod --frozen-lockfile
+# Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
 
-EXPOSE 8080
+# Next.js collects completely anonymous telemetry data about general usage.
+ENV NEXT_TELEMETRY_DISABLED=1
 
-CMD ["node", "dist/index.js"]
+RUN corepack enable pnpm && pnpm run build
+
+# Production image, copy all the files and run next
+FROM base AS runner
+WORKDIR /app
+
+ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/public ./public
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT=3000
+
+# server.js is created by next build from the standalone output
+# https://nextjs.org/docs/pages/api-reference/config/next-config-js/output
+ENV HOSTNAME="0.0.0.0"
+CMD ["sh", "-c", "node server.js"]
+
+# docker build -t still-forest-dot-dev .
+# docker run --rm -it still-forest-dot-dev sh
