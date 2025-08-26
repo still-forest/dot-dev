@@ -15,7 +15,7 @@ const SectionHeading = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const DisclosuresPage = () => {
+export default function Component() {
   const { setTitle } = useHead({
     baseTitle: "Abroad",
   });
@@ -66,4 +66,4 @@ export const DisclosuresPage = () => {
       </Container>
     </Layout>
   );
-};
+}

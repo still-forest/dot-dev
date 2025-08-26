@@ -15,7 +15,7 @@ const SectionHeading = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const SupportPage = () => {
+export default function Component() {
   const { setTitle } = useHead({
     baseTitle: "Abroad",
   });
@@ -39,4 +39,4 @@ export const SupportPage = () => {
       </Container>
     </Layout>
   );
-};
+}

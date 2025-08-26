@@ -3,7 +3,7 @@ import { renderWithProviders } from "@tests/support/render";
 import { describe, expect, test } from "vitest";
 import "@testing-library/jest-dom";
 
-import { Root } from "@/app/[root]/index";
+import { Root } from "@/pages/index";
 
 describe("Root", () => {
   test("renders ContactForm within Root page", () => {

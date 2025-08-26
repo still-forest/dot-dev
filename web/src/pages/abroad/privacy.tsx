@@ -15,7 +15,7 @@ const SectionHeading = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const PrivacyPage = () => {
+export default function Component() {
   const { setTitle } = useHead({
     baseTitle: "Abroad",
   });
@@ -115,4 +115,4 @@ export const PrivacyPage = () => {
       </Container>
     </Layout>
   );
-};
+}

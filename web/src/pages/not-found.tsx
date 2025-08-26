@@ -2,7 +2,7 @@ import { PageNotFound } from "@still-forest/canopy";
 import { useNavigate } from "react-router";
 import { Layout } from "@/components/Layout";
 
-export const NotFoundPage = () => {
+export default function Component() {
   const navigate = useNavigate();
 
   return (
@@ -10,4 +10,4 @@ export const NotFoundPage = () => {
       <PageNotFound goHome={() => navigate("/")} />
     </Layout>
   );
-};
+}

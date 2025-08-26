@@ -35,7 +35,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         <title>Still Forest</title>
       </head>
       <body>
-        <AppProviders>{children}</AppProviders>
+        {children}
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -43,6 +43,10 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default function Root() {
-  return <Outlet />;
+export default function App() {
+  return (
+    <AppProviders>
+      <Outlet />
+    </AppProviders>
+  );
 }

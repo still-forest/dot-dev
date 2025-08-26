@@ -4,7 +4,7 @@ import { ContactForm } from "@/components/ContactForm";
 import { Layout } from "@/components/Layout";
 import { useHead } from "@/hooks/useHead";
 
-export const Root = () => {
+export default function Component() {
   const { setIcon } = useHead({
     baseTitle: "Still Forest",
   });
@@ -25,4 +25,4 @@ export const Root = () => {
       </Container>
     </Layout>
   );
-};
+}
