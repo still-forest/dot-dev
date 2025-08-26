@@ -1,8 +1,8 @@
 import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import * as winston from "winston";
-import { createLokiTransport } from "@/utils/LokiTransport";
-import { isProduction, lokiConfig, shouldLogToConsole } from "../config";
+import { environment, isProduction, lokiConfig, shouldLogToConsole } from "@/lib/config";
+import { createLokiTransport } from "@/lib/utils";
 
 export type LogDomain = "default" | "api" | "server" | "contact";
 
@@ -19,9 +19,9 @@ export interface LoggingConfig {
 const defaultConfig: LoggingConfig = {
   domain: "default",
   enableConsole: shouldLogToConsole,
-  logFilePath: `logs/${process.env.NODE_ENV || "development"}.log`,
+  logFilePath: `logs/${environment}.log`,
   serviceName: "still-forest-dot-dev",
-  environment: process.env.NODE_ENV || "development",
+  environment: environment,
 };
 
 const createLogger = (config: LoggingConfig) => {

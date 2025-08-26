@@ -22,5 +22,5 @@
       "@tests/*": ["./tests/*"]
     }
   },
-  "include": ["src", "tests", "jest.*.ts", "tsup.config.ts"]
+  "include": ["src", "tests", "jest.*.ts", "tsup.config.ts", "../next/src/lib/utils/LokiTransport.ts"]
 }

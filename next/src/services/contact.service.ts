@@ -1,5 +1,5 @@
 import axios from "axios";
-import { operatorEmailUrl } from "../config";
+import { operatorEmailUrl } from "@/lib/config";
 import { getLogger, type LoggerService } from "./logger.service";
 
 const EMAIL_SUBJECT = "Still Forest: contact form submission";

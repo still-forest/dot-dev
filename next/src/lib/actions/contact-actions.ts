@@ -1,27 +1,31 @@
 "use server";
 
-import { CONTACT_SUBMISSION_URL } from "@/lib/config";
+import { isDevelopment } from "@/lib/config";
 import type { ContactFormData } from "@/lib/schema/contact-schema";
+import { contactService } from "@/services/contact.service";
+import { getLogger } from "@/services/logger.service";
 
-export const contact = async (formData: ContactFormData) => {
+const submitContactForm = async (formData: ContactFormData) => {
   const { email, message } = formData;
 
   try {
-    const response = await fetch(CONTACT_SUBMISSION_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        fromEmail: email,
-        body: message,
-      }),
-    });
-    if (!response.ok) {
-      throw new Error(`Failed to submit form: ${response.status} ${response.statusText}`);
+    const [success, error] = await contactService.submitContactForm({ fromEmail: email, body: message });
+    if (!success) {
+      throw new Error(`Failed to submit form: ${error instanceof Error ? error.message : "Unknown error"}`);
     }
     return true;
   } catch (error) {
     throw new Error(`Failed to submit form: ${error instanceof Error ? error.message : "Unknown error"}`);
   }
+};
+
+export const contact = async (data: ContactFormData) => {
+  const logger = getLogger("contact");
+
+  if (isDevelopment) {
+    logger.info("Contact form submitted in development environment", data);
+    return true;
+  }
+
+  await submitContactForm(data);
 };

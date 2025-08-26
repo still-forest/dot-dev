@@ -12,20 +12,23 @@
   "dependencies": {
     "@hookform/resolvers": "5.1.1",
     "@still-forest/canopy": "0.24.0",
+    "axios": "^1.11.0",
     "lucide-react": "^0.541.0",
+    "next": "15.5.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-hook-form": "7.60.0",
-    "next": "15.5.0",
+    "winston": "^3.17.0",
+    "winston-transport": "^4.9.0",
     "zod": "3.25.67"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@biomejs/biome": "2.2.0",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
     "tailwindcss": "^4",
-    "@biomejs/biome": "2.2.0"
+    "typescript": "^5"
   }
 }

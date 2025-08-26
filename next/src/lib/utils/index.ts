@@ -1,3 +1,5 @@
+export * from "./LokiTransport";
+
 export const isMobileWebView = () => {
   const userAgent = navigator.userAgent.toLowerCase();
 
