@@ -1,7 +1,10 @@
 import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
 import { defineConfig } from "vitest/config";
+
+const rootDir = fileURLToPath(new URL(".", import.meta.url));
 
 export default defineConfig({
   plugins: [
@@ -22,9 +25,9 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": resolve(__dirname, "./src"),
-      "@tests": resolve(__dirname, "./tests"),
-      "~": resolve(__dirname, "./"),
+      "@": resolve(rootDir, "./src"),
+      "@tests": resolve(rootDir, "./tests"),
+      "~": resolve(rootDir, "./"),
     },
   },
 });
