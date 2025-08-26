@@ -18,7 +18,6 @@
     "@hookform/resolvers": "5.1.1",
     "@still-forest/biomejs-config": "^2.1.0",
     "@still-forest/canopy": "0.24.0",
-    "@svgr/webpack": "^8.1.0",
     "@types/validator": "^13.15.2",
     "axios": "^1.11.0",
     "axios-mock-adapter": "^2.1.0",
