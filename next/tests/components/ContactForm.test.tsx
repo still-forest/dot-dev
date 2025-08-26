@@ -1,6 +1,5 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
-import "@testing-library/jest-dom";
 
 import { ContactForm } from "@/components/ContactForm";
 import { useRateLimit } from "@/hooks/useRateLimit";

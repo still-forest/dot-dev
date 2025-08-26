@@ -1,7 +1,6 @@
 import { screen } from "@testing-library/react";
 import { renderWithProviders } from "@tests/support/render";
 import { describe, expect, test } from "vitest";
-import "@testing-library/jest-dom";
 
 import Root from "@/app/page";
 
