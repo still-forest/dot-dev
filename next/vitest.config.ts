@@ -10,6 +10,9 @@ export default defineConfig({
     include: ["**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     exclude: ["node_modules", "dist", ".next", "coverage"],
     globals: true,
+    env: {
+      APP_ENV: "test",
+    },
   },
   resolve: {
     alias: {

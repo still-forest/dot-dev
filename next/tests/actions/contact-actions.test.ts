@@ -2,21 +2,6 @@ import { beforeEach, describe, expect, test, vi } from "vitest";
 import { contact } from "@/lib/actions/contact-actions";
 import { contactService } from "@/services/contact.service";
 
-// Mock the config to ensure we're not in development mode
-vi.mock("@/lib/config", () => ({
-  ...vi.importActual("@/lib/config"),
-  environment: "test",
-  isProduction: false,
-  isDevelopment: false,
-  operatorEmailUrl: "https://example.com/api/email",
-  shouldLogToConsole: false,
-  lokiConfig: {
-    url: "https://example.com/api/loki",
-    username: "test",
-    password: "test",
-  },
-}));
-
 describe("contact", () => {
   const formData = { email: "test@example.test", message: "Test message" };
 
