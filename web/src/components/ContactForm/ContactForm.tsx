@@ -55,7 +55,7 @@ const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
 };
 
 export const ContactForm = () => {
-  const [hasSubmitted, setHasSubmitted] = useState(true);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const { canExecute, execute } = useRateLimit("contact-form", 60_000);
