@@ -47,7 +47,7 @@ const createLogger = (config: LoggingConfig) => {
     );
   }
 
-  if (logFilePath) {
+  if (!isProduction && logFilePath) {
     mkdirSync(dirname(logFilePath), { recursive: true });
     transports.push(
       new winston.transports.File({
