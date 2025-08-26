@@ -1,9 +1,9 @@
 import { Box, Button, Flex, Separator, Text, type Theme, Tooltip } from "@still-forest/canopy";
 import { MonitorCog, Moon, SquareArrowOutUpRight, Sun } from "lucide-react";
 import { Link } from "@/components/Link";
-import { GITHUB_URL, LINKEDIN_URL } from "@/config";
 import { useTheme } from "@/context/useTheme";
-import { isMobileWebView } from "@/utils";
+import { GITHUB_URL, LINKEDIN_URL } from "@/lib/config";
+import { isMobileWebView } from "@/lib/utils";
 import { Icon } from "./Icon";
 
 const ProjectIcon = ({ link, src, label }: { link: string; src: string; label: string }) => {

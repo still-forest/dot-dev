@@ -1,6 +1,6 @@
 import { HttpResponse, http } from "msw";
 import { setupServer } from "msw/node";
-import { CONTACT_SUBMISSION_URL } from "@/config";
+import { CONTACT_SUBMISSION_URL } from "@/lib/config";
 
 export const handlers = [
   http.post(CONTACT_SUBMISSION_URL, () => {

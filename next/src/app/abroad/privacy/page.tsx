@@ -5,9 +5,9 @@ import { useEffect } from "react";
 import { Header } from "@/app/abroad/Header";
 import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
-import { contact } from "@/config";
 import { useHead } from "@/hooks/useHead";
-import { isMobileWebView } from "@/utils";
+import { contact } from "@/lib/config";
+import { isMobileWebView } from "@/lib/utils";
 
 const SectionHeading = ({ children }: { children: React.ReactNode }) => {
   return (
