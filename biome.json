@@ -2,12 +2,6 @@
   "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
   "extends": ["@still-forest/biomejs-config"],
   "files": {
-    "includes": ["**", "!node_modules", "!.next", "!dist", "!build"]
-  },
-  "linter": {
-    "domains": {
-      "next": "recommended",
-      "react": "recommended"
-    }
+    "includes": ["!dist-client", "!dist-server"]
   }
 }

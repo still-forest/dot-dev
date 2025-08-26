@@ -29,11 +29,12 @@ jobs:
           # This explicitly sets the driver to use containers instead of the default Docker driver
 
       - name: Build and push image
-        run: |
-          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            docker build -t ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:latest .
-            docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:latest
-          else
-            docker build -t ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:next .
-            docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:next
-          fi
+        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:${{ github.ref == 'refs/heads/main' && 'latest' || 'next' }}
+            ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:${{ github.sha }}
+          cache-from: type=registry,ref=ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ secrets.GHCR_USERNAME }}/still-forest-dot-dev:buildcache,mode=max
