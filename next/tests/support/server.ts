@@ -1,9 +1,9 @@
 import { HttpResponse, http } from "msw";
 import { setupServer } from "msw/node";
-import { CONTACT_SUBMISSION_URL } from "@/lib/config";
+import { operatorEmailUrl } from "@/lib/config";
 
 export const handlers = [
-  http.post(CONTACT_SUBMISSION_URL, () => {
+  http.post(operatorEmailUrl, () => {
     return new HttpResponse("", { status: 204 });
   }),
 ];

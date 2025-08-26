@@ -1,4 +1,4 @@
-name: CI (web tests)
+name: CI (tests)
 
 on:
   push:
@@ -7,12 +7,10 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - "web/**"
 
 defaults:
   run:
-    working-directory: web
+    working-directory: next
 
 jobs:
   tests:
@@ -55,6 +53,6 @@ jobs:
         uses: codecov/codecov-action@fdcc8476540edceab3de004e990f80d881c6cc00 # v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./web/coverage/
-          flags: web
+          directory: ./next/coverage/
+          flags: next
           fail_ci_if_error: true

@@ -27,5 +27,5 @@ export const contact = async (data: ContactFormData) => {
     return true;
   }
 
-  await submitContactForm(data);
+  return await submitContactForm(data);
 };
