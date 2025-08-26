@@ -22,5 +22,14 @@
       "@tests/*": ["./tests/*"]
     }
   },
-  "include": ["src", "tests", "vite.config.ts", "vitest.setup.ts", "tsup.config.ts"]
+  "include": [
+    "src",
+    "tests",
+    "vite.config.ts",
+    "vitest.setup.ts",
+    "tsup.config.ts",
+    "../next/src/app/abroad/disclosures/page.tsx",
+    "../next/src/app/abroad/privacy/page.tsx",
+    "../next/src/app/abroad/support/page.tsx"
+  ]
 }

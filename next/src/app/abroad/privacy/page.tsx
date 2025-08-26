@@ -1,6 +1,8 @@
+"use client";
+
 import { Container, Heading, Paragraph, Separator, Text } from "@still-forest/canopy";
 import { useEffect } from "react";
-import { Header } from "@/Abroad/Header";
+import { Header } from "@/app/abroad/Header";
 import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
 import { contact } from "@/config";
@@ -15,7 +17,7 @@ const SectionHeading = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const PrivacyPage = () => {
+export default function Page() {
   const { setTitle } = useHead({
     baseTitle: "Abroad",
   });
@@ -78,18 +80,18 @@ export const PrivacyPage = () => {
             <li>
               <strong>Expo</strong>: We use Expo for app development and delivery. Expo may collect device information
               (such as device type, OS version) to provide build and update services. See Expo's privacy policy for
-              details: <Link to="https://expo.dev/privacy">https://expo.dev/privacy</Link>
+              details: <Link href="https://expo.dev/privacy">https://expo.dev/privacy</Link>
             </li>
             <li>
               <strong>Sentry</strong>: We use Sentry for error tracking and crash reporting. Sentry may collect
               non-personal diagnostic data (such as error logs and device context) to help us fix bugs and improve
               stability. No personal data is collected. See Sentry's privacy policy for details:{" "}
-              <Link to="https://sentry.io/privacy/">https://sentry.io/privacy/</Link>
+              <Link href="https://sentry.io/privacy/">https://sentry.io/privacy/</Link>
             </li>
             <li>
               <strong>PostHog</strong>: We use PostHog to collect anonymized analytics about how users interact with the
               app. PostHog does not collect personally identifiable information. See PostHog's privacy policy for
-              details: <Link to="https://posthog.com/privacy">https://posthog.com/privacy</Link>
+              details: <Link href="https://posthog.com/privacy">https://posthog.com/privacy</Link>
             </li>
           </ul>
         </Paragraph>
@@ -110,9 +112,9 @@ export const PrivacyPage = () => {
         <SectionHeading>Contact Us</SectionHeading>
         <Paragraph>
           If you have any questions about this Privacy Policy, please contact us at:{" "}
-          <Link to={`mailto:${contact.email}`}>{contact.email}</Link>
+          <Link href={`mailto:${contact.email}`}>{contact.email}</Link>
         </Paragraph>
       </Container>
     </Layout>
   );
-};
+}

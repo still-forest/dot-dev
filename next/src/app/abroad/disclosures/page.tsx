@@ -1,6 +1,8 @@
+"use client";
+
 import { Container, Heading, Paragraph, Separator, Text } from "@still-forest/canopy";
 import { useEffect } from "react";
-import { Header } from "@/Abroad/Header";
+import { Header } from "@/app/abroad/Header";
 import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
 import { contact } from "@/config";
@@ -15,7 +17,7 @@ const SectionHeading = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const DisclosuresPage = () => {
+export default function Page() {
   const { setTitle } = useHead({
     baseTitle: "Abroad",
   });
@@ -41,18 +43,18 @@ export const DisclosuresPage = () => {
 
         <SectionHeading>Background Images</SectionHeading>
         <Paragraph>
-          Background images are sourced from <Link to="https://unsplash.com/">Unsplash</Link> and are not owned by Still
-          Forest. We do not claim ownership of the images.
+          Background images are sourced from <Link href="https://unsplash.com/">Unsplash</Link> and are not owned by
+          Still Forest. We do not claim ownership of the images.
         </Paragraph>
         <Paragraph>
           Images are used in accordance with the{" "}
-          <Link to="https://unsplash.com/terms">Unsplash Terms & Conditions</Link> and the{" "}
-          <Link to="https://unsplash.com/license">Unsplash License</Link>.
+          <Link href="https://unsplash.com/terms">Unsplash Terms & Conditions</Link> and the{" "}
+          <Link href="https://unsplash.com/license">Unsplash License</Link>.
         </Paragraph>
         <Paragraph>
           While usage accreditation is not required under the Unsplash License, we do so as a courtesy. If you are the
           copyright owner of an image and would like it removed, please contact us at{" "}
-          <Link to={`mailto:${contact.email}`}>{contact.email}</Link> and we will remove it as soon as reasonably
+          <Link href={`mailto:${contact.email}`}>{contact.email}</Link> and we will remove it as soon as reasonably
           possible.
         </Paragraph>
 
@@ -61,9 +63,9 @@ export const DisclosuresPage = () => {
         <SectionHeading>Contact</SectionHeading>
         <Paragraph>
           If you have any questions or concerns, please contact us at{" "}
-          <Link to={`mailto:${contact.email}`}>{contact.email}</Link>.
+          <Link href={`mailto:${contact.email}`}>{contact.email}</Link>.
         </Paragraph>
       </Container>
     </Layout>
   );
-};
+}

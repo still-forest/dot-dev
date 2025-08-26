@@ -1,6 +1,8 @@
+"use client";
+
 import { Container, Heading, Paragraph } from "@still-forest/canopy";
 import { useEffect } from "react";
-import { Header } from "@/Abroad/Header";
+import { Header } from "@/app/abroad/Header";
 import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
 import { contact } from "@/config";
@@ -15,7 +17,7 @@ const SectionHeading = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const SupportPage = () => {
+export default function Page() {
   const { setTitle } = useHead({
     baseTitle: "Abroad",
   });
@@ -34,9 +36,9 @@ export const SupportPage = () => {
         </Heading>
         <SectionHeading>Contact Us</SectionHeading>
         <Paragraph>
-          Please contact us at <Link to={`mailto:${contact.email}`}>{contact.email}</Link>
+          Please contact us at <Link href={`mailto:${contact.email}`}>{contact.email}</Link>
         </Paragraph>
       </Container>
     </Layout>
   );
-};
+}
