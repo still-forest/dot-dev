@@ -1,14 +1,7 @@
 "use server";
 
-import { z } from "zod";
 import { CONTACT_SUBMISSION_URL } from "@/lib/config";
-
-export const contactSchema = z.object({
-  email: z.string().email(),
-  message: z.string().min(10).max(1000),
-});
-
-export type ContactFormData = z.infer<typeof contactSchema>;
+import type { ContactFormData } from "@/lib/schema/contact-schema";
 
 export const contact = async (formData: ContactFormData) => {
   const { email, message } = formData;

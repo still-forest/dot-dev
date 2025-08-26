@@ -4,7 +4,8 @@ import { CircleX } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRateLimit } from "@/hooks/useRateLimit";
-import { type ContactFormData, contact, contactSchema } from "@/lib/actions/contact-actions";
+import { contact } from "@/lib/actions/contact-actions";
+import { type ContactFormData, contactSchema } from "@/lib/schema/contact-schema";
 import { SubmitButton } from "./SubmitButton";
 
 interface FormProps {
