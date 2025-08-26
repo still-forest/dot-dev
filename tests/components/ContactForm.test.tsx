@@ -42,7 +42,7 @@ describe("ContactForm", () => {
 
   test("can submit form with valid data", async () => {
     const mockedContact = vi.mocked(contact);
-    mockedContact.mockResolvedValue(true);
+    mockedContact.mockResolvedValue({ success: true, data: true });
 
     const mockedUseRateLimit = vi.mocked(useRateLimit);
     mockedUseRateLimit.mockReturnValue({
@@ -83,7 +83,7 @@ describe("ContactForm", () => {
 
   test("cannot submit form with invalid data", async () => {
     const mockedContact = vi.mocked(contact);
-    mockedContact.mockResolvedValue(true);
+    mockedContact.mockResolvedValue({ success: true, data: true });
 
     render(<ContactForm />);
 
@@ -116,7 +116,7 @@ describe("ContactForm", () => {
 
   test("should show error message if form submission fails", async () => {
     const mockedContact = vi.mocked(contact);
-    mockedContact.mockRejectedValue(new Error("You shall not pass!"));
+    mockedContact.mockResolvedValue({ success: false, error: new Error("You shall not pass!") });
 
     render(<ContactForm />);
 
@@ -144,7 +144,7 @@ describe("ContactForm", () => {
       });
     });
 
-    expect(screen.getByText("You shall not pass!")).toBeInTheDocument();
+    expect(screen.getByText("Form submission failed. Please try again later.")).toBeInTheDocument();
   });
 
   test("cancels to close the form", async () => {

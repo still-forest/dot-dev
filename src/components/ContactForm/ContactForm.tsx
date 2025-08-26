@@ -68,15 +68,14 @@ export const ContactForm = () => {
     }
 
     execute(async () => {
-      try {
-        await contact(data);
+      const result = await contact(data);
+      if (result.success) {
         setIsOpen(false);
         setHasSubmitted(true);
-      } catch (error) {
-        setSubmitError(error instanceof Error ? error.message : "Failed to submit form");
-      } finally {
-        setIsSubmitting(false);
+      } else {
+        setSubmitError("Form submission failed. Please try again later.");
       }
+      setIsSubmitting(false);
     });
   };
 
