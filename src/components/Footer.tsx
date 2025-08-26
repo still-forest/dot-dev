@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 import { Link } from "@/components/Link";
 import { GITHUB_URL, LINKEDIN_URL } from "@/lib/config";
 import { isMobileWebView } from "@/lib/utils";
-import { Icon } from "./Icon";
+import GithubIcon from "../../public/icons/github.svg";
+import LinkedInIcon from "../../public/icons/linkedin.svg";
 
 const ProjectIcon = ({ link, src, label }: { link: string; src: string; label: string }) => {
   return (
@@ -103,7 +104,7 @@ export const Footer = () => {
           <Tooltip>
             <Tooltip.Trigger>
               <a href={GITHUB_URL} rel="noopener noreferrer" target="_blank">
-                <Icon alt="GitHub" size={32} src="/github.svg" />
+                <GithubIcon className="text-primary/60 hover:text-primary" height={32} width={32} />
               </a>
             </Tooltip.Trigger>
             <Tooltip.Content>
@@ -115,7 +116,7 @@ export const Footer = () => {
           <Tooltip>
             <Tooltip.Trigger>
               <a href={LINKEDIN_URL} rel="noopener noreferrer" target="_blank">
-                <Icon alt="LinkedIn" size={32} src="/linkedin.svg" />
+                <LinkedInIcon className="text-primary/60 hover:text-primary" height={32} width={32} />
               </a>
             </Tooltip.Trigger>
             <Tooltip.Content>
