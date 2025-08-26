@@ -4,6 +4,7 @@ import { CircleX } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
+import { DEV_CONTACT_FROM_EMAIL, isDevelopment } from "@/config";
 import { formSubmit } from "./formSubmit";
 import { InputError } from "./InputError";
 import { SubmitButton } from "./SubmitButton";
@@ -22,6 +23,10 @@ const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
     formState: { isValid, errors },
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: isDevelopment ? DEV_CONTACT_FROM_EMAIL : "",
+      message: isDevelopment ? "This is a test message" : "",
+    },
   });
 
   return (
