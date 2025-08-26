@@ -2,6 +2,7 @@
 
 import { Box, Button, Flex, Separator, Text, type Theme, Tooltip } from "@still-forest/canopy";
 import { MonitorCog, Moon, SquareArrowOutUpRight, Sun } from "lucide-react";
+import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Link } from "@/components/Link";
@@ -19,7 +20,7 @@ const ProjectIcon = ({ link, src, label }: { link: string; src: string; label: s
           className="h-full w-[60px] p-2 opacity-25 hover:cursor-pointer hover:opacity-100"
           justify="center"
         >
-          <img alt={label} src={src} />
+          <Image alt={label} height={733} src={src} width={1024} />
         </Flex>
       </Button>
     </Link>

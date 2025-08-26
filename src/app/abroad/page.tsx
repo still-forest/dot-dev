@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Container, Flex, Heading } from "@still-forest/canopy";
+import Image from "next/image";
 import { useEffect } from "react";
 import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
@@ -20,7 +21,7 @@ export default function Page() {
       <Flex align="center" className="h-full" direction="col" gap="12" justify="center">
         <Container>
           <Flex align="center" justify="center">
-            <img alt="Abroad logo" className="w-lg" src="/abroad/splash-icon.png" />
+            <Image alt="Abroad logo" className="w-lg" height={1024} src="/abroad/splash-icon.png" width={1024} />
           </Flex>
         </Container>
         <Container>
@@ -29,7 +30,7 @@ export default function Page() {
               <Heading className="font-brand" level="3" weight="thin">
                 by Still Forest
               </Heading>
-              <img alt="Still Forest logo" className="w-[24px]" src="/icon-192.png" />
+              <Image alt="Still Forest logo" className="w-[24px]" height={192} src="/icon-192.png" width={192} />
             </Link>
           </Flex>
         </Container>
