@@ -1,6 +1,8 @@
 import type { LokiTransportOptions } from "@/lib/utils/LokiTransport";
 
-export const environment = process.env.APP_ENV || "development";
+type AppEnvironment = "development" | "staging" | "production" | "test";
+
+export const environment: AppEnvironment = (process.env.APP_ENV || "development") as AppEnvironment;
 export const isProduction = environment === "production";
 export const isDevelopment = environment === "development";
 export const isTestEnvironment = environment === "test";
