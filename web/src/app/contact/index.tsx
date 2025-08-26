@@ -3,7 +3,7 @@ import { ContactForm } from "@/components/ContactForm/ContactForm";
 import { Header } from "@/components/Header";
 import { Layout } from "@/components/Layout";
 
-export default function Component() {
+export default function Page() {
   return (
     <Layout>
       <Header title="Contact us" />

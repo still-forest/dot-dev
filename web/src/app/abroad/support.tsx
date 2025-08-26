@@ -1,14 +1,12 @@
-import { Container, Heading, Paragraph } from "@still-forest/canopy";
+import { Container, Heading, Separator } from "@still-forest/canopy";
 import { useEffect } from "react";
 import { Header } from "@/Abroad/Header";
+import { ContactForm } from "@/components/ContactForm/ContactForm";
 import { Layout } from "@/components/Layout";
-import { Link } from "@/components/Link";
-import { SectionHeading } from "@/components/SectionHeading";
-import { contact } from "@/config";
 import { useHead } from "@/hooks/useHead";
 import { isMobileWebView } from "@/utils";
 
-export const SupportPage = () => {
+export default function Page() {
   const { setTitle } = useHead({
     baseTitle: "Abroad",
   });
@@ -25,11 +23,9 @@ export const SupportPage = () => {
         <Heading family="serif" level="1">
           Support
         </Heading>
-        <SectionHeading>Contact Us</SectionHeading>
-        <Paragraph>
-          Please contact us at <Link to={`mailto:${contact.email}`}>{contact.email}</Link>
-        </Paragraph>
+        <Separator className="my-8" />
+        <ContactForm returnTo="/abroad" />
       </Container>
     </Layout>
   );
-};
+}

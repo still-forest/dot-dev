@@ -4,11 +4,10 @@ import { Header } from "@/Abroad/Header";
 import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
 import { SectionHeading } from "@/components/SectionHeading";
-import { contact } from "@/config";
 import { useHead } from "@/hooks/useHead";
 import { isMobileWebView } from "@/utils";
 
-export const DisclosuresPage = () => {
+export default function Page() {
   const { setTitle } = useHead({
     baseTitle: "Abroad",
   });
@@ -44,19 +43,17 @@ export const DisclosuresPage = () => {
         </Paragraph>
         <Paragraph>
           While usage accreditation is not required under the Unsplash License, we do so as a courtesy. If you are the
-          copyright owner of an image and would like it removed, please contact us at{" "}
-          <Link to={`mailto:${contact.email}`}>{contact.email}</Link> and we will remove it as soon as reasonably
-          possible.
+          copyright owner of an image and would like it removed, please <Link to="/abroad/support">contact us</Link> and
+          we will remove it as soon as reasonably possible.
         </Paragraph>
 
         <Separator className="my-4" />
 
         <SectionHeading>Contact</SectionHeading>
         <Paragraph>
-          If you have any questions or concerns, please contact us at{" "}
-          <Link to={`mailto:${contact.email}`}>{contact.email}</Link>.
+          If you have any questions or concerns, please <Link to="/abroad/support">contact us</Link>.
         </Paragraph>
       </Container>
     </Layout>
   );
-};
+}
