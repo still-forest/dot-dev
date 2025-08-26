@@ -1,48 +1,73 @@
-import { describe, expect, test, vi } from "vitest";
+import { beforeEach, describe, expect, test, vi } from "vitest";
 import { contact } from "@/lib/actions/contact-actions";
-import { operatorEmailUrl } from "@/lib/config";
+import { contactService } from "@/services/contact.service";
 
-describe("formSubmit", () => {
+// Mock the config to ensure we're not in development mode
+vi.mock("@/lib/config", () => ({
+  ...vi.importActual("@/lib/config"),
+  environment: "test",
+  isProduction: false,
+  isDevelopment: false,
+  operatorEmailUrl: "https://example.com/api/email",
+  shouldLogToConsole: false,
+  lokiConfig: {
+    url: "https://example.com/api/loki",
+    username: "test",
+    password: "test",
+  },
+}));
+
+describe("contact", () => {
   const formData = { email: "test@example.test", message: "Test message" };
 
-  test("submits form data to the contact submission URL", async () => {
-    const fetchSpy = vi.spyOn(global, "fetch");
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  test("submits form data successfully", async () => {
+    const submitSpy = vi.spyOn(contactService, "submitContactForm");
+    submitSpy.mockResolvedValue([true, null]);
 
     const response = await contact(formData);
     expect(response).toEqual(true);
 
-    expect(fetchSpy).toHaveBeenCalledWith(operatorEmailUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        fromEmail: "test@example.test",
-        body: "Test message",
-      }),
+    expect(submitSpy).toHaveBeenCalledWith({
+      fromEmail: "test@example.test",
+      body: "Test message",
     });
-    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(submitSpy).toHaveBeenCalledTimes(1);
 
-    fetchSpy.mockRestore();
+    submitSpy.mockRestore();
   });
 
-  test("throws an error if the contact submission fails", async () => {
-    const fetchSpy = vi.spyOn(global, "fetch");
-    fetchSpy.mockRejectedValue(new Error("Failed to submit form"));
+  test("throws an error if the service returns an error", async () => {
+    const submitSpy = vi.spyOn(contactService, "submitContactForm");
+    const error = new Error("Service error");
+    submitSpy.mockResolvedValue([false, error]);
 
-    await expect(contact(formData)).rejects.toThrow("Failed to submit form");
+    await expect(contact(formData)).rejects.toThrow("Failed to submit form: Service error");
+
+    expect(submitSpy).toHaveBeenCalledWith({
+      fromEmail: "test@example.test",
+      body: "Test message",
+    });
+    expect(submitSpy).toHaveBeenCalledTimes(1);
+
+    submitSpy.mockRestore();
   });
 
-  test("throws an error if the server returns an error response", async () => {
-    const fetchSpy = vi.spyOn(global, "fetch");
-    fetchSpy.mockResolvedValue({
-      ok: false,
-      status: 400,
-      statusText: "Bad Request",
-      json: vi.fn(),
-    } as unknown as Response);
+  test("throws an error if the service returns unknown error", async () => {
+    const submitSpy = vi.spyOn(contactService, "submitContactForm");
+    submitSpy.mockResolvedValue([false, "Unknown error" as any]);
 
-    await expect(contact(formData)).rejects.toThrow("Failed to submit form: 400 Bad Request");
-    fetchSpy.mockRestore();
+    await expect(contact(formData)).rejects.toThrow("Failed to submit form: Unknown error");
+
+    expect(submitSpy).toHaveBeenCalledWith({
+      fromEmail: "test@example.test",
+      body: "Test message",
+    });
+    expect(submitSpy).toHaveBeenCalledTimes(1);
+
+    submitSpy.mockRestore();
   });
 });
