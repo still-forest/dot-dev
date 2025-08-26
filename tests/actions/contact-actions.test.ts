@@ -28,43 +28,64 @@ describe("contact", () => {
 
   test("validates form data", async () => {
     const submitSpy = vi.spyOn(contactService, "submitContactForm");
-    submitSpy.mockResolvedValue([true, null]);
+    submitSpy.mockResolvedValue({ success: true, data: true });
 
     const testCases = [
       // missing both fields
       {
         input: {},
-        expectedErrors: { fieldErrors: { email: ["Required"], message: ["Required"] }, formErrors: [] },
+        expectedErrors: {
+          fieldErrors: {
+            email: ["Invalid input: expected string, received undefined"],
+            message: ["Invalid input: expected string, received undefined"],
+          },
+          formErrors: [],
+        },
       },
       // missing email
       {
         input: { message: "test message" },
-        expectedErrors: { fieldErrors: { email: ["Required"] }, formErrors: [] },
+        expectedErrors: {
+          fieldErrors: { email: ["Invalid input: expected string, received undefined"] },
+          formErrors: [],
+        },
       },
       // missing message
       {
         input: { email: "test@example.com" },
-        expectedErrors: { fieldErrors: { message: ["Required"] }, formErrors: [] },
+        expectedErrors: {
+          fieldErrors: { message: ["Invalid input: expected string, received undefined"] },
+          formErrors: [],
+        },
       },
       // invalid email
       {
         input: { email: "invalid-email@", message: "test message" },
-        expectedErrors: { fieldErrors: { email: ["Invalid email"] }, formErrors: [] },
+        expectedErrors: { fieldErrors: { email: ["Invalid email address"] }, formErrors: [] },
       },
       // invalid message (wrong type)
       {
         input: { email: "test@example.com", message: 123 },
-        expectedErrors: { fieldErrors: { message: ["Expected string, received number"] }, formErrors: [] },
+        expectedErrors: {
+          fieldErrors: { message: ["Invalid input: expected string, received number"] },
+          formErrors: [],
+        },
       },
       // invalid message (too short)
       {
         input: { email: "test@example.com", message: "hi" },
-        expectedErrors: { fieldErrors: { message: ["String must contain at least 10 character(s)"] }, formErrors: [] },
+        expectedErrors: {
+          fieldErrors: { message: ["Too small: expected string to have >=10 characters"] },
+          formErrors: [],
+        },
       },
       // invalid body (too long)
       {
         input: { email: "test@example.com", message: "a".repeat(1001) },
-        expectedErrors: { fieldErrors: { message: ["String must contain at most 1000 character(s)"] }, formErrors: [] },
+        expectedErrors: {
+          fieldErrors: { message: ["Too big: expected string to have <=1000 characters"] },
+          formErrors: [],
+        },
       },
     ];
 
