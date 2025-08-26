@@ -1,11 +1,11 @@
-interface HandledResponse<T> {
-  success: true;
-  data: T;
-}
-
-interface UnhandledResponse<_T> {
-  success: false;
-  error: Error;
-}
-
-export type Response<T> = HandledResponse<T> | UnhandledResponse<T>;
+export type Response<T> =
+  | {
+      success: true;
+      data: T;
+      error?: Error | null;
+    }
+  | {
+      success: false;
+      error: Error;
+      data?: T;
+    };

@@ -12,7 +12,7 @@ describe("contact", () => {
 
   test("submits form data successfully", async () => {
     const submitSpy = vi.spyOn(contactService, "submitContactForm");
-    submitSpy.mockResolvedValue([true, null]);
+    submitSpy.mockResolvedValue({ success: true, data: true });
 
     const response = await contact(formData);
     expect(response).toEqual({ success: true, data: true });
@@ -79,10 +79,25 @@ describe("contact", () => {
     }
   });
 
+  test.skip("sanitizes html in input", async () => {
+    const submitSpy = vi.spyOn(contactService, "submitContactForm");
+    submitSpy.mockResolvedValue([true, null]);
+
+    const response = await contact({ email: "test@example.com", message: "<script>alert('test')</script>" });
+
+    const expectedSanitizedBody = "alert(&#x27;test&#x27;)";
+
+    expect(response).toEqual({ success: true, data: true });
+    expect(submitSpy).toHaveBeenCalledWith({
+      fromEmail: "test@example.com",
+      body: expectedSanitizedBody,
+    });
+  });
+
   test("throws an error if the service returns an error", async () => {
     const submitSpy = vi.spyOn(contactService, "submitContactForm");
     const error = new Error("Service error");
-    submitSpy.mockResolvedValue([false, error]);
+    submitSpy.mockResolvedValue({ success: false, error });
 
     const response = await contact(formData);
     expect(response).toEqual({ success: false, error: new Error("Failed to submit form: Service error") });
@@ -98,7 +113,7 @@ describe("contact", () => {
 
   test("throws an error if the service returns unknown error", async () => {
     const submitSpy = vi.spyOn(contactService, "submitContactForm");
-    submitSpy.mockResolvedValue([false, new Error("Unknown error")]);
+    submitSpy.mockResolvedValue({ success: false, error: new Error("Unknown error") });
 
     const response = await contact(formData);
     expect(response).toEqual({ success: false, error: new Error("Failed to submit form: Unknown error") });

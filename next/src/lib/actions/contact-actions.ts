@@ -9,7 +9,7 @@ import { getLogger } from "@/services/logger.service";
 const submitContactForm = async (formData: ContactFormData) => {
   const { email, message } = formData;
 
-  const [success, error] = await contactService.submitContactForm({ fromEmail: email, body: message });
+  const { success, error } = await contactService.submitContactForm({ fromEmail: email, body: message });
 
   if (success) {
     return true;
