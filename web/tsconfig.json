@@ -30,6 +30,7 @@
     "tsup.config.ts",
     "../next/src/app/abroad/disclosures/page.tsx",
     "../next/src/app/abroad/privacy/page.tsx",
-    "../next/src/app/abroad/support/page.tsx"
+    "../next/src/app/abroad/support/page.tsx",
+    "../next/src/app/not-found.tsx"
   ]
 }
