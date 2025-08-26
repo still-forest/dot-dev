@@ -24,7 +24,7 @@ export default function Page() {
           Support
         </Heading>
         <Separator className="my-8" />
-        <ContactForm />
+        <ContactForm returnTo="/abroad" />
       </Container>
     </Layout>
   );

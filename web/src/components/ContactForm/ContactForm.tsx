@@ -58,7 +58,11 @@ const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
   );
 };
 
-export const ContactForm = () => {
+interface ContactFormProps {
+  returnTo?: string;
+}
+
+export const ContactForm = ({ returnTo = "/" }: ContactFormProps) => {
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -83,7 +87,7 @@ export const ContactForm = () => {
   };
 
   const handleCancel = () => {
-    navigate("/");
+    navigate(returnTo);
   };
 
   return (
@@ -98,7 +102,7 @@ export const ContactForm = () => {
             We will get back to you as soon as possible.
           </Text>
           <Button asChild className="w-fit">
-            <Link to="/">Back to home</Link>
+            <Link to={returnTo}>Back</Link>
           </Button>
         </Flex>
       )}
