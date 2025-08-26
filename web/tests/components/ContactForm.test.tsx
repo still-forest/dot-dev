@@ -6,19 +6,20 @@ import { renderWithRouter } from "@tests/support/render";
 import { useNavigate } from "react-router";
 import { ContactForm } from "@/components/ContactForm/ContactForm";
 import { formSubmit } from "@/components/ContactForm/formSubmit";
-import { useRateLimit } from "@/hooks/useRateLimit";
+import { RateLimitError } from "@/components/ContactForm/RateLimitError";
 
 beforeEach(() => {
   vi.mock("@/components/ContactForm/formSubmit", () => ({
     formSubmit: vi.fn().mockResolvedValue({ success: true }),
   }));
 
-  vi.mock("@/hooks/useRateLimit", () => ({
-    useRateLimit: vi.fn().mockReturnValue({
-      execute: (callback: () => void) => callback(),
-      canExecute: vi.fn().mockReturnValue(true),
-    }),
-  }));
+  vi.mock(import("react-router"), async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+      ...actual,
+      useNavigate: vi.fn(),
+    };
+  });
 });
 
 afterEach(() => {
@@ -38,13 +39,7 @@ describe("ContactForm", () => {
 
   test("can submit form with valid data", async () => {
     const mockedFormSubmit = vi.mocked(formSubmit);
-    mockedFormSubmit.mockResolvedValue(true);
-
-    const mockedUseRateLimit = vi.mocked(useRateLimit);
-    mockedUseRateLimit.mockReturnValue({
-      execute: (callback: () => void) => callback(),
-      canExecute: vi.fn().mockReturnValue(true),
-    });
+    mockedFormSubmit.mockResolvedValue({ success: true, data: true });
 
     renderWithRouter(<ContactForm />);
 
@@ -78,7 +73,7 @@ describe("ContactForm", () => {
 
   test("cannot submit form with invalid data", async () => {
     const mockedFormSubmit = vi.mocked(formSubmit);
-    mockedFormSubmit.mockResolvedValue(true);
+    mockedFormSubmit.mockResolvedValue({ success: true, data: true });
 
     renderWithRouter(<ContactForm />);
 
@@ -109,7 +104,10 @@ describe("ContactForm", () => {
 
   test("should show error message if form submission fails", async () => {
     const mockedFormSubmit = vi.mocked(formSubmit);
-    mockedFormSubmit.mockRejectedValue(new Error("You shall not pass!"));
+    mockedFormSubmit.mockResolvedValue({
+      success: false,
+      error: new Error("You shall not pass!"),
+    });
 
     renderWithRouter(<ContactForm />);
 
@@ -138,9 +136,10 @@ describe("ContactForm", () => {
     expect(screen.getByText("You shall not pass!")).toBeInTheDocument();
   });
 
-  test.skip("cancels to close the form", async () => {
+  test("cancels to close the form", async () => {
+    const mockNavigate = vi.fn();
     const mockUseNavigate = vi.mocked(useNavigate);
-    mockUseNavigate.mockReturnValue(vi.fn());
+    mockUseNavigate.mockReturnValue(mockNavigate);
 
     renderWithRouter(<ContactForm />);
 
@@ -151,15 +150,14 @@ describe("ContactForm", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
 
-    expect(mockUseNavigate).toHaveBeenCalledOnce();
-    expect(mockUseNavigate).toHaveBeenCalledWith("/");
+    expect(mockNavigate).toHaveBeenCalledWith("/");
   });
 
-  test.skip("should show rate limit error message if form is submitted too quickly", async () => {
-    const mockedUseRateLimit = vi.mocked(useRateLimit);
-    mockedUseRateLimit.mockReturnValue({
-      execute: (callback: () => void) => callback(),
-      canExecute: vi.fn().mockReturnValueOnce(true).mockReturnValueOnce(false),
+  test("should show rate limit error message if form is submitted too quickly", async () => {
+    const mockedFormSubmit = vi.mocked(formSubmit);
+    mockedFormSubmit.mockResolvedValue({
+      success: false,
+      error: new RateLimitError(),
     });
 
     renderWithRouter(<ContactForm />);
@@ -182,18 +180,5 @@ describe("ContactForm", () => {
       expect(screen.getByText("You are sending messages too quickly. Please try again later.")).toBeInTheDocument();
     });
     expect(screen.queryByTestId("contacted-recently-message")).not.toBeInTheDocument();
-  });
-
-  test.skip("should show a generic message when recently submitted", async () => {
-    const mockedUseRateLimit = vi.mocked(useRateLimit);
-    mockedUseRateLimit.mockReturnValue({
-      execute: (callback: () => void) => callback(),
-      canExecute: vi.fn().mockReturnValue(false),
-    });
-
-    renderWithRouter(<ContactForm />);
-
-    expect(screen.getByText(/Message sent successfully/)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Back to home" })).toBeInTheDocument();
   });
 });

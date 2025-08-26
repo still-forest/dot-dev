@@ -4,7 +4,6 @@ import { CircleX } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
-import { useRateLimit } from "@/hooks/useRateLimit";
 import { formSubmit } from "./formSubmit";
 import { InputError } from "./InputError";
 import { SubmitButton } from "./SubmitButton";
@@ -58,29 +57,24 @@ export const ContactForm = () => {
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const { canExecute, execute } = useRateLimit("contact-form", 60_000);
   const navigate = useNavigate();
 
   const handleSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     setSubmitError(null);
 
-    if (!canExecute()) {
-      setSubmitError("You are sending messages too quickly. Please try again later.");
-      setIsSubmitting(false);
-      return;
-    }
-
-    execute(async () => {
-      try {
-        await formSubmit(data);
+    try {
+      const result = await formSubmit(data);
+      if (result.success) {
         setHasSubmitted(true);
-      } catch (error) {
-        setSubmitError(error instanceof Error ? error.message : "Failed to submit form");
-      } finally {
-        setIsSubmitting(false);
+      } else {
+        setSubmitError(result.error.message);
       }
-    });
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "Failed to submit form");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleCancel = () => {
