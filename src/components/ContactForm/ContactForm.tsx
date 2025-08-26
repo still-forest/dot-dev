@@ -1,3 +1,4 @@
+"use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert, Button, Flex, InputError, Text, TextInput } from "@still-forest/canopy";
 import { CircleX } from "lucide-react";
@@ -21,6 +22,7 @@ const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
     formState: { isValid, errors },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
+    mode: "onChange",
   });
 
   return (

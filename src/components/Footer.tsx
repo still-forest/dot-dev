@@ -101,9 +101,9 @@ export const Footer = () => {
           </Box>
           <Tooltip>
             <Tooltip.Trigger>
-              <a href={GITHUB_URL} rel="noopener noreferrer" target="_blank">
+              <Link href={GITHUB_URL} rel="noopener noreferrer" target="_blank">
                 <GithubIcon className="text-primary/60 hover:text-primary" height={32} width={32} />
-              </a>
+              </Link>
             </Tooltip.Trigger>
             <Tooltip.Content>
               <Flex align="center" gap="1">
@@ -113,9 +113,9 @@ export const Footer = () => {
           </Tooltip>
           <Tooltip>
             <Tooltip.Trigger>
-              <a href={LINKEDIN_URL} rel="noopener noreferrer" target="_blank">
+              <Link href={LINKEDIN_URL} rel="noopener noreferrer" target="_blank">
                 <LinkedInIcon className="text-primary/60 hover:text-primary" height={32} width={32} />
-              </a>
+              </Link>
             </Tooltip.Trigger>
             <Tooltip.Content>
               <Flex align="center" gap="1">

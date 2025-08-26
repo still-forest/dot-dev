@@ -34,37 +34,37 @@ describe("contact", () => {
       // missing both fields
       {
         input: {},
-        expectedErrors: { email: ["Required"], message: ["Required"] },
+        expectedErrors: { fieldErrors: { email: ["Required"], message: ["Required"] }, formErrors: [] },
       },
       // missing email
       {
         input: { message: "test message" },
-        expectedErrors: { email: ["Required"] },
+        expectedErrors: { fieldErrors: { email: ["Required"] }, formErrors: [] },
       },
       // missing message
       {
         input: { email: "test@example.com" },
-        expectedErrors: { message: ["Required"] },
+        expectedErrors: { fieldErrors: { message: ["Required"] }, formErrors: [] },
       },
       // invalid email
       {
         input: { email: "invalid-email@", message: "test message" },
-        expectedErrors: { email: ["Invalid email"] },
+        expectedErrors: { fieldErrors: { email: ["Invalid email"] }, formErrors: [] },
       },
       // invalid message (wrong type)
       {
         input: { email: "test@example.com", message: 123 },
-        expectedErrors: { message: ["Expected string, received number"] },
+        expectedErrors: { fieldErrors: { message: ["Expected string, received number"] }, formErrors: [] },
       },
       // invalid message (too short)
       {
         input: { email: "test@example.com", message: "hi" },
-        expectedErrors: { message: ["String must contain at least 10 character(s)"] },
+        expectedErrors: { fieldErrors: { message: ["String must contain at least 10 character(s)"] }, formErrors: [] },
       },
       // invalid body (too long)
       {
         input: { email: "test@example.com", message: "a".repeat(1001) },
-        expectedErrors: { message: ["String must contain at most 1000 character(s)"] },
+        expectedErrors: { fieldErrors: { message: ["String must contain at most 1000 character(s)"] }, formErrors: [] },
       },
     ];
 
@@ -79,9 +79,9 @@ describe("contact", () => {
     }
   });
 
-  test.skip("sanitizes html in input", async () => {
+  test("sanitizes html in input", async () => {
     const submitSpy = vi.spyOn(contactService, "submitContactForm");
-    submitSpy.mockResolvedValue([true, null]);
+    submitSpy.mockResolvedValue({ success: true, data: true });
 
     const response = await contact({ email: "test@example.com", message: "<script>alert('test')</script>" });
 

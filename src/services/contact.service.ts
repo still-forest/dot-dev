@@ -1,6 +1,6 @@
 import axios from "axios";
 import { operatorEmailUrl } from "@/lib/config";
-import type { Response } from "@/lib/types";
+import type { Result } from "@/lib/types";
 import { getLogger, type LoggerService } from "./logger.service";
 
 const EMAIL_SUBJECT = "Still Forest: contact form submission";
@@ -21,7 +21,7 @@ class ContactService {
     this.logger = getLogger("contact");
   }
 
-  async submitContactForm(input: ContactFormInput): Promise<Response<boolean>> {
+  async submitContactForm(input: ContactFormInput): Promise<Result<boolean>> {
     const params = {
       subject: EMAIL_SUBJECT,
       body: this.buildEmailBody(input),

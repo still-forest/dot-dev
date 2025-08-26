@@ -2,7 +2,7 @@
 
 import { isDevelopment } from "@/lib/config";
 import { type ContactFormData, contactSchema } from "@/lib/schema/contact-schema";
-import type { Response } from "@/lib/types";
+import type { Result } from "@/lib/types";
 import { contactService } from "@/services/contact.service";
 import { getLogger } from "@/services/logger.service";
 
@@ -18,11 +18,12 @@ const submitContactForm = async (formData: ContactFormData) => {
   throw new Error(`Failed to submit form: ${error instanceof Error ? error.message : "Unknown error"}`);
 };
 
-export const contact = async (data: ContactFormData): Promise<Response<boolean>> => {
-  const errors = contactSchema.safeParse(data).error?.flatten().fieldErrors;
-  if (errors) {
-    return { success: false, error: new Error("Validation failed", { cause: errors }) };
+export const contact = async (rawData: ContactFormData): Promise<Result<boolean>> => {
+  const parsed = contactSchema.safeParse(rawData);
+  if (!parsed.success) {
+    return { success: false, error: new Error("Validation failed", { cause: parsed.error.flatten() }) };
   }
+  const data = parsed.data;
 
   const logger = getLogger("contact");
 

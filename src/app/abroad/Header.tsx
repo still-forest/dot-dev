@@ -18,7 +18,7 @@ export const Header = () => {
           <Heading className="font-brand" level="3" weight="thin">
             by Still Forest
           </Heading>
-          <Image alt="Still Forest logo" className="w-[24px]" src="/icon-192.png" />
+          <Image alt="Still Forest logo" className="w-[24px]" height={192} src="/icon-192.png" width={192} />
         </Link>
       </Button>
     </Flex>
