@@ -3,17 +3,10 @@ import { useEffect } from "react";
 import { Header } from "@/Abroad/Header";
 import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
+import { SectionHeading } from "@/components/SectionHeading";
 import { contact } from "@/config";
 import { useHead } from "@/hooks/useHead";
 import { isMobileWebView } from "@/utils";
-
-const SectionHeading = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Heading className="mt-4" family="serif" level="3" variant="muted" weight="light">
-      {children}
-    </Heading>
-  );
-};
 
 export default function Component() {
   const { setTitle } = useHead({

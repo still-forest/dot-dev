@@ -9,7 +9,7 @@ interface LayoutProps {
 
 export const Layout = ({ children, className, header }: LayoutProps) => {
   return (
-    <LayoutBase className="h-screen">
+    <LayoutBase>
       {header && <LayoutBase.Header>{header}</LayoutBase.Header>}
       <LayoutBase.Body className={className}>{children}</LayoutBase.Body>
       <LayoutBase.Footer>

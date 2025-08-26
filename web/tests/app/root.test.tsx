@@ -1,15 +1,16 @@
 import { screen } from "@testing-library/react";
-import { renderWithProviders } from "@tests/support/render";
+import { renderWithRouter } from "@tests/support/render";
 import { describe, expect, test } from "vitest";
 import "@testing-library/jest-dom";
 
 import { Root } from "@/pages/index";
 
 describe("Root", () => {
-  test("renders ContactForm within Root page", () => {
-    renderWithProviders(<Root />);
+  test("renders link to contact page", () => {
+    renderWithRouter(<Root />);
 
-    const form = screen.getByTestId("contact-form");
-    expect(form).toBeInTheDocument();
+    const link = screen.getByRole("link", { name: "Get in touch" });
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute("href", "/contact");
   });
 });
