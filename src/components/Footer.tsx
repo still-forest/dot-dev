@@ -86,10 +86,7 @@ export const Footer = () => {
   return (
     <Flex align="center" className="md:flex-row" gap="4" justify="between">
       <Text family="serif" size="sm" variant="muted">
-        © 2025{" "}
-        <Link className="hover:underline" href="/">
-          Still Forest LLC
-        </Link>
+        © 2025 <Link href="/">Still Forest LLC</Link>
       </Text>
       {!webview && (
         <Flex align="center" gap="4">
