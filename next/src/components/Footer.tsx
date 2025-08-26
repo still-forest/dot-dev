@@ -1,7 +1,10 @@
+"use client";
+
 import { Box, Button, Flex, Separator, Text, type Theme, Tooltip } from "@still-forest/canopy";
 import { MonitorCog, Moon, SquareArrowOutUpRight, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import { Link } from "@/components/Link";
-import { useTheme } from "@/context/useTheme";
 import { GITHUB_URL, LINKEDIN_URL } from "@/lib/config";
 import { isMobileWebView } from "@/lib/utils";
 import { Icon } from "./Icon";
@@ -36,11 +39,21 @@ const ProjectLinks = () => {
 };
 
 const ThemeSelection = () => {
+  const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
   const getClassName = (prospectiveTheme: Theme) => {
     return theme === prospectiveTheme ? "text-primary/75" : "text-primary/25 hover:text-primary";
   };
+
+  // useEffect only runs on the client, so now we can safely show the UI
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <Flex gap="4">

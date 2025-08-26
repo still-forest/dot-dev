@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import ThemeProvider from "@/context/ThemeProvider";
-import { THEMES } from "@/context/ThemeProviderContext";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Still Forest",
@@ -14,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link href="/icon-192.png" rel="icon" type="image/png" />
         <link href="https://fonts.googleapis.com" rel="preconnect" />
@@ -25,7 +24,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <ThemeProvider defaultTheme={THEMES.SYSTEM} storageKey="still-forest-theme">
+        <ThemeProvider attribute="class" defaultTheme="system" disableTransitionOnChange enableSystem>
           {children}
         </ThemeProvider>
       </body>
