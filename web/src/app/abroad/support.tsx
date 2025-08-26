@@ -1,9 +1,8 @@
-import { Container, Heading } from "@still-forest/canopy";
+import { Container, Heading, Separator } from "@still-forest/canopy";
 import { useEffect } from "react";
 import { Header } from "@/Abroad/Header";
 import { ContactForm } from "@/components/ContactForm/ContactForm";
 import { Layout } from "@/components/Layout";
-import { SectionHeading } from "@/components/SectionHeading";
 import { useHead } from "@/hooks/useHead";
 import { isMobileWebView } from "@/utils";
 
@@ -24,7 +23,7 @@ export default function Page() {
         <Heading family="serif" level="1">
           Support
         </Heading>
-        <SectionHeading>Contact Us</SectionHeading>
+        <Separator className="my-8" />
         <ContactForm />
       </Container>
     </Layout>
