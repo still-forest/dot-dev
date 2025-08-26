@@ -1,10 +1,12 @@
+"use client";
+
 import { Button, Container, Flex, Heading } from "@still-forest/canopy";
 import { useEffect } from "react";
 import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
 import { useHead } from "@/hooks/useHead";
 
-export const Abroad = () => {
+export default function Page() {
   const { setIcon } = useHead({
     baseTitle: "Abroad",
   });
@@ -23,7 +25,7 @@ export const Abroad = () => {
         </Container>
         <Container>
           <Flex align="center" justify="center">
-            <Link className="flex items-center gap-2" to="/">
+            <Link className="flex items-center gap-2" href="/">
               <Heading className="font-brand" level="3" weight="thin">
                 by Still Forest
               </Heading>
@@ -34,17 +36,17 @@ export const Abroad = () => {
         <Container>
           <Flex align="center" gap="2" justify="center">
             <Button asChild variant="outline">
-              <Link noStyle to="/abroad/privacy">
+              <Link href="/abroad/privacy" noStyle>
                 Privacy Policy
               </Link>
             </Button>
             <Button asChild variant="outline">
-              <Link noStyle to="/abroad/disclosures">
+              <Link href="/abroad/disclosures" noStyle>
                 Disclosures
               </Link>
             </Button>
             <Button asChild variant="outline">
-              <Link noStyle to="/abroad/support">
+              <Link href="/abroad/support" noStyle>
                 Support
               </Link>
             </Button>
@@ -53,4 +55,4 @@ export const Abroad = () => {
       </Flex>
     </Layout>
   );
-};
+}

@@ -4,12 +4,11 @@ import { Link } from "@/components/Link";
 import { GITHUB_URL, LINKEDIN_URL } from "@/config";
 import { useTheme } from "@/context/useTheme";
 import { isMobileWebView } from "@/utils";
-import { ReactComponent as GithubIcon } from "../assets/github.svg";
-import { ReactComponent as LinkedInIcon } from "../assets/linkedin.svg";
+import { Icon } from "./Icon";
 
 const ProjectIcon = ({ link, src, label }: { link: string; src: string; label: string }) => {
   return (
-    <Link noStyle to={link}>
+    <Link href={link} noStyle>
       <Button asChild variant="outline">
         <Flex
           align="center"
@@ -74,7 +73,7 @@ export const Footer = () => {
     <Flex align="center" className="md:flex-row" gap="4" justify="between">
       <Text family="serif" size="sm" variant="muted">
         © 2025{" "}
-        <Link className="hover:underline" to="/">
+        <Link className="hover:underline" href="/">
           Still Forest LLC
         </Link>
       </Text>
@@ -91,7 +90,7 @@ export const Footer = () => {
           <Tooltip>
             <Tooltip.Trigger>
               <a href={GITHUB_URL} rel="noopener noreferrer" target="_blank">
-                <GithubIcon className="text-primary/60 hover:text-primary" height={32} width={32} />
+                <Icon size={32} src="/github.svg" />
               </a>
             </Tooltip.Trigger>
             <Tooltip.Content>
@@ -103,7 +102,7 @@ export const Footer = () => {
           <Tooltip>
             <Tooltip.Trigger>
               <a href={LINKEDIN_URL} rel="noopener noreferrer" target="_blank">
-                <LinkedInIcon className="text-primary/60 hover:text-primary" height={32} width={32} />
+                <Icon size={32} src="/linkedin.svg" />
               </a>
             </Tooltip.Trigger>
             <Tooltip.Content>

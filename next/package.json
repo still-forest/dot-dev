@@ -10,6 +10,8 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@still-forest/canopy": "0.24.0",
+    "lucide-react": "^0.541.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "next": "15.5.0"
