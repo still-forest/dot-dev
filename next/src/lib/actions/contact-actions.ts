@@ -1,7 +1,18 @@
-import { CONTACT_SUBMISSION_URL } from "@/config";
-import type { FormData } from "./schema";
+"use server";
 
-export const formSubmit = async (data: FormData) => {
+import { z } from "zod";
+import { CONTACT_SUBMISSION_URL } from "@/lib/config";
+
+export const contactSchema = z.object({
+  email: z.string().email(),
+  message: z.string().min(10).max(1000),
+});
+
+export type ContactFormData = z.infer<typeof contactSchema>;
+
+export const contact = async (formData: ContactFormData) => {
+  const { email, message } = formData;
+
   try {
     const response = await fetch(CONTACT_SUBMISSION_URL, {
       method: "POST",
@@ -9,8 +20,8 @@ export const formSubmit = async (data: FormData) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        fromEmail: data.email,
-        body: data.message,
+        fromEmail: email,
+        body: message,
       }),
     });
     if (!response.ok) {

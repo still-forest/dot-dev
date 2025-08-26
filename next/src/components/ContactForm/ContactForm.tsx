@@ -1,16 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Alert, Button, Flex, Text, TextInput } from "@still-forest/canopy";
+import { Alert, Button, Flex, InputError, Text, TextInput } from "@still-forest/canopy";
 import { CircleX } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRateLimit } from "@/hooks/useRateLimit";
-import { formSubmit } from "./formSubmit";
-import { InputError } from "./InputError";
+import { type ContactFormData, contact, contactSchema } from "@/lib/actions/contact-actions";
 import { SubmitButton } from "./SubmitButton";
-import { type FormData, formSchema } from "./schema";
 
 interface FormProps {
-  onSubmit: (data: FormData) => void;
+  onSubmit: (data: ContactFormData) => void;
   onCancel: () => void;
   submitting: boolean;
 }
@@ -20,8 +18,8 @@ const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
     register,
     handleSubmit,
     formState: { isValid, errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
   });
 
   return (
@@ -56,7 +54,7 @@ export const ContactForm = () => {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const { canExecute, execute } = useRateLimit("contact-form", 60_000);
 
-  const handleSubmit = async (data: FormData) => {
+  const handleSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
     setSubmitError(null);
 
@@ -68,7 +66,7 @@ export const ContactForm = () => {
 
     execute(async () => {
       try {
-        await formSubmit(data);
+        await contact(data);
         setIsOpen(false);
         setHasSubmitted(true);
       } catch (error) {
