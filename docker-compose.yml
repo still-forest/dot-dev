@@ -6,6 +6,7 @@ services:
       - 8080:8080
     environment:
       - NODE_ENV=production
+      - APP_ENV=staging
       - OPERATOR_EMAIL_URL=http://operator.test/api/email
       - LOKI_HOST=https://logs-prod-eu-west-0.grafana.net
       - LOKI_USERNAME=your-grafana-instance-id

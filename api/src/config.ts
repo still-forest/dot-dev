@@ -1,9 +1,13 @@
 import "dotenv/config";
 import type { LokiTransportOptions } from "./utils/LokiTransport";
 
+type Environment = "development" | "staging" | "production" | "test";
+
 export const port = Number(process.env.PORT) || 8080;
-export const environment = process.env.NODE_ENV || "development";
+export const environment: Environment = (process.env.APP_ENV || "development") as Environment;
 export const isProduction = environment === "production";
+export const isStaging = environment === "staging";
+export const isProductionLike = isProduction || isStaging;
 export const isDevelopment = environment === "development";
 export const isTestEnvironment = environment === "test";
 export const shouldLogToConsole = !isTestEnvironment;
