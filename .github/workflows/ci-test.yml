@@ -8,9 +8,6 @@ on:
     branches:
       - main
 
-defaults:
-  run:
-    working-directory: next
 
 jobs:
   tests:
@@ -53,6 +50,5 @@ jobs:
         uses: codecov/codecov-action@fdcc8476540edceab3de004e990f80d881c6cc00 # v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./next/coverage/
-          flags: next
+          directory: ./coverage/
           fail_ci_if_error: true

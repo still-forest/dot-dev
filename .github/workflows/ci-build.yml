@@ -1,15 +1,9 @@
-name: CI (web)
+name: CI (build)
 
 on:
   pull_request:
     branches:
       - main
-    paths:
-      - "web/**"
-
-defaults:
-  run:
-    working-directory: web
 
 jobs:
   ci-suite:
