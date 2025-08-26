@@ -61,6 +61,11 @@ const createLogger = (config: LoggingConfig) => {
     );
   }
 
+  console.log("environment", environment);
+  console.log("isProduction", isProduction);
+  console.log("process.env.APP_ENV", process.env.APP_ENV);
+  console.log("process.env.NODE_ENV", process.env.NODE_ENV);
+
   if (isProduction) {
     const lokiTransport = createLokiTransport(lokiConfig);
 
