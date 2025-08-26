@@ -1,6 +1,6 @@
 import type { LokiTransportOptions } from "@/lib/utils/LokiTransport";
 
-export const environment = process.env.NODE_ENV || "development";
+export const environment = process.env.APP_ENV || "development";
 export const isProduction = environment === "production";
 export const isDevelopment = environment === "development";
 export const isTestEnvironment = environment === "test";
@@ -9,7 +9,7 @@ export const shouldLogToConsole = !isTestEnvironment;
 export const GITHUB_URL = "https://github.com/still-forest";
 export const LINKEDIN_URL = "https://www.linkedin.com/in/jszymanowski";
 
-export const operatorEmailUrl = process.env.OPERATOR_EMAIL_URL || "http://operator.test/api/email";
+export const operatorEmailUrl = process.env.OPERATOR_EMAIL_URL || "http://operator.test/api/v1/email";
 
 export const contact = {
   email: "abroad.support@stillforest.dev", // TODO: move this to API / ENV var
