@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { contact } from "@/lib/actions/contact-actions";
+import type { ContactFormData } from "@/lib/schema/contact-schema";
 import { contactService } from "@/services/contact.service";
 
 describe("contact", () => {
@@ -25,72 +26,58 @@ describe("contact", () => {
     submitSpy.mockRestore();
   });
 
-  // test("returns 400 on invalid input", async () => {
-  //   const submitSpy = vi.spyOn(contactService, "submitContactForm");
-  //   submitSpy.mockResolvedValue([true, null]);
+  test("validates form data", async () => {
+    const submitSpy = vi.spyOn(contactService, "submitContactForm");
+    submitSpy.mockResolvedValue([true, null]);
 
-  //   const testCases = [
-  //     // missing both fields
-  //     {
-  //       input: {},
-  //       expectedErrors: [
-  //         { field: "fromEmail", message: "Required" },
-  //         { field: "body", message: "Required" },
-  //       ],
-  //     },
-  //     // missing fromEmail
-  //     {
-  //       input: { fromEmail: "test@example.com" },
-  //       expectedErrors: [{ field: "body", message: "Required" }],
-  //     },
-  //     // missing body
-  //     {
-  //       input: { body: "test message" },
-  //       expectedErrors: [{ field: "fromEmail", message: "Required" }],
-  //     },
-  //     // invalid fromEmail
-  //     {
-  //       input: { fromEmail: "invalid-email@", body: "test message" },
-  //       expectedErrors: [{ field: "fromEmail", message: "Invalid email" }],
-  //     },
-  //     // invalid body (wrong type)
-  //     {
-  //       input: { fromEmail: "test@example.com", body: 123 },
-  //       expectedErrors: [{ field: "body", message: "Expected string, received number" }],
-  //     },
-  //     // invalid body (too short)
-  //     {
-  //       input: { fromEmail: "test@example.com", body: "hi" },
-  //       expectedErrors: [{ field: "body", message: "String must contain at least 10 character(s)" }],
-  //     },
-  //     // invalid body (too long)
-  //     {
-  //       input: { fromEmail: "test@example.com", body: "a".repeat(1001) },
-  //       expectedErrors: [{ field: "body", message: "String must contain at most 1000 character(s)" }],
-  //     },
-  //   ];
+    const testCases = [
+      // missing both fields
+      {
+        input: {},
+        expectedErrors: { email: ["Required"], message: ["Required"] },
+      },
+      // missing email
+      {
+        input: { message: "test message" },
+        expectedErrors: { email: ["Required"] },
+      },
+      // missing message
+      {
+        input: { email: "test@example.com" },
+        expectedErrors: { message: ["Required"] },
+      },
+      // invalid email
+      {
+        input: { email: "invalid-email@", message: "test message" },
+        expectedErrors: { email: ["Invalid email"] },
+      },
+      // invalid message (wrong type)
+      {
+        input: { email: "test@example.com", message: 123 },
+        expectedErrors: { message: ["Expected string, received number"] },
+      },
+      // invalid message (too short)
+      {
+        input: { email: "test@example.com", message: "hi" },
+        expectedErrors: { message: ["String must contain at least 10 character(s)"] },
+      },
+      // invalid body (too long)
+      {
+        input: { email: "test@example.com", message: "a".repeat(1001) },
+        expectedErrors: { message: ["String must contain at most 1000 character(s)"] },
+      },
+    ];
 
-  //   for (const testCase of testCases) {
-  //     const response = await contact(formData);
-  //     if (response.status !== 400) {
-  //       console.debug(
-  //         "Test failed with unexpected status",
-  //         response.status,
-  //         "and response:",
-  //         response.body,
-  //         "; input was:",
-  //         testCase.input,
-  //       );
-  //     }
-  //     expect(response.status).toBe(400);
-  //     expect(response.body).toEqual({
-  //       message: "Validation failed",
-  //       errors: testCase.expectedErrors,
-  //     });
+    for (const testCase of testCases) {
+      const response = await contact(testCase.input as ContactFormData);
 
-  //     expect(mockedContactService.submitContactForm).not.toHaveBeenCalled();
-  //   }
-  // });
+      expect(response).toEqual({
+        success: false,
+        error: new Error("Validation failed", { cause: testCase.expectedErrors }),
+      });
+      expect(submitSpy).not.toHaveBeenCalled();
+    }
+  });
 
   test("throws an error if the service returns an error", async () => {
     const submitSpy = vi.spyOn(contactService, "submitContactForm");

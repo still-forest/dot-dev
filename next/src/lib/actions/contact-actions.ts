@@ -1,7 +1,7 @@
 "use server";
 
 import { isDevelopment } from "@/lib/config";
-import type { ContactFormData } from "@/lib/schema/contact-schema";
+import { type ContactFormData, contactSchema } from "@/lib/schema/contact-schema";
 import type { Response } from "@/lib/types";
 import { contactService } from "@/services/contact.service";
 import { getLogger } from "@/services/logger.service";
@@ -19,6 +19,11 @@ const submitContactForm = async (formData: ContactFormData) => {
 };
 
 export const contact = async (data: ContactFormData): Promise<Response<boolean>> => {
+  const errors = contactSchema.safeParse(data).error?.flatten().fieldErrors;
+  if (errors) {
+    return { success: false, error: new Error("Validation failed", { cause: errors }) };
+  }
+
   const logger = getLogger("contact");
 
   if (isDevelopment) {
