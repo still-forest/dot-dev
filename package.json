@@ -14,7 +14,7 @@
     "lint:fix": "biome check --write --unsafe ."
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.0",
+    "@biomejs/biome": "2.2.2",
     "@still-forest/biomejs-config": "2.1.0",
     "concurrently": "9.2.0"
   },
