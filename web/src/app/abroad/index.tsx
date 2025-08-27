@@ -1,5 +1,6 @@
 import { Button, Container, Flex, Heading } from "@still-forest/canopy";
 import { useEffect } from "react";
+import { HeroImage } from "@/components/HeroImage";
 import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
 import { useHead } from "@/hooks/useHead";
@@ -17,9 +18,7 @@ export default function Page() {
     <Layout>
       <Flex align="center" className="h-full" direction="col" gap="12" justify="center">
         <Container>
-          <Flex align="center" justify="center">
-            <img alt="Abroad logo" className="w-sm lg:w-lg" src="/abroad/splash-icon.png" />
-          </Flex>
+          <HeroImage alt="Abroad logo" src="/abroad/splash-icon.png" />
         </Container>
         <Container>
           <Flex align="center" justify="center">
