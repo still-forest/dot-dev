@@ -12,8 +12,8 @@ importers:
         specifier: 5.1.1
         version: 5.1.1(react-hook-form@7.60.0(react@19.1.0))
       '@still-forest/canopy':
-        specifier: 0.26.0
-        version: 0.26.0(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.11)
+        specifier: 0.27.0
+        version: 0.27.0(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.11)
       '@tailwindcss/vite':
         specifier: 4.1.11
         version: 4.1.11(vite@7.0.4(@types/node@22.15.33)(jiti@2.4.2)(lightningcss@1.30.1))
@@ -1744,8 +1744,8 @@ packages:
   '@standard-schema/utils@0.3.0':
     resolution: {integrity: sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==}
 
-  '@still-forest/canopy@0.26.0':
-    resolution: {integrity: sha512-TXPThb2+qjP/mDF02LtCh5ptlhMRgNdJWCZ8osOmDqlWfqf3d6rCmqCBl26Zmai5KvQ+7MrB5XIQiGtultCMsw==}
+  '@still-forest/canopy@0.27.0':
+    resolution: {integrity: sha512-c/1xKPgWl+gAH1HpZs05aPy9Hw87Ulrd3G2P+KPvOFpohiWEDsc0Egug4bUhozmF6Th5BX8JWjB92REUWWk/qA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -2850,6 +2850,16 @@ packages:
 
   react-router@7.6.3:
     resolution: {integrity: sha512-zf45LZp5skDC6I3jDLXQUu0u26jtuP4lEGbc7BbdyxenBN1vJSTA18czM2D+h5qyMBuMrD+9uB+mU37HIoKGRA==}
+    engines: {node: '>=20.0.0'}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+
+  react-router@7.8.2:
+    resolution: {integrity: sha512-7M2fR1JbIZ/jFWqelpvSZx+7vd7UlBTfdZqf6OSdF9g6+sfdqJDAWcak6ervbHph200ePlu+7G8LdoiC3ReyAQ==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react: '>=18'
@@ -5087,7 +5097,7 @@ snapshots:
 
   '@standard-schema/utils@0.3.0': {}
 
-  '@still-forest/canopy@0.26.0(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.11)':
+  '@still-forest/canopy@0.27.0(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.11)':
     dependencies:
       cmdk: 1.1.1(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       date-fns: 4.1.0
@@ -5096,6 +5106,7 @@ snapshots:
       react: 19.1.0
       react-day-picker: 9.8.0(react@19.1.0)
       react-dom: 19.1.0(react@19.1.0)
+      react-router: 7.8.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       tailwindcss: 4.1.11
     transitivePeerDependencies:
       - '@types/react'
@@ -6218,6 +6229,14 @@ snapshots:
       '@types/react': 19.1.8
 
   react-router@7.6.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+    dependencies:
+      cookie: 1.0.2
+      react: 19.1.0
+      set-cookie-parser: 2.7.1
+    optionalDependencies:
+      react-dom: 19.1.0(react@19.1.0)
+
+  react-router@7.8.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       cookie: 1.0.2
       react: 19.1.0
