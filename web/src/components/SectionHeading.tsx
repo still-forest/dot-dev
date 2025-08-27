@@ -1,4 +1,4 @@
-import { cn, Heading } from "@still-forest/canopy";
+import { cn, Heading } from "@still-forest/canopy/next";
 
 export const SectionHeading = ({ children, className }: { children: React.ReactNode; className?: string }) => {
   return (

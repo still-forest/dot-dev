@@ -1,3 +1,5 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert, Button, Flex, Text, Textarea, TextInput } from "@still-forest/canopy";
 import { CircleX } from "lucide-react";

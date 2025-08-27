@@ -1,4 +1,4 @@
-import { Button, Container, Flex, Heading } from "@still-forest/canopy";
+import { Button, Container, Flex, Heading } from "@still-forest/canopy/next";
 import { Link } from "@/components/Link";
 
 interface HeaderProps {

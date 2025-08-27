@@ -1,4 +1,4 @@
-import { Flex } from "@still-forest/canopy";
+import { Flex } from "@still-forest/canopy/next";
 
 interface HeroImageProps {
   src: string;

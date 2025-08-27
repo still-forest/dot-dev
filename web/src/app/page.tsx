@@ -1,21 +1,9 @@
-"use client";
-
-import { Button, Container, Flex } from "@still-forest/canopy";
-import { useEffect } from "react";
+import { Button, Container, Flex } from "@still-forest/canopy/next";
 import { HeroImage } from "@/components/HeroImage";
 import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
-import { useHead } from "@/hooks/useHead";
 
 export default function Page() {
-  const { setIcon } = useHead({
-    baseTitle: "Still Forest",
-  });
-
-  useEffect(() => {
-    setIcon("/icon-192.png");
-  }, [setIcon]);
-
   return (
     <Layout>
       <Flex align="center" className="h-full sm:justify-center" direction="col" gap="12" justify="start">

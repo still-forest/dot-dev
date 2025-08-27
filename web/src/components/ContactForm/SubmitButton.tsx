@@ -1,4 +1,4 @@
-import { Button, type ButtonProps } from "@still-forest/canopy";
+import { Button, type ButtonProps } from "@still-forest/canopy/next";
 import { Loader, Send } from "lucide-react";
 
 interface Props extends ButtonProps {

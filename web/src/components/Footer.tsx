@@ -1,3 +1,5 @@
+"use client";
+
 import { Separator as BaseSeparator, Box, Button, Flex, Text, type Theme, Tooltip } from "@still-forest/canopy";
 import { MonitorCog, Moon, SquareArrowOutUpRight, Sun } from "lucide-react";
 import Image from "next/image";

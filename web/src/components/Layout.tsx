@@ -1,4 +1,4 @@
-import { Layout as LayoutBase } from "@still-forest/canopy";
+import { Layout as LayoutBase } from "@still-forest/canopy/next";
 import { Footer } from "@/components/Footer";
 
 interface LayoutProps {
