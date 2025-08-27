@@ -2,13 +2,13 @@ import { isDevelopment } from "@/config";
 import { getLogger } from "@/services/logger.service";
 import type { Result } from "@/types";
 import { type ContactFormInput, contactSchema } from "./contact.schema";
-import { contactService } from "./contact.service";
+import { operatorService } from "./OperatorService";
 import { ValidationError } from "./ValidationError";
 
 const submitContactForm = async (formData: ContactFormInput) => {
   const { fromEmail, body } = formData;
 
-  const { success, error } = await contactService.submitContactForm({ fromEmail, body });
+  const { success, error } = await operatorService.submitContactForm({ fromEmail, body });
 
   if (success) {
     return true;

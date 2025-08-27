@@ -10,7 +10,7 @@ interface OperatorResponse {
   status: "ok";
 }
 
-class ContactService {
+class OperatorService {
   private readonly logger: LoggerService;
 
   constructor() {
@@ -39,4 +39,4 @@ class ContactService {
   }
 }
 
-export const contactService = new ContactService();
+export const operatorService = new OperatorService();

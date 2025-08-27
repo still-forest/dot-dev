@@ -1,11 +1,11 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { contactService } from "../src/api/contact.service";
+import { operatorService } from "../src/api/OperatorService";
 import { operatorEmailUrl } from "../src/config";
 
 const mockAxios = new MockAdapter(axios);
 
-describe("ContactService", () => {
+describe("OperatorService", () => {
   const email = { fromEmail: "someone@mail.test", body: "test body" };
 
   afterEach(() => {
@@ -15,7 +15,7 @@ describe("ContactService", () => {
   test("should make a request to Operator", async () => {
     mockAxios.onPost(operatorEmailUrl).reply(200, { status: "ok" });
 
-    const result = await contactService.submitContactForm(email);
+    const result = await operatorService.submitContactForm(email);
     expect(result).toEqual({ success: true, data: true });
 
     expect(mockAxios.history.post).toHaveLength(1);
@@ -34,7 +34,7 @@ describe("ContactService", () => {
   test("should return an error if the fetch fails", async () => {
     mockAxios.onPost(operatorEmailUrl).reply(500, { status: "error" });
 
-    const result = await contactService.submitContactForm(email);
+    const result = await operatorService.submitContactForm(email);
     expect(result).toEqual({ success: false, error: new Error("Request failed with status code 500") });
 
     expect(mockAxios.history.post).toHaveLength(1);
@@ -45,7 +45,7 @@ describe("ContactService", () => {
   test("handles timeout", async () => {
     mockAxios.onPost(operatorEmailUrl).timeout();
 
-    const result = await contactService.submitContactForm(email);
+    const result = await operatorService.submitContactForm(email);
     expect(result).toEqual({ success: false, error: new Error("timeout of 5000ms exceeded") });
 
     expect(mockAxios.history.post).toHaveLength(1);
@@ -56,7 +56,7 @@ describe("ContactService", () => {
   test("handles network error", async () => {
     mockAxios.onPost(operatorEmailUrl).networkError();
 
-    const result = await contactService.submitContactForm(email);
+    const result = await operatorService.submitContactForm(email);
     expect(result).toEqual({ success: false, error: new Error("Network Error") });
 
     expect(mockAxios.history.post).toHaveLength(1);

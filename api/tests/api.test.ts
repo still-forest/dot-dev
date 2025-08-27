@@ -1,10 +1,10 @@
 import supertest from "supertest";
-import { contactService } from "@/api/contact.service";
+import { operatorService } from "@/api/OperatorService";
 import { app } from "@/app";
 
-jest.mock("@/api/contact.service");
+jest.mock("@/api/OperatorService");
 
-const mockedContactService = contactService as jest.Mocked<typeof contactService>;
+const mockedOperatorService = operatorService as jest.Mocked<typeof operatorService>;
 
 describe("POST /api/contact", () => {
   const validInput = {
@@ -17,27 +17,27 @@ describe("POST /api/contact", () => {
   });
 
   test("returns 204 on successful contact form submission", async () => {
-    mockedContactService.submitContactForm.mockResolvedValue({ success: true, data: true });
+    mockedOperatorService.submitContactForm.mockResolvedValue({ success: true, data: true });
 
     const response = await supertest(app).post("/api/contact").send(validInput);
     expect(response.status).toBe(204);
     expect(response.body).toEqual({});
 
-    expect(mockedContactService.submitContactForm).toHaveBeenCalledWith(validInput);
+    expect(mockedOperatorService.submitContactForm).toHaveBeenCalledWith(validInput);
   });
 
   test("returns 500 on failed contact form submission", async () => {
-    mockedContactService.submitContactForm.mockResolvedValue({ success: false, error: new Error("test error") });
+    mockedOperatorService.submitContactForm.mockResolvedValue({ success: false, error: new Error("test error") });
 
     const response = await supertest(app).post("/api/contact").send(validInput);
     expect(response.status).toBe(500);
     expect(response.body).toEqual({ message: "Failed to submit contact form" });
 
-    expect(mockedContactService.submitContactForm).toHaveBeenCalledWith(validInput);
+    expect(mockedOperatorService.submitContactForm).toHaveBeenCalledWith(validInput);
   });
 
   test("returns 400 on invalid input", async () => {
-    mockedContactService.submitContactForm.mockResolvedValue({ success: true, data: true });
+    mockedOperatorService.submitContactForm.mockResolvedValue({ success: true, data: true });
 
     const testCases = [
       // missing both fields
@@ -98,12 +98,12 @@ describe("POST /api/contact", () => {
         errors: testCase.expectedErrors,
       });
 
-      expect(mockedContactService.submitContactForm).not.toHaveBeenCalled();
+      expect(mockedOperatorService.submitContactForm).not.toHaveBeenCalled();
     }
   });
 
   test("sanitizes html in input", async () => {
-    mockedContactService.submitContactForm.mockResolvedValue({ success: true, data: true });
+    mockedOperatorService.submitContactForm.mockResolvedValue({ success: true, data: true });
     const response = await supertest(app)
       .post("/api/contact")
       .send({ fromEmail: "test@example.com", body: "<script>alert('test')</script>" });
@@ -112,7 +112,7 @@ describe("POST /api/contact", () => {
 
     expect(response.status).toBe(204);
     expect(response.body).toEqual({});
-    expect(mockedContactService.submitContactForm).toHaveBeenCalledWith({
+    expect(mockedOperatorService.submitContactForm).toHaveBeenCalledWith({
       fromEmail: "test@example.com",
       body: expectedSanitizedBody,
     });
@@ -128,6 +128,6 @@ describe("POST /api/contact", () => {
     expect(response.status).toBe(204);
     expect(response.body).toEqual({});
 
-    expect(mockedContactService.submitContactForm).not.toHaveBeenCalled();
+    expect(mockedOperatorService.submitContactForm).not.toHaveBeenCalled();
   });
 });
