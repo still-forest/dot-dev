@@ -3,7 +3,7 @@ import { renderWithRouter } from "@tests/support/render";
 import { describe, expect, test } from "vitest";
 import "@testing-library/jest-dom";
 
-import { Root } from "@/pages/index";
+import Root from "@/pages/index";
 
 describe("Root", () => {
   test("renders link to contact page", () => {

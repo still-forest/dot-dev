@@ -6,8 +6,6 @@ import { environment, isProduction, isTestEnvironment } from "./config";
 import { corsMiddleware } from "./middleware/cors.middleware";
 import { setupLogging } from "./middleware/logging.middleware";
 import { rateLimitMiddleware } from "./middleware/rateLimit.middleware";
-import { validateInputSchema } from "./middleware/schemaValidation.middleware";
-import { ContactFormInputSchema } from "./schemas/ContactFormInput.schema";
 
 const app = express();
 
@@ -24,7 +22,7 @@ if (!isTestEnvironment) {
 }
 app.use(corsMiddleware);
 
-app.post("/api/contact", validateInputSchema(ContactFormInputSchema), contactHandler);
+app.post("/api/contact", contactHandler);
 
 // React app
 if (isProduction) {

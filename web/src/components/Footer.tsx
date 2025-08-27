@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Separator, Text, type Theme, Tooltip } from "@still-forest/canopy";
+import { Separator as BaseSeparator, Box, Button, Flex, Text, type Theme, Tooltip } from "@still-forest/canopy";
 import { MonitorCog, Moon, SquareArrowOutUpRight, Sun } from "lucide-react";
 import { Link } from "@/components/Link";
 import { GITHUB_URL, LINKEDIN_URL } from "@/config";
@@ -33,6 +33,57 @@ const ProjectLinks = () => {
         <Tooltip.Content>Abroad</Tooltip.Content>
       </Tooltip>
     </Flex>
+  );
+};
+
+const SocialLinks = () => {
+  return (
+    <Flex gap="4">
+      <Tooltip>
+        <Tooltip.Trigger>
+          <Link aria-label="Open GitHub profile (opens in a new tab)" noStyle to={GITHUB_URL}>
+            <GithubIcon
+              aria-hidden="true"
+              className="text-primary/60 hover:text-primary"
+              focusable="false"
+              height={32}
+              width={32}
+            />
+          </Link>
+        </Tooltip.Trigger>
+        <Tooltip.Content>
+          <Flex align="center" gap="1">
+            GitHub <SquareArrowOutUpRight size={12} strokeWidth={1.5} />
+          </Flex>
+        </Tooltip.Content>
+      </Tooltip>
+      <Tooltip>
+        <Tooltip.Trigger>
+          <Link aria-label="Open LinkedIn profile (opens in a new tab)" noStyle to={LINKEDIN_URL}>
+            <LinkedInIcon
+              aria-hidden="true"
+              className="text-primary/60 hover:text-primary"
+              focusable="false"
+              height={32}
+              width={32}
+            />
+          </Link>
+        </Tooltip.Trigger>
+        <Tooltip.Content>
+          <Flex align="center" gap="1">
+            LinkedIn <SquareArrowOutUpRight size={12} strokeWidth={1.5} />
+          </Flex>
+        </Tooltip.Content>
+      </Tooltip>
+    </Flex>
+  );
+};
+
+const Separator = () => {
+  return (
+    <Box className="h-10">
+      <BaseSeparator orientation="vertical" />
+    </Box>
   );
 };
 
@@ -71,47 +122,25 @@ export const Footer = () => {
   const webview = isMobileWebView();
 
   return (
-    <Flex align="center" className="md:flex-row" gap="4" justify="between">
+    <Flex align="center" className="md:flex-row" direction="col" gap="4" justify="between">
       <Text family="serif" size="sm" variant="muted">
         © 2025{" "}
         <Link className="hover:underline" to="/">
           Still Forest LLC
         </Link>
       </Text>
+      <Flex className="xs:hidden">
+        <ProjectLinks />
+      </Flex>
       {!webview && (
         <Flex align="center" gap="4">
-          <ProjectLinks />
-          <Box className="h-10">
-            <Separator orientation="vertical" />
-          </Box>
+          <Flex className="hidden xs:flex">
+            <ProjectLinks />
+            <Separator />
+          </Flex>
           <ThemeSelection />
-          <Box className="h-10">
-            <Separator orientation="vertical" />
-          </Box>
-          <Tooltip>
-            <Tooltip.Trigger>
-              <a href={GITHUB_URL} rel="noopener noreferrer" target="_blank">
-                <GithubIcon className="text-primary/60 hover:text-primary" height={32} width={32} />
-              </a>
-            </Tooltip.Trigger>
-            <Tooltip.Content>
-              <Flex align="center" gap="1">
-                GitHub <SquareArrowOutUpRight size={12} strokeWidth={1.5} />
-              </Flex>
-            </Tooltip.Content>
-          </Tooltip>
-          <Tooltip>
-            <Tooltip.Trigger>
-              <a href={LINKEDIN_URL} rel="noopener noreferrer" target="_blank">
-                <LinkedInIcon className="text-primary/60 hover:text-primary" height={32} width={32} />
-              </a>
-            </Tooltip.Trigger>
-            <Tooltip.Content>
-              <Flex align="center" gap="1">
-                LinkedIn <SquareArrowOutUpRight size={12} strokeWidth={1.5} />
-              </Flex>
-            </Tooltip.Content>
-          </Tooltip>
+          <Separator />
+          <SocialLinks />
         </Flex>
       )}
     </Flex>

@@ -68,7 +68,7 @@ describe("ContactForm", () => {
       email: "test@example.com",
       message: "Test message",
     });
-    expect(screen.getByRole("link", { name: "Back to home" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Back" })).toHaveAttribute("href", "/");
   });
 
   test("cannot submit form with invalid data", async () => {

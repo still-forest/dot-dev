@@ -1,10 +1,11 @@
 import { Button, Container, Flex, Heading } from "@still-forest/canopy";
 import { useEffect } from "react";
+import { HeroImage } from "@/components/HeroImage";
 import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
 import { useHead } from "@/hooks/useHead";
 
-export default function Component() {
+export default function Page() {
   const { setIcon } = useHead({
     baseTitle: "Abroad",
   });
@@ -17,9 +18,7 @@ export default function Component() {
     <Layout>
       <Flex align="center" className="h-full" direction="col" gap="12" justify="center">
         <Container>
-          <Flex align="center" justify="center">
-            <img alt="Abroad logo" className="w-lg" src="/abroad/splash-icon.png" />
-          </Flex>
+          <HeroImage alt="Abroad logo" src="/abroad/splash-icon.png" />
         </Container>
         <Container>
           <Flex align="center" justify="center">
@@ -32,18 +31,18 @@ export default function Component() {
           </Flex>
         </Container>
         <Container>
-          <Flex align="center" gap="2" justify="center">
-            <Button asChild variant="outline">
+          <Flex align="center" className="xs:flex-row" direction="col" gap="2" justify="center">
+            <Button asChild className="w-full xs:w-auto" variant="outline">
               <Link noStyle to="/abroad/privacy">
                 Privacy Policy
               </Link>
             </Button>
-            <Button asChild variant="outline">
+            <Button asChild className="w-full xs:w-auto" variant="outline">
               <Link noStyle to="/abroad/disclosures">
                 Disclosures
               </Link>
             </Button>
-            <Button asChild variant="outline">
+            <Button asChild className="w-full xs:w-auto" variant="outline">
               <Link noStyle to="/abroad/support">
                 Support
               </Link>

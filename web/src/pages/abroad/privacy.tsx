@@ -4,11 +4,10 @@ import { Header } from "@/Abroad/Header";
 import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
 import { SectionHeading } from "@/components/SectionHeading";
-import { contact } from "@/config";
 import { useHead } from "@/hooks/useHead";
 import { isMobileWebView } from "@/utils";
 
-export default function Component() {
+export default function Page() {
   const { setTitle } = useHead({
     baseTitle: "Abroad",
   });
@@ -102,8 +101,7 @@ export default function Component() {
 
         <SectionHeading>Contact Us</SectionHeading>
         <Paragraph>
-          If you have any questions about this Privacy Policy, please contact us at:{" "}
-          <Link to={`mailto:${contact.email}`}>{contact.email}</Link>
+          If you have any questions about this Privacy Policy, please <Link to="/abroad/support">contact us</Link>.
         </Paragraph>
       </Container>
     </Layout>

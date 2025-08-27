@@ -1,17 +1,16 @@
-import { beforeEach, describe, expect, test, vi } from "vitest";
-import { contact } from "@/lib/actions/contact-actions";
-import type { ContactFormData } from "@/lib/schema/contact-schema";
-import { contactService } from "@/services/contact.service";
+import { contact } from "@/api/contact.actions";
+import type { ContactFormInput } from "@/api/contact.schema";
+import { operatorService } from "@/api/OperatorService";
 
 describe("contact", () => {
-  const formData = { email: "test@example.test", message: "Test message" };
+  const formData = { fromEmail: "test@example.test", body: "Test message" };
 
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   test("submits form data successfully", async () => {
-    const submitSpy = vi.spyOn(contactService, "submitContactForm");
+    const submitSpy = jest.spyOn(operatorService, "submitContactForm");
     submitSpy.mockResolvedValue({ success: true, data: true });
 
     const response = await contact(formData);
@@ -27,7 +26,7 @@ describe("contact", () => {
   });
 
   test("validates form data", async () => {
-    const submitSpy = vi.spyOn(contactService, "submitContactForm");
+    const submitSpy = jest.spyOn(operatorService, "submitContactForm");
     submitSpy.mockResolvedValue({ success: true, data: true });
 
     const testCases = [
@@ -90,7 +89,7 @@ describe("contact", () => {
     ];
 
     for (const testCase of testCases) {
-      const response = await contact(testCase.input as ContactFormData);
+      const response = await contact(testCase.input as ContactFormInput);
 
       expect(response).toEqual({
         success: false,
@@ -100,11 +99,11 @@ describe("contact", () => {
     }
   });
 
-  test.skip("sanitizes html in input", async () => {
-    const submitSpy = vi.spyOn(contactService, "submitContactForm");
+  test("sanitizes html in input", async () => {
+    const submitSpy = jest.spyOn(operatorService, "submitContactForm");
     submitSpy.mockResolvedValue({ success: true, data: true });
 
-    const response = await contact({ email: "test@example.com", message: "<script>alert('test')</script>" });
+    const response = await contact({ fromEmail: "test@example.com", body: "<script>alert('test')</script>" });
 
     const expectedSanitizedBody = "alert(&#x27;test&#x27;)";
 
@@ -116,7 +115,7 @@ describe("contact", () => {
   });
 
   test("throws an error if the service returns an error", async () => {
-    const submitSpy = vi.spyOn(contactService, "submitContactForm");
+    const submitSpy = jest.spyOn(operatorService, "submitContactForm");
     const error = new Error("Service error");
     submitSpy.mockResolvedValue({ success: false, error });
 
@@ -133,7 +132,7 @@ describe("contact", () => {
   });
 
   test("throws an error if the service returns unknown error", async () => {
-    const submitSpy = vi.spyOn(contactService, "submitContactForm");
+    const submitSpy = jest.spyOn(operatorService, "submitContactForm");
     submitSpy.mockResolvedValue({ success: false, error: new Error("Unknown error") });
 
     const response = await contact(formData);
