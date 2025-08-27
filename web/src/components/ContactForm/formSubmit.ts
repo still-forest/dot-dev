@@ -1,4 +1,4 @@
-import { CONTACT_SUBMISSION_URL } from "@/config";
+import { CONTACT_SUBMISSION_URL } from "@/lib/config";
 import type { Result } from "@/lib/types";
 import { RateLimitError } from "./RateLimitError";
 import type { FormData } from "./schema";

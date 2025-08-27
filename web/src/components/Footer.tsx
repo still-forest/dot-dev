@@ -1,22 +1,26 @@
-import { Separator as BaseSeparator, Box, Button, Flex, Text, type Theme, Tooltip } from "@still-forest/canopy";
+"use client";
+
+import { Box, Button, Flex, Separator, Text, type Theme, Tooltip } from "@still-forest/canopy";
 import { MonitorCog, Moon, SquareArrowOutUpRight, Sun } from "lucide-react";
+import Image from "next/image";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import GithubIcon from "@/assets/github.svg";
+import LinkedInIcon from "@/assets/linkedin.svg";
 import { Link } from "@/components/Link";
-import { GITHUB_URL, LINKEDIN_URL } from "@/config";
-import { useTheme } from "@/context/useTheme";
-import { isMobileWebView } from "@/utils";
-import { ReactComponent as GithubIcon } from "../assets/github.svg";
-import { ReactComponent as LinkedInIcon } from "../assets/linkedin.svg";
+import { GITHUB_URL, LINKEDIN_URL } from "@/lib/config";
+import { isMobileWebView } from "@/lib/utils";
 
 const ProjectIcon = ({ link, src, label }: { link: string; src: string; label: string }) => {
   return (
-    <Link noStyle to={link}>
+    <Link href={link} noStyle>
       <Button asChild variant="outline">
         <Flex
           align="center"
           className="h-full w-[60px] p-2 opacity-25 hover:cursor-pointer hover:opacity-100"
           justify="center"
         >
-          <img alt={label} src={src} />
+          <Image alt={label} height={733} src={src} width={1024} />
         </Flex>
       </Button>
     </Link>
@@ -36,63 +40,22 @@ const ProjectLinks = () => {
   );
 };
 
-const SocialLinks = () => {
-  return (
-    <Flex gap="4">
-      <Tooltip>
-        <Tooltip.Trigger>
-          <Link aria-label="Open GitHub profile (opens in a new tab)" noStyle to={GITHUB_URL}>
-            <GithubIcon
-              aria-hidden="true"
-              className="text-primary/60 hover:text-primary"
-              focusable="false"
-              height={32}
-              width={32}
-            />
-          </Link>
-        </Tooltip.Trigger>
-        <Tooltip.Content>
-          <Flex align="center" gap="1">
-            GitHub <SquareArrowOutUpRight size={12} strokeWidth={1.5} />
-          </Flex>
-        </Tooltip.Content>
-      </Tooltip>
-      <Tooltip>
-        <Tooltip.Trigger>
-          <Link aria-label="Open LinkedIn profile (opens in a new tab)" noStyle to={LINKEDIN_URL}>
-            <LinkedInIcon
-              aria-hidden="true"
-              className="text-primary/60 hover:text-primary"
-              focusable="false"
-              height={32}
-              width={32}
-            />
-          </Link>
-        </Tooltip.Trigger>
-        <Tooltip.Content>
-          <Flex align="center" gap="1">
-            LinkedIn <SquareArrowOutUpRight size={12} strokeWidth={1.5} />
-          </Flex>
-        </Tooltip.Content>
-      </Tooltip>
-    </Flex>
-  );
-};
-
-const Separator = () => {
-  return (
-    <Box className="h-10">
-      <BaseSeparator orientation="vertical" />
-    </Box>
-  );
-};
-
 const ThemeSelection = () => {
+  const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
   const getClassName = (prospectiveTheme: Theme) => {
     return theme === prospectiveTheme ? "text-primary/75" : "text-primary/25 hover:text-primary";
   };
+
+  // useEffect only runs on the client, so now we can safely show the UI
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <Flex gap="4">
@@ -122,25 +85,44 @@ export const Footer = () => {
   const webview = isMobileWebView();
 
   return (
-    <Flex align="center" className="md:flex-row" direction="col" gap="4" justify="between">
+    <Flex align="center" className="md:flex-row" gap="4" justify="between">
       <Text family="serif" size="sm" variant="muted">
-        © 2025{" "}
-        <Link className="hover:underline" to="/">
-          Still Forest LLC
-        </Link>
+        © 2025 <Link href="/">Still Forest LLC</Link>
       </Text>
-      <Flex className="xs:hidden">
-        <ProjectLinks />
-      </Flex>
       {!webview && (
         <Flex align="center" gap="4">
-          <Flex className="hidden xs:flex">
-            <ProjectLinks />
-            <Separator />
-          </Flex>
+          <ProjectLinks />
+          <Box className="h-10">
+            <Separator orientation="vertical" />
+          </Box>
           <ThemeSelection />
-          <Separator />
-          <SocialLinks />
+          <Box className="h-10">
+            <Separator orientation="vertical" />
+          </Box>
+          <Tooltip>
+            <Tooltip.Trigger>
+              <Link href={GITHUB_URL} rel="noopener noreferrer" target="_blank">
+                <GithubIcon className="text-primary/60 hover:text-primary" height={32} width={32} />
+              </Link>
+            </Tooltip.Trigger>
+            <Tooltip.Content>
+              <Flex align="center" gap="1">
+                GitHub <SquareArrowOutUpRight size={12} strokeWidth={1.5} />
+              </Flex>
+            </Tooltip.Content>
+          </Tooltip>
+          <Tooltip>
+            <Tooltip.Trigger>
+              <Link href={LINKEDIN_URL} rel="noopener noreferrer" target="_blank">
+                <LinkedInIcon className="text-primary/60 hover:text-primary" height={32} width={32} />
+              </Link>
+            </Tooltip.Trigger>
+            <Tooltip.Content>
+              <Flex align="center" gap="1">
+                LinkedIn <SquareArrowOutUpRight size={12} strokeWidth={1.5} />
+              </Flex>
+            </Tooltip.Content>
+          </Tooltip>
         </Flex>
       )}
     </Flex>

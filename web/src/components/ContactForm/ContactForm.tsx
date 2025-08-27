@@ -1,10 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert, Button, Flex, Text, Textarea, TextInput } from "@still-forest/canopy";
 import { CircleX } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
-import { DEV_CONTACT_FROM_EMAIL, isDevelopment } from "@/config";
+import { Link } from "@/components/Link";
+import { DEV_CONTACT_FROM_EMAIL, isDevelopment } from "@/lib/config";
 import { formSubmit } from "./formSubmit";
 import { InputError } from "./InputError";
 import { SubmitButton } from "./SubmitButton";
@@ -66,7 +67,7 @@ export const ContactForm = ({ returnTo = "/" }: ContactFormProps) => {
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleSubmit = async (data: FormData) => {
     setIsSubmitting(true);
@@ -87,7 +88,7 @@ export const ContactForm = ({ returnTo = "/" }: ContactFormProps) => {
   };
 
   const handleCancel = () => {
-    navigate(returnTo);
+    router.push(returnTo);
   };
 
   return (
@@ -102,7 +103,7 @@ export const ContactForm = ({ returnTo = "/" }: ContactFormProps) => {
             We will get back to you as soon as possible.
           </Text>
           <Button asChild className="w-fit">
-            <Link to={returnTo}>Back</Link>
+            <Link href={returnTo}>Back</Link>
           </Button>
         </Flex>
       )}

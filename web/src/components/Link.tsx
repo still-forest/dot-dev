@@ -1,27 +1,27 @@
-import { Link as RouterLink, type LinkProps as RouterLinkProps } from "react-router";
+import NextLink from "next/link";
 
-interface LinkProps extends RouterLinkProps {
-  to: string;
+interface LinkProps extends React.ComponentProps<typeof NextLink> {
   noStyle?: boolean;
   className?: string;
+  children: React.ReactNode;
 }
 
-export const Link = ({ children, to, className, noStyle, ...props }: LinkProps) => {
+export const Link = ({ children, href, className, noStyle, ...props }: LinkProps) => {
   const classNames = noStyle ? className : [className, "hover:underline"].filter(Boolean).join(" ");
 
-  const external = to.startsWith("http");
+  const external = typeof href === "string" && href.startsWith("http");
 
   if (external) {
     return (
-      <a className={classNames} href={to} rel="noopener noreferrer" target="_blank" {...props}>
+      <a className={classNames} href={href} rel="noopener noreferrer" target="_blank" {...props}>
         {children}
       </a>
     );
   }
 
   return (
-    <RouterLink className={classNames} to={to} {...props}>
+    <NextLink className={classNames} href={href} {...props}>
       {children}
-    </RouterLink>
+    </NextLink>
   );
 };

@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, Container, Flex, Heading } from "@still-forest/canopy";
 import { useEffect } from "react";
 import { HeroImage } from "@/components/HeroImage";
@@ -22,7 +24,7 @@ export default function Page() {
         </Container>
         <Container>
           <Flex align="center" justify="center">
-            <Link className="flex items-center gap-2" to="/">
+            <Link className="flex items-center gap-2" href="/">
               <Heading className="font-brand" level="3" weight="thin">
                 by Still Forest
               </Heading>
@@ -33,17 +35,17 @@ export default function Page() {
         <Container>
           <Flex align="center" className="xs:flex-row" direction="col" gap="2" justify="center">
             <Button asChild className="w-full xs:w-auto" variant="outline">
-              <Link noStyle to="/abroad/privacy">
+              <Link href="/abroad/privacy" noStyle>
                 Privacy Policy
               </Link>
             </Button>
             <Button asChild className="w-full xs:w-auto" variant="outline">
-              <Link noStyle to="/abroad/disclosures">
+              <Link href="/abroad/disclosures" noStyle>
                 Disclosures
               </Link>
             </Button>
             <Button asChild className="w-full xs:w-auto" variant="outline">
-              <Link noStyle to="/abroad/support">
+              <Link href="/abroad/support" noStyle>
                 Support
               </Link>
             </Button>

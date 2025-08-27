@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, Container, Flex } from "@still-forest/canopy";
 import { useEffect } from "react";
 import { HeroImage } from "@/components/HeroImage";
@@ -21,7 +23,7 @@ export default function Page() {
           <HeroImage alt="Still Forest logo" src="/logo-full-lg.png" />
         </Container>
         <Container align="center" justify="center">
-          <Link to="/contact">
+          <Link href="/contact">
             <Button>Get in touch</Button>
           </Link>
         </Container>

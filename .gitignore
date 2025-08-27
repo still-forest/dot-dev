@@ -25,3 +25,14 @@ dist-ssr
 
 coverage/
 .env
+
+# next.js
+.next/
+out/
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts

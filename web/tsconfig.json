@@ -15,12 +15,22 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "baseUrl": ".",
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "paths": {
       "@/*": ["./src/*"],
       "@tests/*": ["./tests/*"]
-    }
+    },
+    "allowJs": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["src", "tests", "vite.config.ts", "vitest.setup.ts", "tsup.config.ts"]
+  "include": ["src", "tests", "tsup.config.ts", "vite.config.ts", "vitest.setup.ts", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }

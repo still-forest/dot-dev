@@ -1,10 +1,12 @@
+"use client";
+
 import { Container, Heading, Separator } from "@still-forest/canopy";
 import { useEffect } from "react";
 import { Header } from "@/Abroad/Header";
 import { ContactForm } from "@/components/ContactForm/ContactForm";
 import { Layout } from "@/components/Layout";
 import { useHead } from "@/hooks/useHead";
-import { isMobileWebView } from "@/utils";
+import { isMobileWebView } from "@/lib/utils";
 
 export default function Page() {
   const { setTitle } = useHead({
