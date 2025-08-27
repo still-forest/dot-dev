@@ -1,18 +1,19 @@
 import "dotenv/config";
 import type { LokiTransportOptions } from "./utils/LokiTransport";
 
-type Environment = "development" | "production" | "test";
-
 export const port = Number(process.env.PORT) || 8080;
-export const environment: Environment = (process.env.NODE_ENV || "development") as Environment;
+
+type AppEnvironment = "development" | "staging" | "production" | "test";
+export const environment: AppEnvironment = (process.env.NODE_ENV || "development") as AppEnvironment;
 export const isProduction = environment === "production";
 export const isDevelopment = environment === "development";
+export const isStaging = environment === "staging";
 export const isTestEnvironment = environment === "test";
-export const shouldLogToConsole = !isTestEnvironment;
 
 export const productionOrigins = ["https://stillforest.dev", "https://www.stillforest.dev"];
 export const operatorEmailUrl = process.env.OPERATOR_EMAIL_URL || "http://operator.test/api/email";
 
+export const shouldLogToConsole = !isTestEnvironment;
 export const lokiConfig: LokiTransportOptions = {
   host: process.env.LOKI_HOST!,
   port: Number(process.env.LOKI_PORT) || 443,

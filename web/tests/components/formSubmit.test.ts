@@ -2,7 +2,7 @@ import { describe, expect, test, vi } from "vitest";
 import { formSubmit } from "@/components/ContactForm/formSubmit";
 import { RateLimitError } from "@/components/ContactForm/RateLimitError";
 import type { FormData } from "@/components/ContactForm/schema";
-import { CONTACT_SUBMISSION_URL } from "@/config";
+import { CONTACT_SUBMISSION_URL } from "@/lib/config";
 
 describe("formSubmit", () => {
   const formData: FormData = { email: "test@example.test", message: "Test message" };
