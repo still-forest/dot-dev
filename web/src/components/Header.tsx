@@ -1,5 +1,5 @@
 import { Button, Container, Flex, Heading } from "@still-forest/canopy";
-import { Link } from "react-router";
+import { Link } from "@/components/Link";
 
 interface HeaderProps {
   title?: string;
@@ -8,7 +8,7 @@ interface HeaderProps {
 const BrandButton = () => {
   return (
     <Button asChild variant="unstyled">
-      <Link className="flex items-center gap-2" to="/">
+      <Link className="flex items-center gap-2" href="/">
         <Heading className="font-brand" level="2" weight="thin">
           Still Forest
         </Heading>
