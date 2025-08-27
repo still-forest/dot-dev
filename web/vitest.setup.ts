@@ -1,15 +1,4 @@
-import { afterAll, afterEach, beforeAll, vi } from "vitest";
-import { server } from "./tests/support/server";
-
-beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
-
-afterEach(() => {
-  server.resetHandlers();
-});
-
-afterAll(() => {
-  server.close();
-});
+import { vi } from "vitest";
 
 Object.defineProperty(window, "matchMedia", {
   writable: true,
