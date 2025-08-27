@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { Link } from "@/components/Link";
+import { useRateLimit } from "@/hooks/useRateLimit";
 import { DEV_CONTACT_FROM_EMAIL, isDevelopment } from "@/lib/config";
 import { formSubmit } from "./formSubmit";
 import { InputError } from "./InputError";
@@ -68,23 +69,28 @@ export const ContactForm = ({ returnTo = "/" }: ContactFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { canExecute, execute } = useRateLimit("contact-form", 60_000);
 
   const handleSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     setSubmitError(null);
 
-    try {
-      const result = await formSubmit(data);
-      if (result.success) {
-        setHasSubmitted(true);
-      } else {
-        setSubmitError(result.error.message);
-      }
-    } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : "Failed to submit form");
-    } finally {
+    if (!canExecute()) {
+      setSubmitError("You are sending messages too quickly. Please try again later.");
       setIsSubmitting(false);
+      return;
     }
+
+    execute(async () => {
+      try {
+        await formSubmit(data);
+        setHasSubmitted(true);
+      } catch (error) {
+        setSubmitError(error instanceof Error ? error.message : "Failed to submit form");
+      } finally {
+        setIsSubmitting(false);
+      }
+    });
   };
 
   const handleCancel = () => {
