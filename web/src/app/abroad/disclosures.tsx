@@ -33,25 +33,25 @@ export default function Page() {
 
         <SectionHeading>Background Images</SectionHeading>
         <Paragraph>
-          Background images are sourced from <Link to="https://unsplash.com/">Unsplash</Link> and are not owned by Still
-          Forest. We do not claim ownership of the images.
+          Background images are sourced from <Link href="https://unsplash.com/">Unsplash</Link> and are not owned by
+          Still Forest. We do not claim ownership of the images.
         </Paragraph>
         <Paragraph>
           Images are used in accordance with the{" "}
-          <Link to="https://unsplash.com/terms">Unsplash Terms & Conditions</Link> and the{" "}
-          <Link to="https://unsplash.com/license">Unsplash License</Link>.
+          <Link href="https://unsplash.com/terms">Unsplash Terms & Conditions</Link> and the{" "}
+          <Link href="https://unsplash.com/license">Unsplash License</Link>.
         </Paragraph>
         <Paragraph>
           While usage accreditation is not required under the Unsplash License, we do so as a courtesy. If you are the
-          copyright owner of an image and would like it removed, please <Link to="/abroad/support">contact us</Link> and
-          we will remove it as soon as reasonably possible.
+          copyright owner of an image and would like it removed, please <Link href="/abroad/support">contact us</Link>{" "}
+          and we will remove it as soon as reasonably possible.
         </Paragraph>
 
         <Separator className="my-4" />
 
         <SectionHeading>Contact</SectionHeading>
         <Paragraph>
-          If you have any questions or concerns, please <Link to="/abroad/support">contact us</Link>.
+          If you have any questions or concerns, please <Link href="/abroad/support">contact us</Link>.
         </Paragraph>
       </Container>
     </Layout>
