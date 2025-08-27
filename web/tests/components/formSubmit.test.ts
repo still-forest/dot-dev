@@ -9,6 +9,11 @@ describe("formSubmit", () => {
 
   test("submits form data to the contact submission URL", async () => {
     const fetchSpy = vi.spyOn(global, "fetch");
+    fetchSpy.mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: vi.fn().mockResolvedValue({ success: true }),
+    } as unknown as Response);
 
     const response = await formSubmit(formData);
     expect(response).toEqual({ success: true, data: true });
