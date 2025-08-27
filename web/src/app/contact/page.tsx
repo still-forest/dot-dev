@@ -1,3 +1,5 @@
+"use client";
+
 import { Container } from "@still-forest/canopy";
 import { ContactForm } from "@/components/ContactForm/ContactForm";
 import { Header } from "@/components/Header";

@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Flex, Separator, Text, type Theme, Tooltip } from "@still-forest/canopy";
+import { Box, Button, Flex, Separator, Text, Tooltip } from "@still-forest/canopy";
 import { MonitorCog, Moon, SquareArrowOutUpRight, Sun } from "lucide-react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
@@ -10,6 +10,8 @@ import LinkedInIcon from "@/assets/linkedin.svg";
 import { Link } from "@/components/Link";
 import { GITHUB_URL, LINKEDIN_URL } from "@/lib/config";
 import { isMobileWebView } from "@/lib/utils";
+
+type Theme = "system" | "light" | "dark";
 
 const ProjectIcon = ({ link, src, label }: { link: string; src: string; label: string }) => {
   return (
