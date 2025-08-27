@@ -18,7 +18,7 @@ export default function Page() {
       <Flex align="center" className="h-full" direction="col" gap="12" justify="center">
         <Container>
           <Flex align="center" justify="center">
-            <img alt="Abroad logo" className="w-lg" src="/abroad/splash-icon.png" />
+            <img alt="Abroad logo" className="w-sm lg:w-lg" src="/abroad/splash-icon.png" />
           </Flex>
         </Container>
         <Container>
@@ -32,18 +32,18 @@ export default function Page() {
           </Flex>
         </Container>
         <Container>
-          <Flex align="center" gap="2" justify="center">
-            <Button asChild variant="outline">
+          <Flex align="center" className="xs:flex-row" direction="col" gap="2" justify="center">
+            <Button asChild className="w-full xs:w-auto" variant="outline">
               <Link noStyle to="/abroad/privacy">
                 Privacy Policy
               </Link>
             </Button>
-            <Button asChild variant="outline">
+            <Button asChild className="w-full xs:w-auto" variant="outline">
               <Link noStyle to="/abroad/disclosures">
                 Disclosures
               </Link>
             </Button>
-            <Button asChild variant="outline">
+            <Button asChild className="w-full xs:w-auto" variant="outline">
               <Link noStyle to="/abroad/support">
                 Support
               </Link>
