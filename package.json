@@ -11,10 +11,7 @@
     "format": "biome format --write .",
     "lint": "biome check .",
     "lint:ci": "biome ci .",
-    "lint:fix": "biome check --write --unsafe .",
-    "test": "concurrently \"pnpm test:web\" \"pnpm test:api\"",
-    "test:web": "cd ./web && pnpm test",
-    "test:api": "cd ./api && pnpm test"
+    "lint:fix": "biome check --write --unsafe ."
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
