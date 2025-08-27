@@ -7,7 +7,6 @@ export const useRateLimit = (key: string, limitMs = 5_000) => {
   const canExecute = () => {
     const now = Date.now();
     return !lastAction || now - (lastAction as number) >= limitMs;
-    // return false;
   };
 
   const execute = (callback: () => void) => {

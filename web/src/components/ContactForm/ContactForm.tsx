@@ -83,8 +83,12 @@ export const ContactForm = ({ returnTo = "/" }: ContactFormProps) => {
 
     execute(async () => {
       try {
-        await formSubmit(data);
-        setHasSubmitted(true);
+        const result = await formSubmit(data);
+        if (result.success) {
+          setHasSubmitted(true);
+        } else {
+          setSubmitError(result.error.message);
+        }
       } catch (error) {
         setSubmitError(error instanceof Error ? error.message : "Failed to submit form");
       } finally {
