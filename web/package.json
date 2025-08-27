@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "5.1.1",
-    "@still-forest/canopy": "0.27.0",
+    "@still-forest/canopy": "0.28.0",
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4.1.12",
     "@tailwindcss/vite": "4.1.11",

@@ -12,8 +12,8 @@ importers:
         specifier: 5.1.1
         version: 5.1.1(react-hook-form@7.60.0(react@19.1.0))
       '@still-forest/canopy':
-        specifier: 0.27.0
-        version: 0.27.0(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.11)
+        specifier: 0.28.0
+        version: 0.28.0(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.11)
       '@svgr/webpack':
         specifier: ^8.1.0
         version: 8.1.0(typescript@5.8.3)
@@ -1985,8 +1985,8 @@ packages:
   '@standard-schema/utils@0.3.0':
     resolution: {integrity: sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==}
 
-  '@still-forest/canopy@0.27.0':
-    resolution: {integrity: sha512-c/1xKPgWl+gAH1HpZs05aPy9Hw87Ulrd3G2P+KPvOFpohiWEDsc0Egug4bUhozmF6Th5BX8JWjB92REUWWk/qA==}
+  '@still-forest/canopy@0.28.0':
+    resolution: {integrity: sha512-+dxXEviAdDUyRo3/DJoNLtWlsCHue0Vc4EjzsC42sMUzfvl+GVi3luLhEVmJzBv/QHIbikDPOHXnv6y43q++oQ==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -6342,7 +6342,7 @@ snapshots:
 
   '@standard-schema/utils@0.3.0': {}
 
-  '@still-forest/canopy@0.27.0(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.11)':
+  '@still-forest/canopy@0.28.0(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.11)':
     dependencies:
       cmdk: 1.1.1(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       date-fns: 4.1.0
