@@ -3,7 +3,8 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import "@testing-library/jest-dom";
 
 import { renderWithRouter } from "@tests/support/render";
-import { useNavigate } from "react-router";
+import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useRouter } from "next/navigation";
 import { ContactForm } from "@/components/ContactForm/ContactForm";
 import { formSubmit } from "@/components/ContactForm/formSubmit";
 import { RateLimitError } from "@/components/ContactForm/RateLimitError";
@@ -13,11 +14,11 @@ beforeEach(() => {
     formSubmit: vi.fn().mockResolvedValue({ success: true }),
   }));
 
-  vi.mock(import("react-router"), async (importOriginal) => {
+  vi.mock(import("next/navigation"), async (importOriginal) => {
     const actual = await importOriginal();
     return {
       ...actual,
-      useNavigate: vi.fn(),
+      useRouter: vi.fn(),
     };
   });
 });
@@ -137,9 +138,11 @@ describe("ContactForm", () => {
   });
 
   test("cancels to close the form", async () => {
-    const mockNavigate = vi.fn();
-    const mockUseNavigate = vi.mocked(useNavigate);
-    mockUseNavigate.mockReturnValue(mockNavigate);
+    const mockRouter = {
+      push: vi.fn(),
+    } as unknown as AppRouterInstance;
+    const mockUseRouter = vi.mocked(useRouter);
+    mockUseRouter.mockReturnValue(mockRouter);
 
     renderWithRouter(<ContactForm />);
 
@@ -150,7 +153,7 @@ describe("ContactForm", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
 
-    expect(mockNavigate).toHaveBeenCalledWith("/");
+    expect(mockRouter.push).toHaveBeenCalledWith("/");
   });
 
   test("should show rate limit error message if form is submitted too quickly", async () => {
