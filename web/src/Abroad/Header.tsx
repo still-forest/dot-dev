@@ -13,7 +13,7 @@ export const Header = () => {
         </Flex>
       </Link>
       <Button asChild variant="outline">
-        <Link className="flex items-center gap-2" to="/">
+        <Link className="flex items-center gap-2" href="/">
           <Heading className="font-brand" level="3" weight="thin">
             by Still Forest
           </Heading>
