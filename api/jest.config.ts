@@ -4,6 +4,9 @@ export default {
   extensionsToTreatAsEsm: [".ts", ".tsx"],
   collectCoverage: false,
   collectCoverageFrom: ["src/**/*.ts", "!src/index.ts", "!src/middleware/*.ts"],
+  env: {
+    APP_ENV: "development",
+  },
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
     "^@tests/(.*)$": "<rootDir>/tests/$1",
