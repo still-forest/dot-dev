@@ -13,9 +13,9 @@ export const Link = ({ children, href, className, noStyle, ...props }: LinkProps
 
   if (external) {
     return (
-      <a className={classNames} href={href} rel="noopener noreferrer" target="_blank" {...props}>
+      <NextLink className={classNames} href={href} rel="noopener noreferrer" target="_blank" {...props}>
         {children}
-      </a>
+      </NextLink>
     );
   }
 
