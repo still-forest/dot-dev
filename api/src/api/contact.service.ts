@@ -1,13 +1,10 @@
 import axios from "axios";
+import { getLogger, type LoggerService } from "@/services/logger.service";
+import type { Result } from "@/types";
 import { operatorEmailUrl } from "../config";
-import { getLogger, type LoggerService } from "./logger.service";
+import type { ContactFormInput } from "./contact.schema";
 
 const EMAIL_SUBJECT = "Still Forest: contact form submission";
-
-interface ContactFormInput {
-  fromEmail: string;
-  body: string;
-}
 
 interface OperatorResponse {
   status: "ok";
@@ -20,7 +17,7 @@ class ContactService {
     this.logger = getLogger("contact");
   }
 
-  async submitContactForm(input: ContactFormInput): Promise<[boolean, Error | null]> {
+  async submitContactForm(input: ContactFormInput): Promise<Result<boolean>> {
     const params = {
       subject: EMAIL_SUBJECT,
       body: this.buildEmailBody(input),
@@ -30,10 +27,10 @@ class ContactService {
       await axios.post<OperatorResponse>(operatorEmailUrl, params, {
         timeout: 5000,
       });
-      return [true, null];
+      return { success: true, data: true };
     } catch (error) {
       this.logger.error("Error submitting contact form", { error });
-      return [false, error instanceof Error ? error : new Error(String(error))];
+      return { success: false, error: error instanceof Error ? error : new Error(String(error)) };
     }
   }
 

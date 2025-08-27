@@ -1,7 +1,7 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
+import { contactService } from "../src/api/contact.service";
 import { operatorEmailUrl } from "../src/config";
-import { contactService } from "../src/services/contact.service";
 
 const mockAxios = new MockAdapter(axios);
 
@@ -16,7 +16,7 @@ describe("ContactService", () => {
     mockAxios.onPost(operatorEmailUrl).reply(200, { status: "ok" });
 
     const result = await contactService.submitContactForm(email);
-    expect(result).toEqual([true, null]);
+    expect(result).toEqual({ success: true, data: true });
 
     expect(mockAxios.history.post).toHaveLength(1);
     const mockRequest = mockAxios.history.post[0];
@@ -35,7 +35,7 @@ describe("ContactService", () => {
     mockAxios.onPost(operatorEmailUrl).reply(500, { status: "error" });
 
     const result = await contactService.submitContactForm(email);
-    expect(result).toEqual([false, new Error("Request failed with status code 500")]);
+    expect(result).toEqual({ success: false, error: new Error("Request failed with status code 500") });
 
     expect(mockAxios.history.post).toHaveLength(1);
     const mockRequest = mockAxios.history.post[0];
@@ -46,7 +46,7 @@ describe("ContactService", () => {
     mockAxios.onPost(operatorEmailUrl).timeout();
 
     const result = await contactService.submitContactForm(email);
-    expect(result).toEqual([false, new Error("timeout of 5000ms exceeded")]);
+    expect(result).toEqual({ success: false, error: new Error("timeout of 5000ms exceeded") });
 
     expect(mockAxios.history.post).toHaveLength(1);
     const mockRequest = mockAxios.history.post[0];
@@ -57,7 +57,7 @@ describe("ContactService", () => {
     mockAxios.onPost(operatorEmailUrl).networkError();
 
     const result = await contactService.submitContactForm(email);
-    expect(result).toEqual([false, new Error("Network Error")]);
+    expect(result).toEqual({ success: false, error: new Error("Network Error") });
 
     expect(mockAxios.history.post).toHaveLength(1);
     const mockRequest = mockAxios.history.post[0];
