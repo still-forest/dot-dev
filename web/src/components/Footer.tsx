@@ -117,12 +117,12 @@ export const Footer = () => {
           Still Forest LLC
         </Link>
       </Text>
-      <Flex className="md:hidden">
+      <Flex className="xs:hidden">
         <ProjectLinks />
       </Flex>
       {!webview && (
         <Flex align="center" gap="4">
-          <Flex className="hidden md:flex">
+          <Flex className="hidden xs:flex">
             <ProjectLinks />
             <Separator />
           </Flex>
