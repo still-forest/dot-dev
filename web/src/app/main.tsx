@@ -1,16 +1,16 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./app/globals.css";
+import "./globals.css";
 import { BrowserRouter, Route, Routes } from "react-router";
-import Root from "./app/[root]";
-import AbroadDisclosures from "./app/abroad/disclosures";
-import Abroad from "./app/abroad/index";
-import AbroadPrivacy from "./app/abroad/privacy";
-import AbroadSupport from "./app/abroad/support";
-import Contact from "./app/contact";
-import NotFoundPage from "./app/not-found";
-import ThemeProvider from "./context/ThemeProvider";
-import { THEMES } from "./context/ThemeProviderContext";
+import ThemeProvider from "../context/ThemeProvider";
+import { THEMES } from "../context/ThemeProviderContext";
+import Root from "./[root]";
+import AbroadDisclosures from "./abroad/disclosures";
+import Abroad from "./abroad/index";
+import AbroadPrivacy from "./abroad/privacy";
+import AbroadSupport from "./abroad/support";
+import Contact from "./contact";
+import NotFoundPage from "./not-found";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
