@@ -2,7 +2,7 @@
 FROM node:22-slim@sha256:b2fa526a10dad3c5ab4b3779eca81607ed05a96160ef5497c36cd4ebed68803d AS base
 
 RUN corepack enable && \
-  corepack prepare pnpm@10.11.0 --activate
+  corepack prepare pnpm@10.15.0 --activate
 
 # Build web
 FROM base AS web-builder
@@ -12,7 +12,7 @@ WORKDIR /app/web
 COPY web/package.json web/pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
-COPY web/tsconfig.json web/vite.config.ts web/index.html ./
+COPY web/tsconfig.json web/vite.config.ts ./
 COPY web/src ./src
 COPY web/public ./public
 
@@ -47,3 +47,9 @@ RUN pnpm install --prod --frozen-lockfile
 EXPOSE 8080
 
 CMD ["node", "dist/index.js"]
+
+# ------------------------------------------------------------
+# Build and run
+# ------------------------------------------------------------
+# docker build -t still-forest-dot-dev .
+# docker run -p 8080:8080 still-forest-dot-dev

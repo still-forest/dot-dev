@@ -1,6 +1,6 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
-import ThemeProvider from "./context/ThemeProvider";
-import { THEMES } from "./context/ThemeProviderContext";
+import ThemeProvider from "@/context/ThemeProvider";
+import { THEMES } from "@/context/ThemeProviderContext";
 import "./index.css";
 
 const links = [
