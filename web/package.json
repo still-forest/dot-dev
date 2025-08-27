@@ -4,9 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "vite build",
+    "build": "react-router build",
     "dev": "react-router dev",
     "preview": "vite preview",
+    "start": "react-router-serve ./build/server/index.js",
     "test": "vitest",
     "test:watch": "vitest --watch",
     "test:coverage": "vitest run --coverage"
@@ -15,6 +16,7 @@
     "@hookform/resolvers": "5.1.1",
     "@react-router/dev": "^7.8.2",
     "@react-router/node": "^7.8.2",
+    "@react-router/serve": "^7.8.2",
     "@still-forest/canopy": "0.27.0",
     "@tailwindcss/vite": "4.1.11",
     "isbot": "^5",
@@ -22,7 +24,7 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-hook-form": "7.60.0",
-    "react-router": "7.6.3",
+    "react-router": "^7.8.2",
     "tailwindcss": "4.1.11",
     "zod": "3.25.67"
   },

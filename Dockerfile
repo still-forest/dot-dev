@@ -5,51 +5,37 @@ RUN corepack enable && \
   corepack prepare pnpm@10.15.0 --activate
 
 # Build web
-FROM base AS web-builder
+FROM base AS builder
 
-WORKDIR /app/web
+WORKDIR /app
 
 COPY web/package.json web/pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
-COPY web/tsconfig.json web/vite.config.ts ./
+COPY web/tsconfig.json web/vite.config.ts web/react-router.config.ts ./
 COPY web/src ./src
 COPY web/public ./public
 
 RUN pnpm build
 
-# Build api
-FROM base AS api-builder
-
-WORKDIR /app/api
-
-COPY api/package.json api/pnpm-lock.yaml api/pnpm-workspace.yaml ./
-RUN pnpm install --frozen-lockfile
-
-COPY api/tsconfig.json api/tsup.config.ts ./
-COPY api/src ./src
-
-RUN pnpm build
-
-# Build final, combined image --------------------------------
+# Build final image -------------------------------------------
 FROM base AS final
 
 WORKDIR /app
 
-# Copy built assets and server
-COPY --from=web-builder /app/web/dist ./public
+COPY --from=builder /app/build ./build
+COPY --from=builder /app/public ./public
 
-COPY --from=api-builder /app/api/dist ./dist
-COPY --from=api-builder /app/api/package.json /app/api/pnpm-lock.yaml /app/api/pnpm-workspace.yaml ./
-
+COPY --from=builder /app/package.json /app/pnpm-lock.yaml ./
 RUN pnpm install --prod --frozen-lockfile
 
-EXPOSE 8080
+EXPOSE 3000
 
-CMD ["node", "dist/index.js"]
+CMD ["npm", "run", "start"]
 
 # ------------------------------------------------------------
-# Build and run
+# Build, test, and run
 # ------------------------------------------------------------
 # docker build -t still-forest-dot-dev .
-# docker run -p 8080:8080 still-forest-dot-dev
+# docker run --rm -it still-forest-dot-dev sh
+# docker run -p 8080:3000 still-forest-dot-dev
