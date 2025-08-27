@@ -9,7 +9,7 @@ import { ReactComponent as LinkedInIcon } from "../assets/linkedin.svg";
 
 const ProjectIcon = ({ link, src, label }: { link: string; src: string; label: string }) => {
   return (
-    <Link noStyle to={link}>
+    <Link href={link} noStyle>
       <Button asChild variant="outline">
         <Flex
           align="center"
@@ -41,7 +41,7 @@ const SocialLinks = () => {
     <Flex gap="4">
       <Tooltip>
         <Tooltip.Trigger>
-          <Link aria-label="Open GitHub profile (opens in a new tab)" noStyle to={GITHUB_URL}>
+          <Link aria-label="Open GitHub profile (opens in a new tab)" href={GITHUB_URL} noStyle>
             <GithubIcon
               aria-hidden="true"
               className="text-primary/60 hover:text-primary"
@@ -59,7 +59,7 @@ const SocialLinks = () => {
       </Tooltip>
       <Tooltip>
         <Tooltip.Trigger>
-          <Link aria-label="Open LinkedIn profile (opens in a new tab)" noStyle to={LINKEDIN_URL}>
+          <Link aria-label="Open LinkedIn profile (opens in a new tab)" href={LINKEDIN_URL} noStyle>
             <LinkedInIcon
               aria-hidden="true"
               className="text-primary/60 hover:text-primary"
@@ -125,7 +125,7 @@ export const Footer = () => {
     <Flex align="center" className="md:flex-row" direction="col" gap="4" justify="between">
       <Text family="serif" size="sm" variant="muted">
         © 2025{" "}
-        <Link className="hover:underline" to="/">
+        <Link className="hover:underline" href="/">
           Still Forest LLC
         </Link>
       </Text>

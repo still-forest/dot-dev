@@ -21,9 +21,9 @@ export default function Page() {
           <HeroImage alt="Still Forest logo" src="/logo-full-lg.png" />
         </Container>
         <Container align="center" justify="center">
-          <Link to="/contact">
-            <Button>Get in touch</Button>
-          </Link>
+          <Button asChild>
+            <Link href="/contact">Get in touch</Link>
+          </Button>
         </Container>
       </Flex>
     </Layout>
