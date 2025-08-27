@@ -41,9 +41,15 @@ const SocialLinks = () => {
     <Flex gap="4">
       <Tooltip>
         <Tooltip.Trigger>
-          <a href={GITHUB_URL} rel="noopener noreferrer" target="_blank">
-            <GithubIcon className="text-primary/60 hover:text-primary" height={32} width={32} />
-          </a>
+          <Link aria-label="Open GitHub profile (opens in a new tab)" noStyle to={GITHUB_URL}>
+            <GithubIcon
+              aria-hidden="true"
+              className="text-primary/60 hover:text-primary"
+              focusable="false"
+              height={32}
+              width={32}
+            />
+          </Link>
         </Tooltip.Trigger>
         <Tooltip.Content>
           <Flex align="center" gap="1">
@@ -53,9 +59,15 @@ const SocialLinks = () => {
       </Tooltip>
       <Tooltip>
         <Tooltip.Trigger>
-          <a href={LINKEDIN_URL} rel="noopener noreferrer" target="_blank">
-            <LinkedInIcon className="text-primary/60 hover:text-primary" height={32} width={32} />
-          </a>
+          <Link aria-label="Open LinkedIn profile (opens in a new tab)" noStyle to={LINKEDIN_URL}>
+            <LinkedInIcon
+              aria-hidden="true"
+              className="text-primary/60 hover:text-primary"
+              focusable="false"
+              height={32}
+              width={32}
+            />
+          </Link>
         </Tooltip.Trigger>
         <Tooltip.Content>
           <Flex align="center" gap="1">

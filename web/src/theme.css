@@ -129,7 +129,7 @@
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
 
-  --color-abroad-brand: var(--color-abroad-brand);
+  --color-abroad-brand: var(--abroad-brand);
 
   /* Typography */
   --font-brand: "Cormorant Unicase", "Forum", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
