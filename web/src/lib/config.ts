@@ -1,6 +1,9 @@
-export const environment = process.env.NODE_ENV || "development";
+type AppEnvironment = "development" | "staging" | "production" | "test";
+export const environment: AppEnvironment = (process.env.APP_ENV || "development") as AppEnvironment;
 export const isProduction = environment === "production";
 export const isDevelopment = environment === "development";
+export const isStaging = environment === "staging";
+export const isTestEnvironment = environment === "test";
 
 export const GITHUB_URL = "https://github.com/still-forest";
 export const LINKEDIN_URL = "https://www.linkedin.com/in/jszymanowski";

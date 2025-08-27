@@ -5,7 +5,7 @@ import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
 import { SectionHeading } from "@/components/SectionHeading";
 import { useHead } from "@/hooks/useHead";
-import { isMobileWebView } from "@/utils";
+import { isMobileWebView } from "@/lib/utils";
 
 export default function Page() {
   const { setTitle } = useHead({
