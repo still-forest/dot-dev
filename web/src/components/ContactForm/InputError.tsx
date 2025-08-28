@@ -1,4 +1,4 @@
-import { Text } from "@still-forest/canopy/next";
+import { Text } from "@still-forest/canopy";
 
 export const InputError = ({ message }: { message: string }) => {
   return (

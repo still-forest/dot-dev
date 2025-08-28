@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Container, Flex, Heading } from "@still-forest/canopy/next";
+import { Button, Container, Flex, Heading } from "@still-forest/canopy";
 import { useEffect } from "react";
 import { HeroImage } from "@/components/HeroImage";
 import { Layout } from "@/components/Layout";

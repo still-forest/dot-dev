@@ -1,4 +1,4 @@
-import { Button, Flex, Heading } from "@still-forest/canopy/next";
+import { Button, Flex, Heading } from "@still-forest/canopy";
 import { Link } from "@/components/Link";
 
 export const Header = () => {

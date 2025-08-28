@@ -1,6 +1,6 @@
 "use client";
 
-import { Container, Heading, Separator } from "@still-forest/canopy/next";
+import { Container, Heading, Separator } from "@still-forest/canopy";
 import { useEffect } from "react";
 import { Header } from "@/Abroad/Header";
 import { ContactForm } from "@/components/ContactForm/ContactForm";
