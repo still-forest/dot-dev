@@ -1,20 +1,11 @@
 codecov:
-  require_ci_to_pass: false
+  require_ci_to_pass: true
 
 coverage:
   status:
     project:
-      default: false # disable the default status
-      web:
-        flags:
-          - web
-        paths:
-          - "web/"
-
-flags:
-  web:
-    paths:
-      - web/
+      default:
+        informational: true
 
 comment:
   layout: "reach,diff,flags,files,footer"

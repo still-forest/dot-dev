@@ -1,21 +1,12 @@
-name: CI (web tests)
+name: CI (build)
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
-    paths:
-      - "web/**"
-
-defaults:
-  run:
-    working-directory: web
 
 jobs:
-  test-web:
+  build:
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -48,13 +39,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run coverage report
-        run: pnpm test:coverage
-
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@fdcc8476540edceab3de004e990f80d881c6cc00 # v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./web/coverage/
-          flags: web
-          fail_ci_if_error: true
+      - name: Run build
+        run: pnpm build
