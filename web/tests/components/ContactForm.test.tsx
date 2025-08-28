@@ -6,12 +6,12 @@ import { renderWithRouter } from "@tests/support/render";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { ContactForm } from "@/components/ContactForm/ContactForm";
-import { formSubmit } from "@/components/ContactForm/formSubmit";
 import { useRateLimit } from "@/hooks/useRateLimit";
+import { contact } from "@/lib/actions/contact.actions";
 
 beforeEach(() => {
-  vi.mock("@/components/ContactForm/formSubmit", () => ({
-    formSubmit: vi.fn().mockResolvedValue({ success: true }),
+  vi.mock("@/lib/actions/contact.actions", () => ({
+    contact: vi.fn().mockResolvedValue({ success: true }),
   }));
 
   vi.mock(import("next/navigation"), async (importOriginal) => {
@@ -46,7 +46,7 @@ describe("ContactForm", () => {
   });
 
   test("can submit form with valid data", async () => {
-    const mockedFormSubmit = vi.mocked(formSubmit);
+    const mockedFormSubmit = vi.mocked(contact);
     mockedFormSubmit.mockResolvedValue({ success: true, data: true });
 
     const mockedUseRateLimit = vi.mocked(useRateLimit);
@@ -78,7 +78,7 @@ describe("ContactForm", () => {
     await waitFor(() => {
       expect(screen.getByText(/Message sent successfully/)).toBeInTheDocument();
     });
-    expect(formSubmit).toHaveBeenCalledWith({
+    expect(contact).toHaveBeenCalledWith({
       email: "test@example.com",
       message: "Test message",
     });
@@ -86,7 +86,7 @@ describe("ContactForm", () => {
   });
 
   test("cannot submit form with invalid data", async () => {
-    const mockedFormSubmit = vi.mocked(formSubmit);
+    const mockedFormSubmit = vi.mocked(contact);
     mockedFormSubmit.mockResolvedValue({ success: true, data: true });
 
     renderWithRouter(<ContactForm />);
@@ -113,11 +113,11 @@ describe("ContactForm", () => {
       expect(submitButton).toBeDisabled();
     });
 
-    expect(formSubmit).not.toHaveBeenCalled();
+    expect(contact).not.toHaveBeenCalled();
   });
 
   test("should show error message if form submission fails", async () => {
-    const mockedFormSubmit = vi.mocked(formSubmit);
+    const mockedFormSubmit = vi.mocked(contact);
     mockedFormSubmit.mockResolvedValue({
       success: false,
       error: new Error("You shall not pass!"),
@@ -141,7 +141,7 @@ describe("ContactForm", () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(formSubmit).toHaveBeenCalledWith({
+      expect(contact).toHaveBeenCalledWith({
         email: "test@example.com",
         message: "Test message",
       });
