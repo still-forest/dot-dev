@@ -1,7 +1,8 @@
 import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import * as winston from "winston";
-import { environment, isProduction, lokiConfig, shouldLogToConsole } from "@/lib/config";
+import { environment, isProduction } from "@/lib/config/environment";
+import { lokiConfig, shouldLogToConsole } from "@/lib/config/logging";
 import { createLokiTransport } from "@/lib/utils/LokiTransport";
 
 export type LogDomain = "default" | "api" | "server" | "contact";

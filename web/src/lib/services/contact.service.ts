@@ -1,8 +1,10 @@
 import axios from "axios";
 import { operatorEmailUrl } from "@/lib/config";
-import type { ContactFormInput } from "@/lib/schema/contact.schema";
 // import { getLogger, type LoggerService } from "@/services/logger.service";
+import { type MaybeError, parseError } from "@/lib/errors/error.parser";
+import type { ContactFormInput } from "@/lib/schema/contact.schema";
 import type { Result } from "@/lib/types";
+import { getLogger } from "./logger.service";
 
 const EMAIL_SUBJECT = "Still Forest: contact form submission";
 
@@ -18,13 +20,15 @@ class ContactService {
     };
 
     try {
-      await axios.post<OperatorResponse>(operatorEmailUrl, params, {
+      const response = await axios.post<OperatorResponse>(operatorEmailUrl, params, {
         timeout: 5000,
       });
-      return { success: true, data: true };
+      return { success: true, data: response.status === 200 };
     } catch (error) {
-      // this.logger.error("Error submitting contact form", { error });
-      return { success: false, error: error instanceof Error ? error : new Error(String(error)) };
+      const logger = getLogger("api");
+      const parsedError = parseError(error as MaybeError);
+      logger.error("Error submitting contact form", { error, parsedError: parsedError });
+      return { success: false, error: parsedError };
     }
   }
 

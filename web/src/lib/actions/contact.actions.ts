@@ -7,18 +7,6 @@ import { contactService } from "@/lib/services/contact.service";
 import { getLogger } from "@/lib/services/logger.service";
 import type { Result } from "@/lib/types";
 
-const submitContactForm = async (formData: ContactFormInput) => {
-  const { email, message } = formData;
-
-  const { success, error } = await contactService.submitContactForm({ email, message });
-
-  if (success) {
-    return true;
-  }
-
-  throw new Error(`Failed to submit form: ${error instanceof Error ? error.message : "Unknown error"}`);
-};
-
 export const contact = async (rawData: ContactFormInput): Promise<Result<boolean>> => {
   const parsed = contactSchema.safeParse(rawData);
   if (!parsed.success) {
@@ -33,11 +21,15 @@ export const contact = async (rawData: ContactFormInput): Promise<Result<boolean
     return { success: true, data: true };
   }
 
-  try {
-    const result = await submitContactForm(data);
-    return { success: true, data: result };
-  } catch (error) {
-    logger.error("Failed to submit contact form", { error });
-    return { success: false, error: error instanceof Error ? error : new Error(String(error)) };
+  const { email, message } = data;
+  const { success, error } = await contactService.submitContactForm({ email, message });
+
+  logger.debug("Contact form submitted", { success, error });
+
+  if (success) {
+    return { success, data: true };
   }
+
+  logger.error("Failed to submit contact form", { error });
+  return { success: false, error };
 };

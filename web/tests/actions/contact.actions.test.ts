@@ -122,11 +122,11 @@ describe("contact", () => {
 
   test("throws an error if the service returns an error", async () => {
     const submitSpy = vi.spyOn(contactService, "submitContactForm");
-    const error = new Error("Service error");
+    const error = new Error("Some service error");
     submitSpy.mockResolvedValue({ success: false, error });
 
     const response = await contact(formData);
-    expect(response).toEqual({ success: false, error: new Error("Failed to submit form: Service error") });
+    expect(response).toEqual({ success: false, error: new Error("Some service error") });
 
     expect(submitSpy).toHaveBeenCalledWith({
       email: "test@example.test",
@@ -142,7 +142,7 @@ describe("contact", () => {
     submitSpy.mockResolvedValue({ success: false, error: new Error("Unknown error") });
 
     const response = await contact(formData);
-    expect(response).toEqual({ success: false, error: new Error("Failed to submit form: Unknown error") });
+    expect(response).toEqual({ success: false, error: new Error("Unknown error") });
 
     expect(submitSpy).toHaveBeenCalledWith({
       email: "test@example.test",
