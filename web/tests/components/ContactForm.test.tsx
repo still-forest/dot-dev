@@ -7,7 +7,7 @@ import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.
 import { useRouter } from "next/navigation";
 import { ContactForm } from "@/components/ContactForm/ContactForm";
 import { formSubmit } from "@/components/ContactForm/formSubmit";
-import { RateLimitError } from "@/components/ContactForm/RateLimitError";
+import { useRateLimit } from "@/hooks/useRateLimit";
 
 beforeEach(() => {
   vi.mock("@/components/ContactForm/formSubmit", () => ({
@@ -21,6 +21,13 @@ beforeEach(() => {
       useRouter: vi.fn(),
     };
   });
+
+  vi.mock("@/hooks/useRateLimit", () => ({
+    useRateLimit: vi.fn().mockReturnValue({
+      execute: (callback: () => void) => callback(),
+      canExecute: vi.fn().mockReturnValue(true),
+    }),
+  }));
 });
 
 afterEach(() => {
@@ -41,6 +48,12 @@ describe("ContactForm", () => {
   test("can submit form with valid data", async () => {
     const mockedFormSubmit = vi.mocked(formSubmit);
     mockedFormSubmit.mockResolvedValue({ success: true, data: true });
+
+    const mockedUseRateLimit = vi.mocked(useRateLimit);
+    mockedUseRateLimit.mockReturnValue({
+      execute: (callback: () => void) => callback(),
+      canExecute: vi.fn().mockReturnValue(true),
+    });
 
     renderWithRouter(<ContactForm />);
 
@@ -157,10 +170,10 @@ describe("ContactForm", () => {
   });
 
   test("should show rate limit error message if form is submitted too quickly", async () => {
-    const mockedFormSubmit = vi.mocked(formSubmit);
-    mockedFormSubmit.mockResolvedValue({
-      success: false,
-      error: new RateLimitError(),
+    const mockedUseRateLimit = vi.mocked(useRateLimit);
+    mockedUseRateLimit.mockReturnValue({
+      execute: (callback: () => void) => callback(),
+      canExecute: vi.fn().mockReturnValue(false),
     });
 
     renderWithRouter(<ContactForm />);
