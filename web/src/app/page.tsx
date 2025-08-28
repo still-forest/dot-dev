@@ -20,7 +20,7 @@ export default function Page() {
     <Layout>
       <Flex align="center" className="h-full sm:justify-center" direction="col" gap="12" justify="start">
         <Container>
-          <HeroImage alt="Still Forest logo" src="/logo-full-lg.png" />
+          <HeroImage alt="Still Forest logo" height={2071} src="/logo-full-lg.png" width={1910} />
         </Container>
         <Container align="center" justify="center">
           <Button asChild>

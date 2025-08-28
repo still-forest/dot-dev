@@ -3,6 +3,7 @@
 import { Button, Container, Flex, Heading } from "@still-forest/canopy";
 import { useEffect } from "react";
 import { HeroImage } from "@/components/HeroImage";
+import { Image } from "@/components/Image";
 import { Layout } from "@/components/Layout";
 import { Link } from "@/components/Link";
 import { useHead } from "@/hooks/useHead";
@@ -20,7 +21,7 @@ export default function Page() {
     <Layout>
       <Flex align="center" className="h-full" direction="col" gap="12" justify="center">
         <Container>
-          <HeroImage alt="Abroad logo" src="/abroad/splash-icon.png" />
+          <HeroImage alt="Abroad logo" height={733} src="/abroad/splash-icon.png" width={1024} />
         </Container>
         <Container>
           <Flex align="center" justify="center">
@@ -28,7 +29,7 @@ export default function Page() {
               <Heading className="font-brand" level="3" weight="thin">
                 by Still Forest
               </Heading>
-              <img alt="Still Forest logo" className="w-[24px]" src="/icon-192.png" />
+              <Image alt="Still Forest logo" className="w-[24px]" size={192} src="/icon-192.png" />
             </Link>
           </Flex>
         </Container>

@@ -1,12 +1,12 @@
-import { Separator as BaseSeparator, Box, Button, Flex, Text, type Theme, Tooltip } from "@still-forest/canopy";
-import { MonitorCog, Moon, SquareArrowOutUpRight, Sun } from "lucide-react";
-import Image from "next/image";
-import { useTheme } from "next-themes";
+import { Separator as BaseSeparator, Box, Button, Flex, Text, Tooltip } from "@still-forest/canopy";
+import { SquareArrowOutUpRight } from "lucide-react";
 import GithubIcon from "@/assets/github.svg";
 import LinkedInIcon from "@/assets/linkedin.svg";
+import { Image } from "@/components/Image";
 import { Link } from "@/components/Link";
 import { GITHUB_URL, LINKEDIN_URL } from "@/lib/config";
 import { isMobileWebView } from "@/lib/utils";
+import { ThemeSelector } from "./ThemeSelector";
 
 const ProjectIcon = ({ link, src, label }: { link: string; src: string; label: string }) => {
   return (
@@ -87,38 +87,6 @@ const Separator = () => {
     </Box>
   );
 };
-
-const ThemeSelection = () => {
-  const { theme, setTheme } = useTheme();
-
-  const getClassName = (prospectiveTheme: Theme) => {
-    return theme === prospectiveTheme ? "text-primary/75" : "text-primary/25 hover:text-primary";
-  };
-
-  return (
-    <Flex gap="4">
-      <Tooltip>
-        <Tooltip.Trigger>
-          <MonitorCog className={getClassName("system")} onClick={() => setTheme("system")} size={32} />
-        </Tooltip.Trigger>
-        <Tooltip.Content>Use system theme</Tooltip.Content>
-      </Tooltip>
-      <Tooltip>
-        <Tooltip.Trigger>
-          <Sun className={getClassName("light")} onClick={() => setTheme("light")} size={32} />
-        </Tooltip.Trigger>
-        <Tooltip.Content>Use light theme</Tooltip.Content>
-      </Tooltip>
-      <Tooltip>
-        <Tooltip.Trigger>
-          <Moon className={getClassName("dark")} onClick={() => setTheme("dark")} size={32} />
-        </Tooltip.Trigger>
-        <Tooltip.Content>Use dark theme</Tooltip.Content>
-      </Tooltip>
-    </Flex>
-  );
-};
-
 export const Footer = () => {
   const webview = isMobileWebView();
 
@@ -139,7 +107,7 @@ export const Footer = () => {
             <ProjectLinks />
             <Separator />
           </Flex>
-          <ThemeSelection />
+          <ThemeSelector />
           <Separator />
           <SocialLinks />
         </Flex>

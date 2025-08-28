@@ -2,7 +2,7 @@
 
 import { Container, Heading, Separator } from "@still-forest/canopy";
 import { useEffect } from "react";
-import { Header } from "@/Abroad/Header";
+import { Header } from "@/components/abroad/Header";
 import { ContactForm } from "@/components/ContactForm/ContactForm";
 import { Layout } from "@/components/Layout";
 import { useHead } from "@/hooks/useHead";

@@ -1,14 +1,10 @@
 import { Flex } from "@still-forest/canopy";
+import { Image, type ImageProps } from "./Image";
 
-interface HeroImageProps {
-  src: string;
-  alt: string;
-}
-
-export const HeroImage = ({ src, alt }: HeroImageProps) => {
+export const HeroImage = (props: ImageProps) => {
   return (
     <Flex align="center" className="flex-auto" justify="center">
-      <img alt={alt} className="w-sm lg:w-lg" src={src} />
+      <Image className="w-sm lg:w-lg" {...props} />
     </Flex>
   );
 };

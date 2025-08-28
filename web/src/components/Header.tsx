@@ -1,5 +1,6 @@
 import { Button, Container, Flex, Heading } from "@still-forest/canopy";
 import { Link } from "@/components/Link";
+import { BrandIcon } from "./BrandIcon";
 
 interface HeaderProps {
   title?: string;
@@ -12,7 +13,7 @@ const BrandButton = () => {
         <Heading className="font-brand" level="2" weight="thin">
           Still Forest
         </Heading>
-        <img alt="Still Forest logo" className="w-[32px]" src="/icon-192.png" />
+        <BrandIcon className="w-[32px]" />
       </Link>
     </Button>
   );
