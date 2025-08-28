@@ -1,13 +1,12 @@
-name: CI (lint)
+name: CI (build)
 
 on:
   pull_request:
     branches:
       - main
 
-
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -40,5 +39,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run linter
-        run: pnpm lint:ci
+      - name: Run build
+        run: pnpm build

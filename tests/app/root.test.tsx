@@ -1,0 +1,15 @@
+import { render, screen } from "@testing-library/react";
+import { describe, expect, test } from "vitest";
+import "@testing-library/jest-dom";
+
+import Root from "@/app/page";
+
+describe("Root", () => {
+  test("renders link to contact page", () => {
+    render(<Root />);
+
+    const link = screen.getByRole("link", { name: "Get in touch" });
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute("href", "/contact");
+  });
+});

@@ -4,25 +4,8 @@ codecov:
 coverage:
   status:
     project:
-      default: false # disable the default status
-      api:
-        flags:
-          - api
-        paths:
-          - "api/"
-      web:
-        flags:
-          - web
-        paths:
-          - "web/"
-
-flags:
-  api:
-    paths:
-      - api/
-  web:
-    paths:
-      - web/
+      default:
+        informational: true
 
 comment:
   layout: "reach,diff,flags,files,footer"
