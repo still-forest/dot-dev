@@ -16,7 +16,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@hookform/resolvers": "5.1.1",
+    "@hookform/resolvers": "5.2.1",
     "@still-forest/canopy": "0.28.2",
     "@tailwindcss/postcss": "^4.1.12",
     "@tailwindcss/vite": "4.1.12",
