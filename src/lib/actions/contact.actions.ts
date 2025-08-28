@@ -1,6 +1,6 @@
 "use server";
 
-import { isDevelopment } from "@/lib/config";
+import { isDevelopment } from "@/lib/config/environment";
 import { ValidationError } from "@/lib/errors/ValidationError";
 import { type ContactFormInput, contactSchema } from "@/lib/schema/contact.schema";
 import { contactService } from "@/lib/services/contact.service";

@@ -4,7 +4,7 @@ import GithubIcon from "@/assets/github.svg";
 import LinkedInIcon from "@/assets/linkedin.svg";
 import { Image } from "@/components/Image";
 import { Link } from "@/components/Link";
-import { GITHUB_URL, LINKEDIN_URL } from "@/lib/config";
+import { GITHUB_URL, LINKEDIN_URL } from "@/lib/config/client";
 import { isMobileWebView } from "@/lib/utils";
 import { ThemeSelector } from "./ThemeSelector";
 

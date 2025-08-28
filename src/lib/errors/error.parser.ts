@@ -24,7 +24,7 @@ const parseAxiosError = (error: AxiosError) => {
     return new TooManyRequestsError(error.message);
   }
 
-  if (status === 500) {
+  if (status && status >= 500) {
     return new InternalServerError(error.message);
   }
 

@@ -1,8 +1,7 @@
-import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import "@testing-library/jest-dom";
 
-import { renderWithRouter } from "@tests/support/render";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { ContactForm } from "@/components/ContactForm/ContactForm";
@@ -36,7 +35,7 @@ afterEach(() => {
 
 describe("ContactForm", () => {
   test("should render with all inputs", () => {
-    renderWithRouter(<ContactForm />);
+    render(<ContactForm />);
 
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
     expect(screen.getByLabelText("Message")).toBeInTheDocument();
@@ -55,7 +54,7 @@ describe("ContactForm", () => {
       canExecute: vi.fn().mockReturnValue(true),
     });
 
-    renderWithRouter(<ContactForm />);
+    render(<ContactForm />);
 
     expect(screen.queryByTestId("contacted-recently-message")).not.toBeInTheDocument();
 
@@ -89,7 +88,7 @@ describe("ContactForm", () => {
     const mockedFormSubmit = vi.mocked(contact);
     mockedFormSubmit.mockResolvedValue({ success: true, data: true });
 
-    renderWithRouter(<ContactForm />);
+    render(<ContactForm />);
 
     const submitButton = screen.getByRole("button", { name: "Send" });
     expect(submitButton).toBeDisabled();
@@ -123,7 +122,7 @@ describe("ContactForm", () => {
       error: new Error("You shall not pass!"),
     });
 
-    renderWithRouter(<ContactForm />);
+    render(<ContactForm />);
 
     const submitButton = screen.getByRole("button", { name: "Send" });
 
@@ -157,7 +156,7 @@ describe("ContactForm", () => {
     const mockUseRouter = vi.mocked(useRouter);
     mockUseRouter.mockReturnValue(mockRouter);
 
-    renderWithRouter(<ContactForm />);
+    render(<ContactForm />);
 
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
     expect(screen.getByLabelText("Message")).toBeInTheDocument();
@@ -176,7 +175,7 @@ describe("ContactForm", () => {
       canExecute: vi.fn().mockReturnValue(false),
     });
 
-    renderWithRouter(<ContactForm />);
+    render(<ContactForm />);
 
     const submitButton = screen.getByRole("button", { name: "Send" });
 

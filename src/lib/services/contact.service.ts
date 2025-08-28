@@ -1,5 +1,5 @@
 import axios from "axios";
-import { operatorEmailUrl } from "@/lib/config";
+import { operatorEmailUrl } from "@/lib/config/server";
 import { type MaybeError, parseError } from "@/lib/errors/error.parser";
 import type { ContactFormInput } from "@/lib/schema/contact.schema";
 import type { Result } from "@/lib/types";
@@ -14,10 +14,6 @@ interface OperatorResponse {
 class ContactService {
   private readonly logger = getLogger("api");
 
-  constructor() {
-    this.logger = getLogger("api");
-  }
-
   async submitContactForm(input: ContactFormInput): Promise<Result<boolean>> {
     const params = {
       subject: EMAIL_SUBJECT,
@@ -28,10 +24,11 @@ class ContactService {
       const response = await axios.post<OperatorResponse>(operatorEmailUrl, params, {
         timeout: 5000,
       });
-      return { success: true, data: response.status === 200 };
+      const ok = response.status >= 200 && response.status < 300 && response.data?.status === "ok";
+      return { success: true, data: ok };
     } catch (error) {
       const parsedError = parseError(error as MaybeError);
-      this.logger.error("Error submitting contact form", { error, parsedError: parsedError });
+      this.logger.error("Error submitting contact form", { error, parsedError });
       return { success: false, error: parsedError };
     }
   }

@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 
 export class NotFoundError extends Error {
   constructor(message: string) {
@@ -28,10 +28,11 @@ export class InternalServerError extends Error {
   }
 }
 
-export class UnknownNetworkError extends AxiosError {
+export class UnknownNetworkError extends Error {
   constructor(error: AxiosError) {
-    const message = `${error.code}: ${error.message}`;
-    super(message);
+    const code = error.code ?? String(error.response?.status ?? "UNKNOWN");
+    const message = `[${code}] ${error.message}`;
+    super(message, { cause: error });
     this.name = "UnknownNetworkError";
   }
 }
