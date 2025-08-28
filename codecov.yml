@@ -5,11 +5,6 @@ coverage:
   status:
     project:
       default: false # disable the default status
-      api:
-        flags:
-          - api
-        paths:
-          - "api/"
       web:
         flags:
           - web
@@ -17,9 +12,6 @@ coverage:
           - "web/"
 
 flags:
-  api:
-    paths:
-      - api/
   web:
     paths:
       - web/
