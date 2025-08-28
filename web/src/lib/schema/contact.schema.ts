@@ -2,8 +2,8 @@ import validator from "validator";
 import z from "zod";
 
 export interface ContactFormInput {
-  fromEmail: string;
-  body: string;
+  email: string;
+  message: string;
 }
 
 const sanitizeString = (raw: unknown) => {
@@ -13,7 +13,7 @@ const sanitizeString = (raw: unknown) => {
 
 export const contactSchema = z
   .object({
-    fromEmail: z.preprocess(sanitizeString, z.string().email()),
-    body: z.preprocess(sanitizeString, z.string().min(10).max(1000)),
+    email: z.preprocess(sanitizeString, z.string().email()),
+    message: z.preprocess(sanitizeString, z.string().min(10).max(1000)),
   })
   .strict();

@@ -5,7 +5,7 @@ import type { ContactFormInput } from "@/lib/schema/contact.schema";
 import { contactService } from "@/lib/services/contact.service";
 
 describe("contact", () => {
-  const formData = { fromEmail: "test@example.test", body: "Test message" };
+  const formData = { email: "test@example.test", message: "Test message" };
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -19,8 +19,8 @@ describe("contact", () => {
     expect(response).toEqual({ success: true, data: true });
 
     expect(submitSpy).toHaveBeenCalledWith({
-      fromEmail: "test@example.test",
-      body: "Test message",
+      email: "test@example.test",
+      message: "Test message",
     });
     expect(submitSpy).toHaveBeenCalledTimes(1);
 
@@ -37,57 +37,57 @@ describe("contact", () => {
         input: {},
         expectedErrors: {
           errors: [
-            { field: "fromEmail", message: "Invalid input: expected string, received undefined" },
-            { field: "body", message: "Invalid input: expected string, received undefined" },
+            { field: "email", message: "Invalid input: expected string, received undefined" },
+            { field: "message", message: "Invalid input: expected string, received undefined" },
           ],
           message: "Validation failed",
         },
       },
       // missing email
       {
-        input: { body: "test message" },
+        input: { message: "test message" },
         expectedErrors: {
-          errors: [{ field: "fromEmail", message: "Invalid input: expected string, received undefined" }],
+          errors: [{ field: "email", message: "Invalid input: expected string, received undefined" }],
           message: "Validation failed",
         },
       },
       // missing message
       {
-        input: { fromEmail: "test@example.com" },
+        input: { email: "test@example.com" },
         expectedErrors: {
-          errors: [{ field: "body", message: "Invalid input: expected string, received undefined" }],
+          errors: [{ field: "message", message: "Invalid input: expected string, received undefined" }],
           message: "Validation failed",
         },
       },
       // invalid email
       {
-        input: { fromEmail: "invalid-email@", body: "test message" },
+        input: { email: "invalid-email@", message: "test message" },
         expectedErrors: {
-          errors: [{ field: "fromEmail", message: "Invalid email address" }],
+          errors: [{ field: "email", message: "Invalid email address" }],
           message: "Validation failed",
         },
       },
       // invalid message (wrong type)
       {
-        input: { fromEmail: "test@example.com", body: 123 },
+        input: { email: "test@example.com", message: 123 },
         expectedErrors: {
-          errors: [{ field: "body", message: "Invalid input: expected string, received number" }],
+          errors: [{ field: "message", message: "Invalid input: expected string, received number" }],
           message: "Validation failed",
         },
       },
       // invalid message (too short)
       {
-        input: { fromEmail: "test@example.com", body: "hi" },
+        input: { email: "test@example.com", message: "hi" },
         expectedErrors: {
-          errors: [{ field: "body", message: "Too small: expected string to have >=10 characters" }],
+          errors: [{ field: "message", message: "Too small: expected string to have >=10 characters" }],
           message: "Validation failed",
         },
       },
       // invalid body (too long)
       {
-        input: { fromEmail: "test@example.com", body: "a".repeat(1001) },
+        input: { email: "test@example.com", message: "a".repeat(1001) },
         expectedErrors: {
-          errors: [{ field: "body", message: "Too big: expected string to have <=1000 characters" }],
+          errors: [{ field: "message", message: "Too big: expected string to have <=1000 characters" }],
           message: "Validation failed",
         },
       },
@@ -109,14 +109,14 @@ describe("contact", () => {
     const submitSpy = vi.spyOn(contactService, "submitContactForm");
     submitSpy.mockResolvedValue({ success: true, data: true });
 
-    const response = await contact({ fromEmail: "test@example.com", body: "<script>alert('test')</script>" });
+    const response = await contact({ email: "test@example.com", message: "<script>alert('test')</script>" });
 
     const expectedSanitizedBody = "alert(&#x27;test&#x27;)";
 
     expect(response).toEqual({ success: true, data: true });
     expect(submitSpy).toHaveBeenCalledWith({
-      fromEmail: "test@example.com",
-      body: expectedSanitizedBody,
+      email: "test@example.com",
+      message: expectedSanitizedBody,
     });
   });
 
@@ -129,8 +129,8 @@ describe("contact", () => {
     expect(response).toEqual({ success: false, error: new Error("Failed to submit form: Service error") });
 
     expect(submitSpy).toHaveBeenCalledWith({
-      fromEmail: "test@example.test",
-      body: "Test message",
+      email: "test@example.test",
+      message: "Test message",
     });
     expect(submitSpy).toHaveBeenCalledTimes(1);
 
@@ -145,8 +145,8 @@ describe("contact", () => {
     expect(response).toEqual({ success: false, error: new Error("Failed to submit form: Unknown error") });
 
     expect(submitSpy).toHaveBeenCalledWith({
-      fromEmail: "test@example.test",
-      body: "Test message",
+      email: "test@example.test",
+      message: "Test message",
     });
     expect(submitSpy).toHaveBeenCalledTimes(1);
 

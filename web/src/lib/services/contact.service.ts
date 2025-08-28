@@ -29,7 +29,7 @@ class ContactService {
   }
 
   private buildEmailBody(data: ContactFormInput): string {
-    return `Email: ${data.fromEmail}\nMessage: ${data.body}`;
+    return `Email: ${data.email}\nMessage: ${data.message}`;
   }
 }
 

@@ -1,16 +1,16 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Alert, Button, Flex, Text, Textarea, TextInput } from "@still-forest/canopy";
+import { Alert, Button, Flex, InputError, SubmitButton, Text, Textarea, TextInput } from "@still-forest/canopy";
 import { CircleX } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { type FormData, formSchema } from "@/components/ContactForm/schema";
 import { Link } from "@/components/Link";
 import { useRateLimit } from "@/hooks/useRateLimit";
+import { contact } from "@/lib/actions/contact.actions";
 import { CONTACT_FORM_RATE_LIMIT_MS, DEV_CONTACT_FROM_EMAIL, isDevelopment } from "@/lib/config";
-import { formSubmit } from "./formSubmit";
-import { InputError } from "./InputError";
-import { SubmitButton } from "./SubmitButton";
-import { type FormData, formSchema } from "./schema";
 
 interface FormProps {
   onSubmit: (data: FormData) => void;
@@ -48,9 +48,7 @@ const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
           {errors.message && <InputError message={errors.message.message!} />}
         </Flex.Item>
         <Flex gap="2">
-          <SubmitButton disabled={!isValid} submitting={submitting}>
-            Send
-          </SubmitButton>
+          <SubmitButton action="send" disabled={!isValid} submitting={submitting} />
           <Button aria-label="Cancel" icon={<CircleX />} onClick={onCancel} variant="secondary">
             Cancel
           </Button>
@@ -83,7 +81,7 @@ export const ContactForm = ({ returnTo = "/" }: ContactFormProps) => {
 
     execute(async () => {
       try {
-        const result = await formSubmit(data);
+        const result = await contact(data);
         if (result.success) {
           setHasSubmitted(true);
         } else {

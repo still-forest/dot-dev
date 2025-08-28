@@ -6,9 +6,9 @@ import { contactService } from "@/lib/services/contact.service";
 import type { Result } from "@/lib/types";
 
 const submitContactForm = async (formData: ContactFormInput) => {
-  const { fromEmail, body } = formData;
+  const { email, message } = formData;
 
-  const { success, error } = await contactService.submitContactForm({ fromEmail, body });
+  const { success, error } = await contactService.submitContactForm({ email, message });
 
   if (success) {
     return true;
