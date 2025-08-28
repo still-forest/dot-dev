@@ -1,7 +1,7 @@
 import type { NextFunction, Request, RequestHandler, Response } from "express";
 import { getLogger } from "@/services/logger.service";
+import { ValidationError } from "../../../web/src/lib/errors/ValidationError";
 import { contact } from "./contact.actions";
-import { ValidationError } from "./ValidationError";
 
 export const contactHandler: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
   try {

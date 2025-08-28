@@ -1,8 +1,8 @@
 import axios from "axios";
-import { getLogger, type LoggerService } from "@/services/logger.service";
-import type { Result } from "@/types";
-import { operatorEmailUrl } from "../config";
-import type { ContactFormInput } from "./contact.schema";
+import { operatorEmailUrl } from "@/lib/config";
+import type { ContactFormInput } from "@/lib/schema/contact.schema";
+// import { getLogger, type LoggerService } from "@/services/logger.service";
+import type { Result } from "@/lib/types";
 
 const EMAIL_SUBJECT = "Still Forest: contact form submission";
 
@@ -10,13 +10,7 @@ interface OperatorResponse {
   status: "ok";
 }
 
-class OperatorService {
-  private readonly logger: LoggerService;
-
-  constructor() {
-    this.logger = getLogger("contact");
-  }
-
+class ContactService {
   async submitContactForm(input: ContactFormInput): Promise<Result<boolean>> {
     const params = {
       subject: EMAIL_SUBJECT,
@@ -29,7 +23,7 @@ class OperatorService {
       });
       return { success: true, data: true };
     } catch (error) {
-      this.logger.error("Error submitting contact form", { error });
+      // this.logger.error("Error submitting contact form", { error });
       return { success: false, error: error instanceof Error ? error : new Error(String(error)) };
     }
   }
@@ -39,4 +33,4 @@ class OperatorService {
   }
 }
 
-export const operatorService = new OperatorService();
+export const contactService = new ContactService();

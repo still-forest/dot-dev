@@ -1,14 +1,14 @@
-import { isDevelopment } from "@/config";
-import { getLogger } from "@/services/logger.service";
-import type { Result } from "@/types";
-import { type ContactFormInput, contactSchema } from "./contact.schema";
-import { operatorService } from "./OperatorService";
-import { ValidationError } from "./ValidationError";
+import { isDevelopment } from "@/lib/config";
+import { ValidationError } from "@/lib/errors/ValidationError";
+import { type ContactFormInput, contactSchema } from "@/lib/schema/contact.schema";
+import { contactService } from "@/lib/services/contact.service";
+// import { getLogger } from "@/services/logger.service";
+import type { Result } from "@/lib/types";
 
 const submitContactForm = async (formData: ContactFormInput) => {
   const { fromEmail, body } = formData;
 
-  const { success, error } = await operatorService.submitContactForm({ fromEmail, body });
+  const { success, error } = await contactService.submitContactForm({ fromEmail, body });
 
   if (success) {
     return true;
@@ -20,14 +20,14 @@ const submitContactForm = async (formData: ContactFormInput) => {
 export const contact = async (rawData: ContactFormInput): Promise<Result<boolean>> => {
   const parsed = contactSchema.safeParse(rawData);
   if (!parsed.success) {
-    return { success: false, error: new ValidationError("Validation failed", parsed.error.errors) };
+    return { success: false, error: new ValidationError("Validation failed", parsed.error.issues) };
   }
   const data = parsed.data;
 
-  const logger = getLogger("contact");
+  // const logger = getLogger("contact");
 
   if (isDevelopment) {
-    logger.info("Contact form submitted in development environment", data);
+    // logger.info("Contact form submitted in development environment", data);
     return { success: true, data: true };
   }
 
@@ -35,7 +35,7 @@ export const contact = async (rawData: ContactFormInput): Promise<Result<boolean
     const result = await submitContactForm(data);
     return { success: true, data: result };
   } catch (error) {
-    logger.error("Failed to submit contact form", { error });
+    // logger.error("Failed to submit contact form", { error });
     return { success: false, error: error instanceof Error ? error : new Error(String(error)) };
   }
 };
