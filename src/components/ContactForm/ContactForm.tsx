@@ -10,7 +10,7 @@ import { type FormData, formSchema } from "@/components/ContactForm/schema";
 import { Link } from "@/components/Link";
 import { useRateLimit } from "@/hooks/useRateLimit";
 import { contact } from "@/lib/actions/contact.actions";
-import { CONTACT_FORM_RATE_LIMIT_MS, DEV_CONTACT_FROM_EMAIL, isDevelopment } from "@/lib/config";
+import { CONTACT_FORM_RATE_LIMIT_MS, isDevelopment } from "@/lib/config";
 
 interface FormProps {
   onSubmit: (data: FormData) => void;
@@ -26,7 +26,7 @@ const Form = ({ onSubmit, onCancel, submitting }: FormProps) => {
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: isDevelopment ? DEV_CONTACT_FROM_EMAIL : "",
+      email: isDevelopment ? "test@email.test" : "",
       message: isDevelopment ? "This is a test message" : "",
     },
   });
