@@ -1,8 +1,10 @@
+"use server";
+
 import { isDevelopment } from "@/lib/config";
 import { ValidationError } from "@/lib/errors/ValidationError";
 import { type ContactFormInput, contactSchema } from "@/lib/schema/contact.schema";
 import { contactService } from "@/lib/services/contact.service";
-// import { getLogger } from "@/services/logger.service";
+import { getLogger } from "@/lib/services/logger.service";
 import type { Result } from "@/lib/types";
 
 const submitContactForm = async (formData: ContactFormInput) => {
@@ -24,10 +26,10 @@ export const contact = async (rawData: ContactFormInput): Promise<Result<boolean
   }
   const data = parsed.data;
 
-  // const logger = getLogger("contact");
+  const logger = getLogger("contact");
 
   if (isDevelopment) {
-    // logger.info("Contact form submitted in development environment", data);
+    logger.info("Contact form submitted in development environment", data);
     return { success: true, data: true };
   }
 
@@ -35,7 +37,7 @@ export const contact = async (rawData: ContactFormInput): Promise<Result<boolean
     const result = await submitContactForm(data);
     return { success: true, data: result };
   } catch (error) {
-    // logger.error("Failed to submit contact form", { error });
+    logger.error("Failed to submit contact form", { error });
     return { success: false, error: error instanceof Error ? error : new Error(String(error)) };
   }
 };

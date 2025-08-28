@@ -1,5 +1,5 @@
 import "dotenv/config";
-import type { LokiTransportOptions } from "./utils/LokiTransport";
+import type { LokiTransportOptions } from "../../web/src/lib/utils/LokiTransport";
 
 export const port = Number(process.env.PORT) || 8080;
 
